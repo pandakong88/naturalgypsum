@@ -1,13 +1,13 @@
 <div>
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2">
         <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
+            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                 <h4 class="fw-bold mb-0">Pembelian #{{ $pembelian->no_pembelian }}</h4>
-                <span class="badge {{ $pembelian->status?->badgeClass() ?? 'bg-secondary' }} fs-6">
+                <span class="badge {{ $pembelian->status?->badgeClass() ?? 'bg-secondary' }}">
                     {{ $pembelian->status?->label() ?? ucfirst($pembelian->status?->value ?? 'Diterima') }}
                 </span>
-                <span class="badge {{ $pembelian->status_pembayaran?->badgeClass() ?? 'bg-secondary' }} fs-6">
+                <span class="badge {{ $pembelian->status_pembayaran?->badgeClass() ?? 'bg-secondary' }}">
                     {{ $pembelian->status_pembayaran?->label() ?? ucfirst($pembelian->status_pembayaran?->value ?? 'Lunas') }}
                 </span>
             </div>
@@ -15,8 +15,8 @@
                 Dibuat pada {{ $pembelian->created_at->format('d/m/Y H:i') }} oleh {{ $pembelian->user->name ?? ($pembelian->creator->name ?? 'Sistem') }}
             </p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <a href="{{ route('pembelian.index') }}" class="btn btn-outline-secondary">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <a href="{{ route('pembelian.index') }}" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-arrow-left me-1"></i>Kembali
             </a>
 
@@ -24,54 +24,54 @@
                 <span class="badge bg-danger-subtle text-danger border border-danger-subtle fs-6 align-self-center px-3 py-2">
                     <i class="bi bi-x-circle me-1"></i>Transaksi Dibatalkan
                 </span>
-                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-secondary" title="Cetak Arsip PO">
+                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-secondary flex-fill flex-md-grow-0" title="Cetak Arsip PO">
                     <i class="bi bi-printer me-1"></i>Cetak PO
                 </a>
             @elseif ($pembelian->isOrdered())
                 @can('update', $pembelian)
-                    <button wire:click="openReceiveModal" class="btn btn-success shadow-sm">
-                        <i class="bi bi-box-arrow-in-down me-1"></i>Terima Barang (Surat Jalan Datang)
+                    <button wire:click="openReceiveModal" class="btn btn-success shadow-sm flex-fill flex-md-grow-0">
+                        <i class="bi bi-box-arrow-in-down me-1"></i>Terima Barang
                     </button>
-                    <a href="{{ route('pembelian.edit', $pembelian->id) }}" class="btn btn-warning shadow-sm">
+                    <a href="{{ route('pembelian.edit', $pembelian->id) }}" class="btn btn-warning shadow-sm flex-fill flex-md-grow-0">
                         <i class="bi bi-pencil me-1"></i>Edit PO
                     </a>
                 @endcan
 
                 @can('cancel', $pembelian)
-                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger">
+                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger flex-fill flex-md-grow-0">
                         <i class="bi bi-x-circle me-1"></i>Batalkan PO
                     </button>
                 @endcan
 
                 @can('delete', $pembelian)
                     @if ((float) $pembelian->nominal_bayar == 0 && $pembelian->pembayaran->isEmpty())
-                        <button type="button" wire:click="openDeleteModal" class="btn btn-outline-danger" title="Hapus PO yang belum ada pembayaran">
+                        <button type="button" wire:click="openDeleteModal" class="btn btn-outline-danger flex-fill flex-md-grow-0" title="Hapus PO yang belum ada pembayaran">
                             <i class="bi bi-trash me-1"></i>Hapus PO
                         </button>
                     @endif
                 @endcan
 
-                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-primary" title="Cetak Surat Pesanan PO">
+                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-primary flex-fill flex-md-grow-0" title="Cetak Surat Pesanan PO">
                     <i class="bi bi-printer me-1"></i>Cetak PO
                 </a>
             @else
                 @can('update', $pembelian)
-                    <button type="button" wire:click="openEditShippingModal" class="btn btn-outline-info">
-                        <i class="bi bi-pencil-square me-1"></i>Edit Dokumen Logistik
+                    <button type="button" wire:click="openEditShippingModal" class="btn btn-outline-info flex-fill flex-md-grow-0">
+                        <i class="bi bi-pencil-square me-1"></i>Edit Logistik
                     </button>
                 @endcan
 
                 @can('cancel', $pembelian)
-                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger">
-                        <i class="bi bi-x-circle me-1"></i>Batalkan Pembelian
+                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger flex-fill flex-md-grow-0">
+                        <i class="bi bi-x-circle me-1"></i>Batalkan
                     </button>
                 @endcan
 
-                <a href="{{ route('pembelian.print.faktur', $pembelian->id) }}" target="_blank" class="btn btn-primary" title="Cetak Bukti Penerimaan Barang">
-                    <i class="bi bi-printer me-1"></i>Cetak Bukti Penerimaan
+                <a href="{{ route('pembelian.print.faktur', $pembelian->id) }}" target="_blank" class="btn btn-primary flex-fill flex-md-grow-0" title="Cetak Bukti Penerimaan Barang">
+                    <i class="bi bi-printer me-1"></i>Cetak Bukti
                 </a>
-                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-secondary" title="Cetak Surat Pesanan PO">
-                    <i class="bi bi-file-earmark-text me-1"></i>Cetak PO Asli
+                <a href="{{ route('pembelian.print.po', $pembelian->id) }}" target="_blank" class="btn btn-outline-secondary flex-fill flex-md-grow-0" title="Cetak Surat Pesanan PO">
+                    <i class="bi bi-file-earmark-text me-1"></i>Cetak PO
                 </a>
             @endif
         </div>
@@ -264,7 +264,86 @@
             @endif
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                <div class="list-group list-group-flush">
+                    @foreach ($pembelian->details as $index => $detail)
+                        @php
+                            $konv = $detail->produk?->getKonversiFisik((float) $detail->jumlah);
+                        @endphp
+                        <div class="list-group-item p-3">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                                <div class="min-w-0">
+                                    <span class="text-muted small">#{{ $index + 1 }}</span>
+                                    <div class="fw-bold text-dark">{{ $detail->produk->nama ?? '-' }}</div>
+                                    <small class="text-muted font-monospace">{{ $detail->produk->kode_katalog ?? 'Tanpa SKU' }}</small>
+                                </div>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle flex-shrink-0">
+                                    <i class="bi bi-building me-1"></i>{{ $detail->gudang->nama_gudang ?? '-' }}
+                                </span>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-1 mb-2">
+                                <span class="badge bg-light text-dark border">
+                                    {{ $detail->produk->kategori->nama_kategori ?? '-' }}
+                                </span>
+                                @if ($detail->produk?->merek)
+                                    <span class="badge bg-secondary-subtle text-secondary border">
+                                        {{ $detail->produk->merek->nama_merek }}
+                                    </span>
+                                @endif
+                                @if ($detail->qty_lembar && $detail->panjang_meter)
+                                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle font-monospace">
+                                        {{ (int) $detail->qty_lembar }} lbr &times; {{ (float) $detail->panjang_meter }} m
+                                    </span>
+                                @endif
+                                @if ($konv && $konv['has_conversion'])
+                                    <span class="badge bg-secondary-subtle text-secondary border font-monospace">
+                                        {{ $konv['badge_text'] }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="bg-light rounded-2 p-2 border d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted d-block" style="font-size: 0.7rem;">Kuantitas & Harga Satuan</span>
+                                    <span class="fw-bold text-dark">
+                                        {{ number_format((float) $detail->jumlah, 2, ',', '.') }} {{ $detail->produk->satuan->label() ?? '' }}
+                                    </span>
+                                    @can('view_purchase_prices')
+                                        <small class="text-muted d-block font-monospace" style="font-size: 0.72rem;">
+                                            @ Rp {{ number_format((float) $detail->harga_beli_satuan, 0, ',', '.') }}
+                                        </small>
+                                    @endcan
+                                </div>
+                                <div class="text-end">
+                                    <span class="text-muted d-block" style="font-size: 0.7rem;">Subtotal</span>
+                                    @can('view_purchase_prices')
+                                        <span class="fw-bold text-primary font-monospace">
+                                            Rp {{ number_format((float) $detail->subtotal, 0, ',', '.') }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted fst-italic">Rp ***</span>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="p-3 bg-light border-top d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-dark">Grand Total Pembelian:</span>
+                    <span class="fw-bold fs-6 text-primary font-monospace">
+                        @can('view_purchase_prices')
+                            Rp {{ number_format((float) $pembelian->total, 2, ',', '.') }}
+                        @else
+                            Rp ***
+                        @endcan
+                    </span>
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

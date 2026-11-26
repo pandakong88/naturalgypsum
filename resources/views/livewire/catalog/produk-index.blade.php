@@ -1,19 +1,19 @@
 <div>
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2">
         <div>
             <h4 class="fw-bold mb-1">Master Produk</h4>
             <p class="text-muted small mb-0">Kelola katalog produk material (PVC, Ceiling Board, Moulding/List) & konfigurasi harga.</p>
         </div>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button wire:click="exportExcel" class="btn btn-outline-success">
+        <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
+            <button wire:click="exportExcel" class="btn btn-outline-success flex-fill flex-md-grow-0">
                 <i class="bi bi-file-earmark-excel me-1"></i>Export Excel
             </button>
             @can('create', App\Domains\Catalog\Models\Produk::class)
-                <button wire:click="openImportModal" class="btn btn-outline-secondary">
+                <button wire:click="openImportModal" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                     <i class="bi bi-file-earmark-arrow-up me-1"></i>Import Excel
                 </button>
-                <button wire:click="openCreateModal" class="btn btn-primary">
+                <button wire:click="openCreateModal" class="btn btn-primary flex-fill flex-md-grow-0">
                     <i class="bi bi-plus-lg me-1"></i>Tambah Produk
                 </button>
             @endcan
@@ -47,17 +47,17 @@
     </style>
 
     <!-- 4 KPI Summary Cards -->
-    <div class="row g-3 mb-4">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
         <div class="col-6 col-lg-3">
             <div role="button" wire:click="setTab('all')" class="card border-0 shadow-sm rounded-3 transition-all h-100 {{ $tabFilter === 'all' ? 'border-primary border-2 shadow' : '' }}" style="cursor: pointer;">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small d-block">Total Katalog</span>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Total Katalog</span>
                             <h4 class="fw-bold mb-0 text-dark">{{ number_format($totalCount, 0, ',', '.') }}</h4>
-                            <small class="text-muted" style="font-size: 0.72rem;">Semua SKU Terdaftar</small>
+                            <small class="text-muted d-block text-truncate" style="font-size: 0.72rem;">Semua SKU Terdaftar</small>
                         </div>
-                        <div class="bg-primary-subtle text-primary p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <div class="bg-primary-subtle text-primary p-2 rounded-circle d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                             <i class="bi bi-box-seam fs-5"></i>
                         </div>
                     </div>
@@ -66,14 +66,14 @@
         </div>
         <div class="col-6 col-lg-3">
             <div role="button" wire:click="setTab('safe')" class="card border-0 shadow-sm rounded-3 transition-all h-100 {{ $tabFilter === 'safe' ? 'border-success border-2 shadow' : '' }}" style="cursor: pointer;">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small d-block">Stok Aman</span>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Stok Aman</span>
                             <h4 class="fw-bold mb-0 text-success">{{ number_format($safeCount, 0, ',', '.') }}</h4>
-                            <small class="text-success" style="font-size: 0.72rem;">Di atas ambang batas</small>
+                            <small class="text-success d-block text-truncate" style="font-size: 0.72rem;">Di atas ambang batas</small>
                         </div>
-                        <div class="bg-success-subtle text-success p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <div class="bg-success-subtle text-success p-2 rounded-circle d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                             <i class="bi bi-shield-check fs-5"></i>
                         </div>
                     </div>
@@ -82,14 +82,14 @@
         </div>
         <div class="col-6 col-lg-3">
             <div role="button" wire:click="setTab('critical')" class="card border-0 shadow-sm rounded-3 transition-all h-100 {{ $tabFilter === 'critical' ? 'border-warning border-2 shadow' : '' }}" style="cursor: pointer;">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small d-block">Stok Menipis / Kritis</span>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Stok Menipis / Kritis</span>
                             <h4 class="fw-bold mb-0 text-warning-emphasis">{{ number_format($criticalCount, 0, ',', '.') }}</h4>
-                            <small class="text-warning-emphasis" style="font-size: 0.72rem;">Perlu restock / PO</small>
+                            <small class="text-warning-emphasis d-block text-truncate" style="font-size: 0.72rem;">Perlu restock / PO</small>
                         </div>
-                        <div class="bg-warning-subtle text-warning-emphasis p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <div class="bg-warning-subtle text-warning-emphasis p-2 rounded-circle d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                             <i class="bi bi-exclamation-triangle-fill fs-5"></i>
                         </div>
                     </div>
@@ -98,14 +98,14 @@
         </div>
         <div class="col-6 col-lg-3">
             <div role="button" wire:click="setTab('empty')" class="card border-0 shadow-sm rounded-3 transition-all h-100 {{ $tabFilter === 'empty' ? 'border-danger border-2 shadow' : '' }}" style="cursor: pointer;">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small d-block">Stok Kosong</span>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Stok Kosong</span>
                             <h4 class="fw-bold mb-0 text-danger">{{ number_format($emptyCount, 0, ',', '.') }}</h4>
-                            <small class="text-danger" style="font-size: 0.72rem;">Stok 0 di semua gudang</small>
+                            <small class="text-danger d-block text-truncate" style="font-size: 0.72rem;">Stok 0 di semua gudang</small>
                         </div>
-                        <div class="bg-danger-subtle text-danger p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <div class="bg-danger-subtle text-danger p-2 rounded-circle d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                             <i class="bi bi-x-octagon fs-5"></i>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
 
     <!-- Quick Filter Tabs & PerPage Selector -->
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-        <ul class="nav nav-pills gap-1">
+        <ul class="nav nav-pills nav-pills-scrollable gap-1 pb-1 pb-lg-0 w-100 w-lg-auto">
             <li class="nav-item">
                 <button type="button" wire:click="setTab('all')" class="nav-link py-1 px-3 {{ $tabFilter === 'all' ? 'active' : '' }}">
                     Semua Produk <span class="badge bg-secondary ms-1">{{ $totalCount }}</span>
@@ -156,7 +156,7 @@
             </li>
         </ul>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 ms-auto">
             <span class="small text-muted">Tampilkan:</span>
             <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 85px;">
                 <option value="10">10</option>
@@ -282,10 +282,204 @@
         </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Data Table (Desktop & Tablet) & Card List (Mobile) -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                <!-- Mobile Quick Sort Bar -->
+                <div class="d-flex align-items-center justify-content-between px-3 py-2 bg-light border-bottom small">
+                    <span class="text-muted fw-semibold"><i class="bi bi-sort-down me-1"></i>Urutkan:</span>
+                    <div class="d-flex gap-1 flex-wrap">
+                        <button type="button" wire:click="sortBy('kode_katalog')" class="btn btn-sm py-0 px-2 {{ $sortField === 'kode_katalog' ? 'btn-primary' : 'btn-outline-secondary' }}" style="font-size: 0.75rem;">
+                            Kode
+                            @if ($sortField === 'kode_katalog')
+                                <i class="bi bi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            @endif
+                        </button>
+                        <button type="button" wire:click="sortBy('nama')" class="btn btn-sm py-0 px-2 {{ $sortField === 'nama' ? 'btn-primary' : 'btn-outline-secondary' }}" style="font-size: 0.75rem;">
+                            Nama
+                            @if ($sortField === 'nama')
+                                <i class="bi bi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            @endif
+                        </button>
+                        <button type="button" wire:click="sortBy('stok_total')" class="btn btn-sm py-0 px-2 {{ $sortField === 'stok_total' ? 'btn-primary' : 'btn-outline-secondary' }}" style="font-size: 0.75rem;">
+                            Stok
+                            @if ($sortField === 'stok_total')
+                                <i class="bi bi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            @endif
+                        </button>
+                        <button type="button" wire:click="sortBy('harga_jual')" class="btn btn-sm py-0 px-2 {{ $sortField === 'harga_jual' ? 'btn-primary' : 'btn-outline-secondary' }}" style="font-size: 0.75rem;">
+                            Harga
+                            @if ($sortField === 'harga_jual')
+                                <i class="bi bi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                            @endif
+                        </button>
+                    </div>
+                </div>
+
+                <div class="list-group list-group-flush">
+                    @forelse ($produks as $index => $produk)
+                        @php
+                            $stokTotal = (float) ($produk->stok_sum_jumlah ?? 0);
+                            $isKritis = $stokTotal <= (float) $produk->stok_minimum;
+                            $konv = $produk->getKonversiFisik($stokTotal);
+                        @endphp
+                        <div class="list-group-item p-3">
+                            <!-- Top Row: Image, SKU, Status & Product Name -->
+                            <div class="d-flex align-items-start gap-2 mb-2">
+                                @if ($produk->foto)
+                                    <div
+                                        role="button"
+                                        wire:click="openImageModal({{ $produk->id }})"
+                                        class="position-relative overflow-hidden rounded border flex-shrink-0"
+                                        style="width: 48px; height: 48px; cursor: pointer;"
+                                        title="Klik untuk memperbesar foto {{ $produk->nama }}"
+                                    >
+                                        <img src="{{ $produk->foto_url }}" alt="{{ $produk->nama }}" class="w-100 h-100 object-fit-cover" loading="lazy">
+                                    </div>
+                                @else
+                                    <div class="bg-light rounded border d-flex align-items-center justify-content-center text-secondary flex-shrink-0" style="width: 48px; height: 48px;">
+                                        <i class="bi bi-image text-muted"></i>
+                                    </div>
+                                @endif
+
+                                <div class="flex-grow-1 min-w-0">
+                                    <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
+                                        <div class="d-flex align-items-center gap-1 flex-wrap">
+                                            <span class="text-muted small">#{{ $produks->firstItem() + $index }}</span>
+                                            <span class="badge bg-light text-dark border font-monospace fw-semibold">
+                                                {{ $produk->kode_katalog }}
+                                            </span>
+                                        </div>
+                                        @if ($produk->trashed())
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Nonaktif</span>
+                                        @else
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle">Aktif</span>
+                                        @endif
+                                    </div>
+                                    <a href="{{ route('master.produk.show', $produk->id) }}" class="fw-bold text-decoration-none text-primary d-block">
+                                        {{ $produk->nama }}
+                                    </a>
+                                    @if ($produk->ukuran)
+                                        <small class="d-block text-muted">Ukuran: {{ $produk->ukuran }}</small>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Category, Brand & Unit Badges -->
+                            <div class="d-flex align-items-center flex-wrap gap-1 mb-2">
+                                @if ($produk->kategori->parent)
+                                    <span class="badge bg-light text-secondary border" style="font-size: 0.7rem;">
+                                        <i class="bi bi-folder-fill me-1 text-primary"></i>{{ $produk->kategori->parent->nama_kategori }}
+                                    </span>
+                                @endif
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                    {{ $produk->kategori->nama_kategori }}
+                                </span>
+                                @if ($produk->merek)
+                                    <span class="badge bg-secondary-subtle text-secondary border">
+                                        {{ $produk->merek->nama_merek }}
+                                    </span>
+                                @endif
+                                <span class="badge bg-light text-dark border">
+                                    {{ $produk->satuan->label() }}
+                                </span>
+                                @if ($produk->panjang_meter)
+                                    <span class="badge bg-light text-primary border" style="font-size: 0.7rem;">
+                                        {{ number_format($produk->panjang_meter, 1, ',', '.') }} m/lbr
+                                    </span>
+                                @endif
+                                @if ($produk->isi_per_kemasan)
+                                    <span class="badge bg-light text-muted border" style="font-size: 0.7rem;">
+                                        {{ $produk->kemasan ?: 'Dus' }}: {{ number_format($produk->isi_per_kemasan, 0, ',', '.') }}
+                                    </span>
+                                @elseif ($produk->satuan === \App\Domains\Catalog\Enums\SatuanProduk::Meter && $produk->panjang_per_roll)
+                                    <span class="badge bg-light text-muted border" style="font-size: 0.7rem;">
+                                        Roll: {{ $produk->panjang_per_roll }} m
+                                    </span>
+                                @endif
+                            </div>
+
+                            <!-- Stock & Price Summary Box -->
+                            <div class="bg-light rounded-2 p-2 mb-2 border d-flex justify-content-between align-items-center gap-2">
+                                <div>
+                                    <span class="text-muted d-block" style="font-size: 0.7rem;">Total Stok</span>
+                                    <div class="d-flex align-items-center gap-1 flex-wrap">
+                                        <span class="badge {{ $isKritis ? 'bg-danger text-white' : 'bg-white text-dark border' }}">
+                                            {{ number_format($stokTotal, 2, ',', '.') }} {{ $produk->satuan->value }}
+                                        </span>
+                                        @if ($isKritis)
+                                            <small class="text-danger fw-semibold" style="font-size: 0.7rem;">
+                                                <i class="bi bi-exclamation-triangle-fill"></i> Min: {{ number_format($produk->stok_minimum, 0) }}
+                                            </small>
+                                        @endif
+                                    </div>
+                                    @if ($stokTotal > 0 && $konv['has_conversion'])
+                                        <small class="d-block text-secondary mt-1" style="font-size: 0.68rem;">
+                                            {{ $konv['badge_text'] }}
+                                        </small>
+                                    @endif
+                                </div>
+                                <div class="text-end">
+                                    @can('view_purchase_prices')
+                                        <div class="text-muted font-monospace" style="font-size: 0.72rem;">
+                                            HPP: Rp {{ number_format($produk->harga_beli, 0, ',', '.') }}
+                                        </div>
+                                    @endcan
+                                    <span class="text-muted d-block" style="font-size: 0.7rem;">Harga Jual</span>
+                                    <span class="fw-bold font-monospace text-dark">
+                                        Rp {{ number_format($produk->harga_jual, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Touch-Friendly Action Buttons -->
+                            <div class="d-flex gap-1">
+                                @if ($produk->trashed())
+                                    @can('restore', $produk)
+                                        <button wire:click="restore({{ $produk->id }})" class="btn btn-sm btn-outline-success w-100">
+                                            <i class="bi bi-arrow-counterclockwise me-1"></i>Pulihkan Produk
+                                        </button>
+                                    @endcan
+                                @else
+                                    <a href="{{ route('master.produk.show', $produk->id) }}" class="btn btn-sm btn-outline-secondary flex-fill" title="Detail Produk">
+                                        <i class="bi bi-eye me-1"></i>Detail
+                                    </a>
+                                    <button type="button" wire:click="openBarcodeModal({{ $produk->id }})" class="btn btn-sm btn-outline-dark flex-fill" title="Cetak Label Rak & Barcode">
+                                        <i class="bi bi-upc-scan me-1"></i>Barcode
+                                    </button>
+                                    @can('create', App\Domains\Catalog\Models\Produk::class)
+                                        <button wire:click="duplicate({{ $produk->id }})" class="btn btn-sm btn-outline-info" title="Duplikat / Salin Produk ini">
+                                            <i class="bi bi-copy"></i>
+                                        </button>
+                                    @endcan
+                                    @can('update', $produk)
+                                        <button wire:click="openEditModal({{ $produk->id }})" class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    @endcan
+                                    @can('delete', $produk)
+                                        <button wire:click="confirmDelete({{ $produk->id }})" class="btn btn-sm btn-outline-danger" title="Nonaktifkan">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    @endcan
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3">
+                            <div class="text-muted">
+                                <i class="bi bi-box-seam display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">Tidak ada data produk yang sesuai filter.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -490,18 +684,18 @@
     <!-- Create / Edit Modal -->
     @if ($isFormOpen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); z-index: 1060;" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl modal-dialog-scrollable my-3 my-md-4">
+            <div class="modal-dialog modal-xl modal-fullscreen-sm-down modal-dialog-scrollable my-0 my-sm-3 my-md-4">
                 <form wire:submit="save" class="modal-content border-0 shadow-lg rounded-3">
                     <div class="modal-header bg-light border-bottom py-2 py-md-3 px-3 px-md-4 flex-shrink-0">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="bg-primary-subtle text-primary rounded p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <div class="bg-primary-subtle text-primary rounded p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px;">
                                 <i class="bi bi-box-seam fs-5"></i>
                             </div>
-                            <div>
-                                <h5 class="modal-title fw-bold text-dark mb-0">
+                            <div class="min-w-0">
+                                <h5 class="modal-title fw-bold text-dark mb-0 text-truncate">
                                     {{ $produkId ? 'Edit Data Produk' : 'Tambah Produk Baru' }}
                                 </h5>
-                                <small class="text-muted">Lengkapi spesifikasi material, level harga pelanggan, dan foto motif produk.</small>
+                                <small class="text-muted d-none d-sm-inline">Lengkapi spesifikasi material, level harga pelanggan, dan foto motif produk.</small>
                             </div>
                         </div>
                         <button type="button" wire:click="closeFormModal" class="btn-close" aria-label="Close"></button>
@@ -1023,15 +1217,15 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light border-top py-2 py-md-3 px-3 px-md-4 flex-shrink-0 d-flex justify-content-between align-items-center">
-                        <small class="text-muted">
+                    <div class="modal-footer bg-light border-top py-2 py-md-3 px-3 px-md-4 flex-shrink-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <small class="text-muted d-none d-sm-inline">
                             <span class="text-danger">*</span> Kolom wajib diisi.
                         </small>
-                        <div class="d-flex gap-2">
-                            <button type="button" wire:click="closeFormModal" class="btn btn-outline-secondary px-4">
+                        <div class="d-flex gap-2 w-100 w-sm-auto justify-content-end ms-auto">
+                            <button type="button" wire:click="closeFormModal" class="btn btn-outline-secondary px-3 px-sm-4 flex-fill flex-sm-grow-0">
                                 Batal
                             </button>
-                            <button type="submit" class="btn btn-primary px-4 fw-semibold shadow-sm" wire:loading.attr="disabled">
+                            <button type="submit" class="btn btn-primary px-3 px-sm-4 fw-semibold shadow-sm flex-fill flex-sm-grow-0" wire:loading.attr="disabled">
                                 <span wire:loading.remove wire:target="save">
                                     <i class="bi bi-check-lg me-1"></i>Simpan Produk
                                 </span>
@@ -1086,22 +1280,22 @@
     <!-- Import Excel / CSV & Batch Photo Sync Modal -->
     @if ($isImportModalOpen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); z-index: 1060;" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-dialog-centered {{ ($importTab === 'excel' && $previewData) ? 'modal-xl' : 'modal-lg' }}">
+            <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-dialog-scrollable {{ ($importTab === 'excel' && $previewData) ? 'modal-xl' : 'modal-lg' }}">
                 <div class="modal-content border-0 shadow-lg rounded-3">
-                    <div class="modal-header bg-light border-bottom py-3 px-4">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="bg-{{ $importTab === 'excel' ? 'success' : 'primary' }}-subtle text-{{ $importTab === 'excel' ? 'success' : 'primary' }} rounded p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <div class="modal-header bg-light border-bottom py-2 py-sm-3 px-3 px-sm-4 flex-shrink-0">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <div class="bg-{{ $importTab === 'excel' ? 'success' : 'primary' }}-subtle text-{{ $importTab === 'excel' ? 'success' : 'primary' }} rounded p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px;">
                                 <i class="bi bi-{{ $importTab === 'excel' ? 'file-earmark-excel' : 'images' }} fs-5"></i>
                             </div>
-                            <div>
-                                <h5 class="modal-title fw-bold text-dark mb-0">
+                            <div class="min-w-0">
+                                <h5 class="modal-title fw-bold text-dark mb-0 text-truncate">
                                     @if ($importTab === 'excel')
                                         {{ $previewData ? 'Pratinjau Data Sebelum Import' : 'Import Data Katalog Produk (Excel / CSV)' }}
                                     @else
                                         Sinkronisasi Foto Massal (ZIP)
                                     @endif
                                 </h5>
-                                <small class="text-muted">
+                                <small class="text-muted d-none d-sm-inline">
                                     @if ($importTab === 'excel')
                                         {{ $previewData ? 'Periksa data di bawah ini sebelum disimpan secara permanen ke database.' : 'Tambah atau perbarui ratusan produk sekaligus dengan file spreadsheet Excel.' }}
                                     @else
@@ -1114,14 +1308,14 @@
                     </div>
 
                     @if (! $previewData)
-                        <ul class="nav nav-tabs px-4 border-bottom bg-light">
+                        <ul class="nav nav-tabs nav-pills-scrollable px-2 px-sm-4 border-bottom bg-light flex-shrink-0">
                             <li class="nav-item">
-                                <button type="button" wire:click="setImportTab('excel')" class="nav-link py-2 px-3 fw-semibold small {{ $importTab === 'excel' ? 'active text-success' : 'text-muted' }}">
+                                <button type="button" wire:click="setImportTab('excel')" class="nav-link py-2 px-3 fw-semibold small text-nowrap {{ $importTab === 'excel' ? 'active text-success' : 'text-muted' }}">
                                     <i class="bi bi-file-earmark-excel me-1"></i>1. Import Data Katalog (Excel / CSV)
                                 </button>
                             </li>
                             <li class="nav-item">
-                                <button type="button" wire:click="setImportTab('photos')" class="nav-link py-2 px-3 fw-semibold small {{ $importTab === 'photos' ? 'active text-primary' : 'text-muted' }}">
+                                <button type="button" wire:click="setImportTab('photos')" class="nav-link py-2 px-3 fw-semibold small text-nowrap {{ $importTab === 'photos' ? 'active text-primary' : 'text-muted' }}">
                                     <i class="bi bi-images me-1"></i>2. Sinkronisasi Foto Massal (ZIP)
                                 </button>
                             </li>
@@ -1348,19 +1542,19 @@
                                 @endif
                             </div>
 
-                            <div class="modal-footer bg-light border-top py-2 px-4 d-flex justify-content-between align-items-center">
+                            <div class="modal-footer bg-light border-top py-2 px-3 px-sm-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
                                 <button type="button" wire:click="closeImportModal" class="btn btn-outline-secondary">
                                     Batal
                                 </button>
 
-                                <div class="d-flex gap-2">
+                                <div class="d-flex gap-2 flex-wrap">
                                     @if ($previewData)
                                         <button type="button" wire:click="resetImportFile" class="btn btn-light border text-muted">
                                             <i class="bi bi-arrow-left me-1"></i>Pilih File Lain
                                         </button>
                                         <button
                                             type="submit"
-                                            class="btn btn-success px-4 fw-bold shadow-sm"
+                                            class="btn btn-success px-3 px-sm-4 fw-bold shadow-sm"
                                             wire:loading.attr="disabled"
                                             @if ($previewData['total_rows'] === 0 || ($previewData['new_count'] === 0 && $previewData['update_count'] === 0)) disabled @endif
                                         >
@@ -1567,7 +1761,7 @@
                         <button type="button" wire:click="closeBarcodeModal" class="btn-close" aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body p-4 bg-light-subtle">
+                    <div class="modal-body p-2 p-sm-4 bg-light-subtle">
                         <div class="row g-3 mb-3 no-print">
                             <div class="col-sm-6">
                                 <label class="form-label fw-semibold small mb-1">Jumlah Label yang Dicetak</label>
@@ -1589,7 +1783,7 @@
                         </div>
 
                         <!-- Printable Area -->
-                        <div id="printable-barcode-area" class="p-3 bg-white border rounded shadow-xs">
+                        <div id="printable-barcode-area" class="p-2 p-sm-3 bg-white border rounded shadow-xs overflow-x-auto">
                             <div class="d-flex flex-wrap gap-3 justify-content-center">
                                 @for ($i = 0; $i < $barcodeQty; $i++)
                                     <div class="border border-dark rounded-2 bg-white text-dark d-flex flex-column justify-content-between position-relative shadow-xs"
@@ -1638,11 +1832,11 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light border-top py-2 px-4 d-flex justify-content-between align-items-center no-print">
+                    <div class="modal-footer bg-light border-top py-2 px-3 px-sm-4 d-flex justify-content-between align-items-center flex-wrap gap-2 no-print">
                         <button type="button" wire:click="closeBarcodeModal" class="btn btn-outline-secondary">
                             Tutup
                         </button>
-                        <button type="button" onclick="window.print()" class="btn btn-dark px-4 fw-semibold shadow-sm">
+                        <button type="button" onclick="window.print()" class="btn btn-dark px-3 px-sm-4 fw-semibold shadow-sm">
                             <i class="bi bi-printer me-1"></i>Cetak Sekarang (Print)
                         </button>
                     </div>

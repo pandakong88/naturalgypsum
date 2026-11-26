@@ -59,9 +59,9 @@
     </div>
 
     <!-- Page Header (Screen) -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 no-print">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2 no-print">
         <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
+            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                 <h4 class="fw-bold mb-0">Transfer {{ $transfer->no_transfer }}</h4>
                 <span class="badge bg-success-subtle text-success border border-success-subtle">
                     <i class="bi bi-check-circle me-1"></i> Selesai
@@ -71,16 +71,16 @@
                 Dicatat pada {{ $transfer->created_at->format('d/m/Y H:i') }} oleh {{ $transfer->user->name ?? ($transfer->creator->name ?? 'Sistem') }}
             </p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <a href="{{ route('transfer.index') }}" class="btn btn-outline-secondary">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <a href="{{ route('transfer.index') }}" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
             </a>
             @can('delete', $transfer)
-                <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger">
+                <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger flex-fill flex-md-grow-0">
                     <i class="bi bi-x-circle me-1"></i> Batalkan Transfer
                 </button>
             @endcan
-            <button type="button" class="btn btn-primary" onclick="window.print()">
+            <button type="button" class="btn btn-primary flex-fill flex-md-grow-0" onclick="window.print()">
                 <i class="bi bi-printer me-1"></i> Cetak Surat Jalan
             </button>
         </div>
@@ -94,37 +94,37 @@
     @endif
 
     <!-- Warehouse Route Cards (Screen) -->
-    <div class="row g-4 mb-4 no-print">
-        <div class="col-md-6">
+    <div class="row g-2 g-md-4 mb-3 mb-md-4 no-print">
+        <div class="col-6">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="p-2 bg-secondary-subtle text-secondary rounded me-3">
-                            <i class="bi bi-box-arrow-right fs-4"></i>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center mb-1 mb-sm-2">
+                        <div class="p-2 bg-secondary-subtle text-secondary rounded me-2 d-none d-sm-flex">
+                            <i class="bi bi-box-arrow-right fs-5"></i>
                         </div>
-                        <div>
-                            <span class="text-muted small d-block">Gudang Asal (Pengirim)</span>
-                            <h6 class="fw-bold mb-0">{{ $transfer->gudangAsal->nama_gudang ?? '-' }}</h6>
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Gudang Asal (Pengirim)</span>
+                            <h6 class="fw-bold mb-0 text-truncate">{{ $transfer->gudangAsal->nama_gudang ?? '-' }}</h6>
                         </div>
                     </div>
-                    <p class="text-muted small mb-0">{{ $transfer->gudangAsal->alamat ?? 'Tidak ada alamat' }}</p>
+                    <p class="text-muted small mb-0 text-truncate">{{ $transfer->gudangAsal->alamat ?? 'Tidak ada alamat' }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="p-2 bg-primary-subtle text-primary rounded me-3">
-                            <i class="bi bi-box-arrow-in-right fs-4"></i>
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center mb-1 mb-sm-2">
+                        <div class="p-2 bg-primary-subtle text-primary rounded me-2 d-none d-sm-flex">
+                            <i class="bi bi-box-arrow-in-right fs-5"></i>
                         </div>
-                        <div>
-                            <span class="text-muted small d-block">Gudang Tujuan (Penerima)</span>
-                            <h6 class="fw-bold mb-0">{{ $transfer->gudangTujuan->nama_gudang ?? '-' }}</h6>
+                        <div class="min-w-0">
+                            <span class="text-muted small d-block text-truncate">Gudang Tujuan (Penerima)</span>
+                            <h6 class="fw-bold mb-0 text-truncate">{{ $transfer->gudangTujuan->nama_gudang ?? '-' }}</h6>
                         </div>
                     </div>
-                    <p class="text-muted small mb-0">{{ $transfer->gudangTujuan->alamat ?? 'Tidak ada alamat' }}</p>
+                    <p class="text-muted small mb-0 text-truncate">{{ $transfer->gudangTujuan->alamat ?? 'Tidak ada alamat' }}</p>
                 </div>
             </div>
         </div>

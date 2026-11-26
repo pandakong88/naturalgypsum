@@ -94,7 +94,7 @@
                     </div>
 
                     <!-- Tanggal PO -->
-                    <div class="col-md-4">
+                    <div class="col-6 col-md-4">
                         <label class="form-label fw-semibold">Tanggal Pemesanan (PO) <span class="text-danger">*</span></label>
                         <input type="date" wire:model="tanggal" class="form-control @error('tanggal') is-invalid @enderror">
                         @error('tanggal')
@@ -103,10 +103,10 @@
                     </div>
 
                     <!-- Tanggal Jatuh Tempo -->
-                    <div class="col-md-4">
-                        <label class="form-label fw-semibold">Perkiraan Jatuh Tempo Pembayaran</label>
+                    <div class="col-6 col-md-4">
+                        <label class="form-label fw-semibold">Perkiraan Jatuh Tempo</label>
                         <input type="date" wire:model="tanggal_jatuh_tempo" class="form-control @error('tanggal_jatuh_tempo') is-invalid @enderror">
-                        <div class="form-text small">Opsional jika ada kesepakatan TOP (Term of Payment) dengan supplier.</div>
+                        <div class="form-text small d-none d-sm-block">Opsional jika ada kesepakatan TOP (Term of Payment) dengan supplier.</div>
                         @error('tanggal_jatuh_tempo')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -144,11 +144,11 @@
                     <h6 class="card-title fw-bold mb-0 text-primary">
                         <i class="bi bi-box-seam me-1"></i> Daftar Barang Pesanan (PO)
                     </h6>
-                    <div class="d-flex gap-2">
-                        <button type="button" wire:click="openCatalogModal" class="btn btn-primary btn-sm shadow-sm">
+                    <div class="d-flex gap-2 w-100 w-sm-auto">
+                        <button type="button" wire:click="openCatalogModal" class="btn btn-primary btn-sm shadow-sm flex-fill flex-sm-grow-0">
                             <i class="bi bi-grid-3x3-gap me-1"></i>Pilih Banyak Produk dari Katalog
                         </button>
-                        <button type="button" wire:click="addItem" class="btn btn-outline-primary btn-sm">
+                        <button type="button" wire:click="addItem" class="btn btn-outline-primary btn-sm flex-fill flex-sm-grow-0">
                             <i class="bi bi-plus-lg me-1"></i>Tambah Baris Kosong
                         </button>
                     </div>
@@ -207,7 +207,7 @@
 
                 <!-- Items Table -->
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
+                    <table class="table table-hover align-middle mb-0 table-mobile-cards">
                         <thead class="table-light">
                             <tr>
                                 <th style="width: 40px;" class="text-center text-muted">#</th>
@@ -222,10 +222,10 @@
                             @foreach ($items as $index => $item)
                                 <tr wire:key="item-row-{{ $index }}">
                                     <!-- Col 1: # -->
-                                    <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
+                                    <td class="text-center text-muted fw-semibold d-none d-md-table-cell">{{ $index + 1 }}</td>
 
                                     <!-- Col 2: Nama Produk & Metadata -->
-                                    <td>
+                                    <td data-label="Baris #{{ $index + 1 }} — Produk">
                                         @if (!empty($item['produk_id']))
                                             <div class="d-flex align-items-start gap-2">
                                                 <!-- Image Thumbnail with Hover Preview & Lightbox -->
@@ -291,7 +291,7 @@
                                         @enderror
                                     </td>
 
-                                    <td>
+                                    <td data-label="Kuantitas">
                                         @php
                                             $satVal = $item['satuan_value'] ?? '';
                                             $kemVal = strtolower($item['kemasan'] ?? '');
@@ -301,20 +301,20 @@
                                         @if ($isPvcRow)
                                             <!-- Format Khusus Plafon PVC: [Lembar] x [Panjang m] = [Total Meter] -->
                                             <div>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <div class="input-group input-group-sm" style="width: 125px;">
+                                                <div class="d-flex align-items-center gap-1 flex-wrap">
+                                                    <div class="input-group input-group-sm" style="width: 115px;">
                                                         <input type="number" step="1" min="1"
                                                                wire:model.live.debounce.300ms="items.{{ $index }}.qty_lembar"
                                                                class="form-control text-end fw-bold px-2"
                                                                placeholder="Lbr"
                                                                title="Ketik jumlah lembar fisik nota"
-                                                               style="min-width: 75px;">
+                                                               style="min-width: 65px;">
                                                         <span class="input-group-text bg-light text-muted px-1" style="font-size: 0.75rem;">lbr</span>
                                                     </div>
 
                                                     <span class="text-muted fw-bold px-1">&times;</span>
 
-                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                    <div class="input-group input-group-sm" style="width: 78px;">
                                                         <input type="number" step="0.1" min="0.5"
                                                                wire:model.live.debounce.300ms="items.{{ $index }}.panjang_meter"
                                                                class="form-control text-end px-1"
@@ -354,7 +354,7 @@
                                             <!-- Format Standar Non-PVC (Batang, Lembar, Dus, Pcs) -->
                                             <div>
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <div class="input-group input-group-sm" style="width: 200px;">
+                                                    <div class="input-group input-group-sm" style="max-width: 200px;">
                                                         <input type="number" step="any" min="0.001"
                                                                wire:model.live.debounce.300ms="items.{{ $index }}.jumlah"
                                                                class="form-control text-end fw-bold px-2 @error('items.'.$index.'.jumlah') is-invalid @enderror"
@@ -386,36 +386,36 @@
                                     </td>
 
                                     <!-- Col 4: Harga Beli Satuan -->
-                                    <td>
-                                        <div class="input-group input-group-sm justify-content-end ms-auto" style="width: 140px;">
+                                    <td data-label="Harga Beli Satuan">
+                                        <div class="input-group input-group-sm justify-content-end ms-md-auto" style="max-width: 180px;">
                                             <span class="input-group-text bg-light text-muted">Rp</span>
                                             <input type="number" step="any" min="0"
                                                    wire:model.live.debounce.300ms="items.{{ $index }}.harga_beli_satuan"
                                                    class="form-control text-end fw-semibold @error('items.'.$index.'.harga_beli_satuan') is-invalid @enderror">
                                         </div>
-                                        <div class="text-muted text-end mt-1" style="font-size: 0.72rem;">
+                                        <div class="text-muted text-md-end mt-1" style="font-size: 0.72rem;">
                                             per {{ $item['satuan'] ?? 'unit' }}
                                         </div>
                                         @error('items.'.$index.'.harga_beli_satuan')
-                                            <div class="text-danger small mt-1 text-end">{{ $message }}</div>
+                                            <div class="text-danger small mt-1 text-md-end">{{ $message }}</div>
                                         @enderror
                                     </td>
 
                                     <!-- Col 5: Subtotal -->
-                                    <td class="text-end">
+                                    <td class="text-md-end" data-label="Subtotal">
                                         <span class="fw-bold fs-6 text-dark font-monospace">
                                             Rp {{ number_format((float) ($item['subtotal'] ?? 0), 0, ',', '.') }}
                                         </span>
                                     </td>
 
                                     <!-- Col 6: Aksi Hapus -->
-                                    <td class="text-center">
+                                    <td class="text-end text-md-center">
                                         @if (count($items) > 1)
                                             <button type="button" wire:click="removeItem({{ $index }})"
-                                                    class="btn btn-sm btn-outline-danger p-0 rounded-circle d-inline-flex align-items-center justify-content-center"
-                                                    style="width: 28px; height: 28px;"
+                                                    class="btn btn-sm btn-outline-danger px-2 py-1 d-inline-flex align-items-center justify-content-center"
                                                     title="Hapus baris barang">
                                                 <i class="bi bi-trash" style="font-size: 0.85rem;"></i>
+                                                <span class="d-md-none ms-1 small">Hapus Baris</span>
                                             </button>
                                         @endif
                                     </td>
@@ -440,10 +440,10 @@
 
         <!-- Submit Button Section -->
         <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-2">
-            <a href="{{ route('pembelian.show', $pembelian->id) }}" class="btn btn-outline-secondary">
+            <a href="{{ route('pembelian.show', $pembelian->id) }}" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">
                 <i class="bi bi-x-circle me-1"></i>Batal & Kembali
             </a>
-            <button type="submit" class="btn btn-primary px-4 py-2 fw-bold shadow">
+            <button type="submit" class="btn btn-primary px-4 py-2 fw-bold shadow flex-fill flex-sm-grow-0">
                 <span wire:loading.remove wire:target="save">
                     <i class="bi bi-check-circle me-1"></i>Simpan Perubahan Pesanan (PO)
                 </span>
@@ -456,36 +456,56 @@
 
     <!-- Multi-Select Catalog Modal -->
     @if ($isCatalogModalOpen)
-        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px);">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
                 <div class="modal-content border-0 shadow-lg">
-                    <div class="modal-header bg-primary text-white py-3">
-                        <div>
-                            <h5 class="modal-title fw-bold mb-0">
-                                <i class="bi bi-grid-3x3-gap me-2"></i>Pilih Banyak Produk dari Katalog Pabrik
-                            </h5>
-                            <small class="opacity-75">Cari berdasarkan nama motif, kategori, atau merek pabrikan (Vifon, Gemafon, Jayaboard, dll).</small>
+                    <div class="modal-header bg-primary text-white py-2 py-sm-3 px-3">
+                        <div class="min-w-0">
+                            <h6 class="modal-title fw-bold mb-0 text-truncate">
+                                <i class="bi bi-grid-3x3-gap me-2"></i>Pilih Produk dari Katalog Pabrik
+                            </h6>
+                            <small class="opacity-75 d-none d-sm-inline">Cari berdasarkan nama motif, kategori, atau merek pabrikan (Vifon, Gemafon, Jayaboard, dll).</small>
                         </div>
                         <button type="button" wire:click="closeCatalogModal" class="btn-close btn-close-white"></button>
                     </div>
 
-                    <!-- Modal Search & Filters -->
-                    <div class="p-3 bg-light border-bottom">
-                        <div class="row g-2 align-items-center">
-                            <!-- Keyword Search -->
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                    <input type="text"
-                                           wire:model.live.debounce.300ms="catalogSearchQuery"
-                                           class="form-control"
-                                           placeholder="Cari nama motif PVC / kode katalog...">
-                                </div>
+                    <!-- Sticky Search & Collapsible Filters -->
+                    <div class="p-2 p-sm-3 bg-light border-bottom flex-shrink-0" x-data="{ showFilters: false }">
+                        <!-- Search Bar + Mobile Filter Toggle -->
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="input-group input-group-sm flex-grow-1">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                                <input type="text"
+                                       wire:model.live.debounce.300ms="catalogSearchQuery"
+                                       class="form-control border-start-0"
+                                       placeholder="Cari nama motif PVC / ketebalan / kode SKU...">
+                                @if (filled($catalogSearchQuery))
+                                    <button type="button" wire:click="$set('catalogSearchQuery', '')" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                @endif
                             </div>
+                            @php
+                                $hasActiveCatalogFilter = filled($catalogKategoriId) || filled($catalogMerekId) || filled($catalogStatusStok);
+                            @endphp
+                            <button
+                                type="button"
+                                @click="showFilters = !showFilters"
+                                class="btn btn-sm d-md-none flex-shrink-0 d-inline-flex align-items-center gap-1 {{ $hasActiveCatalogFilter ? 'btn-primary' : 'btn-outline-secondary bg-white' }}"
+                            >
+                                <i class="bi bi-sliders"></i>
+                                <span>Filter</span>
+                                @if ($hasActiveCatalogFilter)
+                                    <span class="badge bg-white text-primary rounded-pill" style="font-size: 0.65rem;">!</span>
+                                @endif
+                            </button>
+                        </div>
 
+                        <!-- Collapsible Filters on Mobile, Always Visible on Desktop -->
+                        <div class="row g-2 mb-2 align-items-center d-md-flex" :class="showFilters ? 'd-flex' : 'd-none'">
                             <!-- Filter Kategori -->
-                            <div class="col-md-3">
-                                <select wire:model.live="catalogKategoriId" class="form-select">
+                            <div class="col-6 col-md-4">
+                                <select wire:model.live="catalogKategoriId" class="form-select form-select-sm">
                                     <option value="">-- Semua Kategori --</option>
                                     @foreach ($rootKategoris as $root)
                                         @if ($root->children->isNotEmpty())
@@ -503,28 +523,18 @@
                             </div>
 
                             <!-- Filter Merek -->
-                            <div class="col-md-3">
-                                <div class="d-flex gap-1">
-                                    <select wire:model.live="catalogMerekId" class="form-select">
-                                        <option value="">-- Semua Merek Pabrik --</option>
-                                        @foreach ($mereks as $mrk)
-                                            <option value="{{ $mrk->id }}">{{ $mrk->nama_merek }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($supplier_id)
-                                        <button type="button"
-                                                wire:click="filterByCurrentSupplierBrands"
-                                                class="btn btn-outline-info text-nowrap btn-sm px-2"
-                                                title="Filter langsung merek yang cocok dengan nama supplier ini">
-                                            <i class="bi bi-funnel me-1"></i>Supplier Ini
-                                        </button>
-                                    @endif
-                                </div>
+                            <div class="col-6 col-md-4">
+                                <select wire:model.live="catalogMerekId" class="form-select form-select-sm">
+                                    <option value="">-- Semua Merek Pabrik --</option>
+                                    @foreach ($mereks as $mrk)
+                                        <option value="{{ $mrk->id }}">{{ $mrk->nama_merek }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <!-- Filter Status Stok -->
-                            <div class="col-md-2">
-                                <select wire:model.live="catalogStatusStok" class="form-select">
+                            <div class="col-12 col-md-4">
+                                <select wire:model.live="catalogStatusStok" class="form-select form-select-sm">
                                     <option value="">Semua Status Stok</option>
                                     <option value="kritis">⚠️ Di Bawah Min</option>
                                     <option value="menipis">🟡 Menipis (&gt; 0 s/d Min)</option>
@@ -536,19 +546,27 @@
 
                         <!-- Brand Pills Quick Buttons -->
                         @if ($mereks->isNotEmpty())
-                            <div class="d-flex align-items-center gap-1 mt-2 flex-wrap">
-                                <span class="text-muted small me-1">Quick Brand:</span>
+                            <div class="d-flex align-items-center gap-1 nav-pills-scrollable flex-nowrap mb-2 pb-1">
+                                @if ($supplier_id)
+                                    <button type="button"
+                                            wire:click="filterByCurrentSupplierBrands"
+                                            class="btn btn-xs py-1 px-2.5 rounded-pill btn-warning text-dark fw-semibold text-nowrap flex-shrink-0"
+                                            style="font-size: 0.74rem;"
+                                            title="Filter langsung merek yang cocok dengan nama supplier ini">
+                                        <i class="bi bi-star-fill me-1"></i>Produk Supplier Ini
+                                    </button>
+                                @endif
                                 <button type="button"
                                         wire:click="setCatalogMerek(null)"
-                                        class="btn btn-xs py-0 px-2 rounded-pill {{ is_null($catalogMerekId) ? 'btn-primary' : 'btn-outline-secondary' }}"
-                                        style="font-size: 0.75rem;">
-                                    Semua
+                                        class="btn btn-xs py-1 px-2.5 rounded-pill text-nowrap flex-shrink-0 {{ is_null($catalogMerekId) ? 'btn-primary fw-semibold' : 'btn-outline-secondary bg-white' }}"
+                                        style="font-size: 0.74rem;">
+                                    Semua Merek
                                 </button>
                                 @foreach ($mereks as $m)
                                     <button type="button"
                                             wire:click="setCatalogMerek({{ $m->id }})"
-                                            class="btn btn-xs py-0 px-2 rounded-pill {{ $catalogMerekId === $m->id ? 'btn-primary' : 'btn-outline-secondary' }}"
-                                            style="font-size: 0.75rem;">
+                                            class="btn btn-xs py-1 px-2.5 rounded-pill text-nowrap flex-shrink-0 {{ $catalogMerekId === $m->id ? 'btn-primary fw-semibold' : 'btn-outline-secondary bg-white' }}"
+                                            style="font-size: 0.74rem;">
                                         {{ $m->nama_merek }}
                                     </button>
                                 @endforeach
@@ -556,36 +574,31 @@
                         @endif
 
                         <!-- Tab View (Semua vs Terpilih) & Bulk Action Toolbar -->
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3 pt-2 border-top">
-                            <ul class="nav nav-pills nav-fill gap-2" style="font-size: 0.85rem;">
-                                <li class="nav-item">
-                                    <button type="button"
-                                            wire:click="setCatalogViewTab('all')"
-                                            class="nav-link py-1 px-3 {{ $catalogViewTab === 'all' ? 'active' : 'text-secondary' }}">
-                                        Semua Hasil Pencarian ({{ $catalogTotalCount }})
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button type="button"
-                                            wire:click="setCatalogViewTab('selected')"
-                                            class="nav-link py-1 px-3 position-relative {{ $catalogViewTab === 'selected' ? 'active' : 'text-secondary' }}">
-                                        Item Terpilih
-                                        <span class="badge {{ $catalogViewTab === 'selected' ? 'bg-light text-primary' : 'bg-primary text-white' }} rounded-pill ms-1">
-                                            {{ count($catalogSelectedProductIds) }}
-                                        </span>
-                                    </button>
-                                </li>
-                            </ul>
+                        <div class="d-flex justify-content-between align-items-center gap-2 pt-1 border-top">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button"
+                                        wire:click="setCatalogViewTab('all')"
+                                        class="btn py-1 px-2 px-sm-3 {{ $catalogViewTab === 'all' ? 'btn-primary fw-semibold' : 'btn-outline-primary bg-white' }}"
+                                        style="font-size: 0.78rem;">
+                                    Semua ({{ $catalogTotalCount }})
+                                </button>
+                                <button type="button"
+                                        wire:click="setCatalogViewTab('selected')"
+                                        class="btn py-1 px-2 px-sm-3 {{ $catalogViewTab === 'selected' ? 'btn-success fw-semibold' : 'btn-outline-success bg-white' }}"
+                                        style="font-size: 0.78rem;">
+                                    <i class="bi bi-check2-circle me-1"></i>Terpilih ({{ count($catalogSelectedProductIds) }})
+                                </button>
+                            </div>
 
-                            <div class="d-flex gap-2 align-items-center">
+                            <div class="btn-group btn-group-sm">
                                 @if ($catalogViewTab === 'all' && $catalogProducts->isNotEmpty())
-                                    <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-check-all me-1"></i>Pilih Semua Hasil Filter Ini
+                                    <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-secondary bg-white py-1 px-2" style="font-size: 0.76rem;">
+                                        <i class="bi bi-check-all me-1"></i>Pilih Semua
                                     </button>
                                 @endif
                                 @if (!empty($catalogSelectedProductIds))
-                                    <button type="button" wire:click="clearSelectedCatalogProducts" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-x-circle me-1"></i>Kosongkan Pilihan ({{ count($catalogSelectedProductIds) }})
+                                    <button type="button" wire:click="clearSelectedCatalogProducts" class="btn btn-outline-danger bg-white py-1 px-2" style="font-size: 0.76rem;">
+                                        <i class="bi bi-x-circle me-1"></i>Reset
                                     </button>
                                 @endif
                             </div>
@@ -593,20 +606,84 @@
                     </div>
 
                     <!-- Modal Body / Products Grid/Table -->
-                    <div class="modal-body p-0" style="min-height: 380px;">
+                    <div class="modal-body p-0">
                         @if ($catalogProducts->isEmpty())
                             <div class="text-center py-5 text-muted">
                                 <i class="bi bi-box-seam fs-1 d-block mb-2 text-secondary"></i>
                                 @if ($catalogViewTab === 'selected')
                                     <p class="mb-0 fw-semibold">Belum ada produk yang dicentang.</p>
-                                    <small>Silakan klik tab "Semua Hasil Pencarian" lalu centang produk yang ingin ditambahkan.</small>
+                                    <small>Silakan klik tab "Semua" lalu centang produk yang ingin ditambahkan.</small>
                                 @else
                                     <p class="mb-0 fw-semibold">Tidak ada produk yang cocok dengan pencarian.</p>
                                     <small>Coba gunakan kata kunci lain atau ubah filter merek / kategori.</small>
                                 @endif
                             </div>
                         @else
-                            <div class="table-responsive">
+                            <!-- Mobile Product Card List (< 768px) — Full Width Product Name without Truncation -->
+                            <div class="d-md-none list-group list-group-flush">
+                                @foreach ($catalogProducts as $cp)
+                                    @php
+                                        $isSelected = in_array($cp->id, $catalogSelectedProductIds, true);
+                                        $currentStok = (float) ($cp->stok_sum_jumlah ?? 0);
+                                        $minStok = (float) $cp->stok_minimum;
+                                        $statusStok = \App\Domains\Inventory\Enums\StatusStok::determine($currentStok, $minStok);
+                                    @endphp
+                                    <div wire:key="cat-prod-mobile-{{ $cp->id }}"
+                                         wire:click="toggleCatalogProduct({{ $cp->id }})"
+                                         style="cursor: pointer;"
+                                         class="list-group-item list-group-item-action py-2.5 px-3 {{ $isSelected ? 'bg-primary-subtle border-start border-4 border-primary' : '' }}">
+                                        <div class="d-flex align-items-start gap-2.5">
+                                            <div onclick="event.stopPropagation();" class="pt-1 flex-shrink-0">
+                                                <input type="checkbox"
+                                                       class="form-check-input m-0"
+                                                       style="width: 1.25rem; height: 1.25rem; cursor: pointer;"
+                                                       value="{{ $cp->id }}"
+                                                       wire:click="toggleCatalogProduct({{ $cp->id }})"
+                                                       {{ $isSelected ? 'checked' : '' }}>
+                                            </div>
+                                            <div onclick="event.stopPropagation();" class="flex-shrink-0">
+                                                @if ($cp->foto_url)
+                                                    <img src="{{ $cp->foto_url }}" alt="{{ $cp->nama }}"
+                                                         class="rounded-3 border object-fit-cover"
+                                                         style="width: 44px; height: 44px;"
+                                                         loading="lazy"
+                                                         wire:click="openImageModal({{ $cp->id }})">
+                                                @else
+                                                    <div class="bg-light rounded-3 border d-flex align-items-center justify-content-center text-muted" style="width: 44px; height: 44px;">
+                                                        <i class="bi bi-image" style="font-size: 1.1rem;"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="min-w-0 flex-grow-1">
+                                                <div class="fw-bold {{ $isSelected ? 'text-primary' : 'text-dark' }}" style="font-size: 0.9rem; line-height: 1.3;">
+                                                    {{ $cp->nama }}
+                                                </div>
+                                                <div class="d-flex align-items-center flex-wrap gap-1 mt-1" style="font-size: 0.74rem;">
+                                                    @if ($cp->kode_katalog)
+                                                        <span class="badge bg-light text-secondary border font-monospace">{{ $cp->kode_katalog }}</span>
+                                                    @endif
+                                                    <span class="badge bg-light text-dark border">{{ $cp->kategori?->nama_kategori ?? '-' }}</span>
+                                                    <span class="badge bg-info-subtle text-info">{{ $cp->merek?->nama_merek ?? '-' }}</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mt-2 pt-1 border-top border-light-subtle">
+                                                    <div>
+                                                        <span class="fw-bold text-success font-monospace" style="font-size: 0.85rem;">
+                                                            Rp {{ number_format((float) $cp->harga_beli, 0, ',', '.') }}
+                                                        </span>
+                                                        <span class="text-muted" style="font-size: 0.75rem;">/ {{ $cp->satuan?->label() ?? 'Pcs' }}</span>
+                                                    </div>
+                                                    <span class="badge {{ $statusStok->badgeClass() }}" style="font-size: 0.72rem;">
+                                                        Stok: {{ number_format($currentStok, 0, ',', '.') }} (Min: {{ number_format($minStok, 0, ',', '.') }})
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Desktop Table (>= 768px) -->
+                            <div class="table-responsive d-none d-md-block">
                                 <table class="table table-hover align-middle mb-0">
                                     <thead class="table-light sticky-top">
                                         <tr>
@@ -707,15 +784,15 @@
                     </div>
 
                     <!-- Modal Footer -->
-                    <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between">
-                        <div>
+                    <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between flex-wrap gap-2">
+                        <div class="d-none d-sm-block">
                             <span class="text-muted small">
                                 <strong>{{ count($catalogSelectedProductIds) }}</strong> produk terpilih
                             </span>
                         </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" wire:click="closeCatalogModal" class="btn btn-secondary btn-sm">Batal</button>
-                            <button type="button" wire:click="addSelectedCatalogProducts" class="btn btn-primary btn-sm fw-bold">
+                        <div class="d-flex gap-2 w-100 w-sm-auto ms-sm-auto">
+                            <button type="button" wire:click="closeCatalogModal" class="btn btn-secondary btn-sm flex-fill flex-sm-grow-0">Batal</button>
+                            <button type="button" wire:click="addSelectedCatalogProducts" class="btn btn-primary btn-sm fw-bold flex-fill flex-sm-grow-0">
                                 <i class="bi bi-check2-circle me-1"></i>Tambahkan Produk Terpilih ({{ count($catalogSelectedProductIds) }})
                             </button>
                         </div>

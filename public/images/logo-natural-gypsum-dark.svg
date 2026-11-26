@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 420" width="100%" height="100%">
+  <defs>
+    <!-- Executive Dark Background Gradient -->
+    <linearGradient id="darkBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+
+    <!-- Glowing 3D Chevron Gradients -->
+    <linearGradient id="dLeft1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="dRight1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+
+    <linearGradient id="dLeft2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="dRight2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+
+    <linearGradient id="dLeft3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="dRight3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+
+    <linearGradient id="cyanGlowScript" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+
+    <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <filter id="neonGlow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0284c7" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Dark Luxury Background -->
+  <rect width="1400" height="420" rx="22" fill="url(#darkBg)"/>
+  <rect x="8" y="8" width="1384" height="404" rx="16" fill="none" stroke="url(#goldMetallic)" stroke-width="2" stroke-opacity="0.45"/>
+
+  <!-- Subtle Geometric Ceiling Lines in Background -->
+  <g stroke="#38bdf8" stroke-opacity="0.06" stroke-width="1.5">
+    <line x1="0" y1="60" x2="1400" y2="60"/>
+    <line x1="0" y1="160" x2="1400" y2="160"/>
+    <line x1="0" y1="260" x2="1400" y2="260"/>
+    <line x1="240" y1="0" x2="240" y2="420"/>
+  </g>
+
+  <!-- ==================== 3D CHEVRON EMBLEM (LEFT) ==================== -->
+  <g filter="url(#neonGlow)" transform="translate(10, 5)">
+    <!-- Bar 1: Electric Cyan -->
+    <polygon points="35,45 230,96 230,136 35,85" fill="url(#dLeft1)"/>
+    <polygon points="230,96 545,35 545,75 230,136" fill="url(#dRight1)"/>
+
+    <!-- Bar 2: Royal Electric Blue -->
+    <polygon points="35,107 230,160 230,200 35,147" fill="url(#dLeft2)"/>
+    <polygon points="230,160 545,97 545,137 230,200" fill="url(#dRight2)"/>
+
+    <!-- Bar 3: Luxury Gold & Royal Blue Core -->
+    <polygon points="35,169 230,224 230,256 35,201" fill="url(#dLeft2)"/>
+    <polygon points="230,224 545,159 545,191 230,256" fill="url(#dRight2)"/>
+    <!-- Gold Lower Plinth -->
+    <polygon points="35,206 230,261 230,275 35,220" fill="url(#dLeft3)"/>
+    <polygon points="230,261 545,196 545,210 230,275" fill="url(#dRight3)"/>
+
+    <!-- Crisp Vertex Line -->
+    <line x1="230" y1="96" x2="230" y2="275" stroke="#ffffff" stroke-width="2" stroke-opacity="0.7"/>
+  </g>
+
+  <!-- ==================== BRAND TYPOGRAPHY (RIGHT) ==================== -->
+  <g transform="translate(585, 0)">
+    <!-- "Toko Natural" -->
+    <text x="185" y="115"
+          font-family="'Brush Script MT', 'Segoe Script', 'Lucida Handwriting', Georgia, cursive"
+          font-size="86"
+          font-style="italic"
+          fill="url(#cyanGlowScript)"
+          letter-spacing="2">
+      Toko Natural
+    </text>
+
+    <!-- Gold Swoosh Underline -->
+    <path d="M 190 130 Q 460 118 755 130" fill="none" stroke="url(#goldMetallic)" stroke-width="3.5" stroke-linecap="round"/>
+
+    <!-- "GYPSUM & PVC" -->
+    <text x="0" y="238"
+          font-family="'Cinzel', 'Trajan Pro', 'Georgia', 'Times New Roman', serif"
+          font-size="94"
+          font-weight="900"
+          fill="#ffffff"
+          letter-spacing="3">
+      GYPSUM <tspan fill="url(#goldMetallic)" font-family="Georgia, serif">&amp;</tspan> PVC
+    </text>
+  </g>
+
+  <!-- ==================== SUBTITLE RIBBON ==================== -->
+  <g transform="translate(45, 295)">
+    <rect x="0" y="0" width="1310" height="46" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.5"/>
+    <rect x="0" y="0" width="12" height="46" rx="4" fill="url(#goldMetallic)"/>
+    <rect x="1298" y="0" width="12" height="46" rx="4" fill="#38bdf8"/>
+    <text x="655" y="30"
+          text-anchor="middle"
+          font-family="'Montserrat', 'Segoe UI', Arial, sans-serif"
+          font-size="22"
+          font-weight="700"
+          fill="#f8fafc"
+          letter-spacing="5.5">
+      APLIKATOR DAN PENYEDIA BAHAN GYPSUM DAN PVC
+    </text>
+  </g>
+
+  <!-- ==================== FOOTER ADDRESS & PHONE BAR ==================== -->
+  <g transform="translate(45, 355)">
+    <text x="655" y="29"
+          text-anchor="middle"
+          font-family="'Segoe UI', 'Inter', Arial, sans-serif"
+          font-size="23"
+          font-weight="700"
+          fill="#e2e8f0"
+          letter-spacing="1.5">
+      <tspan fill="#38bdf8">📍</tspan> Jln. Piyungan Prambanan KM 2 Pucung   <tspan fill="#f59e0b" font-weight="900">|</tspan>   <tspan fill="#fbbf24">📞 HP: 082136702637</tspan>
+    </text>
+  </g>
+</svg>

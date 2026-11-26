@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Struk Pembayaran - {{ $pembayaran->no_pembayaran }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <style>
         * {
             box-sizing: border-box;
@@ -193,10 +195,17 @@
     <!-- Thermal Struk Ticket -->
     <div class="receipt-ticket">
 
+        @php
+            $toko = \App\Domains\Administration\Models\ProfilPerusahaan::getSettings();
+        @endphp
+
         <!-- Store Header -->
         <div class="receipt-header">
-            <div class="store-title">NATURAL GYPSUM & PVC</div>
-            <div class="store-sub">Material Plafon, Hollow & PVC</div>
+            <div>
+                <img src="{{ $toko->getLogoUrl() }}" alt="{{ $toko->nama_toko }}" style="height: 36px; max-width: 100px; width: auto; object-fit: contain; margin-bottom: 4px;">
+            </div>
+            <div class="store-title">{{ $toko->nama_toko }}</div>
+            <div class="store-sub">{{ $toko->slogan ?: 'Aplikator dan Penyedia Bahan Gypsum dan PVC' }}</div>
             <div class="store-sub fw-bold" style="margin-top: 4px;">BUKTI PEMBAYARAN PIUTANG</div>
         </div>
 

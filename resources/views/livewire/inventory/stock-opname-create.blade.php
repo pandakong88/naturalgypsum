@@ -224,7 +224,7 @@
 
     <!-- Screen-Only Application UI -->
     <div class="no-print">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2">
             <div>
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary btn-sm py-0 px-2">
@@ -234,19 +234,17 @@
                 </div>
                 <p class="text-muted mb-0 small">Hitung fisik inventaris gudang dan lakukan penyesuaian otomatis ke mutasi sistem.</p>
             </div>
-            <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
                 @if(count($items) > 0)
-                    <button type="button" wire:click="openPrintCountSheetModal" class="btn btn-outline-secondary btn-sm shadow-sm">
-                        <i class="bi bi-printer me-1"></i> Cetak Lembar Hitung Lapangan
+                    <button type="button" wire:click="openPrintCountSheetModal" class="btn btn-outline-secondary btn-sm shadow-sm flex-fill flex-md-grow-0">
+                        <i class="bi bi-printer me-1"></i> Cetak Lembar Hitung
                     </button>
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" wire:click="exportTemplate" class="btn btn-outline-success" title="Download template Excel terisi barang">
-                            <i class="bi bi-file-earmark-excel me-1"></i> Download Excel
-                        </button>
-                        <button type="button" wire:click="openImportExcelModal" class="btn btn-success" title="Unggah file Excel hasil hitung fisik">
-                            <i class="bi bi-cloud-arrow-up me-1"></i> Import Hasil Excel
-                        </button>
-                    </div>
+                    <button type="button" wire:click="exportTemplate" class="btn btn-outline-success btn-sm shadow-sm flex-fill flex-md-grow-0" title="Download template Excel terisi barang">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Download Excel
+                    </button>
+                    <button type="button" wire:click="openImportExcelModal" class="btn btn-success btn-sm shadow-sm flex-fill flex-md-grow-0" title="Unggah file Excel hasil hitung fisik">
+                        <i class="bi bi-cloud-arrow-up me-1"></i> Import Excel
+                    </button>
                 @endif
             </div>
         </div>
@@ -287,26 +285,28 @@
                         <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-info-circle me-1 text-primary"></i> Informasi Dokumen</h6>
                     </div>
                     <div class="card-body pt-0">
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
-                            <input type="date" wire:model="tanggal" class="form-control form-control-sm @error('tanggal') is-invalid @enderror">
-                            @error('tanggal') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <div class="row g-2 mb-2">
+                            <div class="col-6 col-lg-12">
+                                <label class="form-label small fw-semibold mb-1">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
+                                <input type="date" wire:model="tanggal" class="form-control form-control-sm @error('tanggal') is-invalid @enderror">
+                                @error('tanggal') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-6 col-lg-12">
+                                <label class="form-label small fw-semibold mb-1">Lokasi Gudang <span class="text-danger">*</span></label>
+                                <select wire:model.live="gudang_id" class="form-select form-select-sm @error('gudang_id') is-invalid @enderror">
+                                    <option value="">-- Pilih Gudang --</option>
+                                    @foreach($gudangs as $g)
+                                        <option value="{{ $g->id }}">{{ $g->nama_gudang }}</option>
+                                    @endforeach
+                                </select>
+                                @error('gudang_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label small fw-semibold">Lokasi Gudang <span class="text-danger">*</span></label>
-                            <select wire:model.live="gudang_id" class="form-select form-select-sm @error('gudang_id') is-invalid @enderror">
-                                <option value="">-- Pilih Gudang --</option>
-                                @foreach($gudangs as $g)
-                                    <option value="{{ $g->id }}">{{ $g->nama_gudang }}</option>
-                                @endforeach
-                            </select>
-                            @error('gudang_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label small fw-semibold">Catatan / Keterangan</label>
-                            <textarea wire:model="catatan" rows="3" class="form-control form-control-sm" placeholder="Contoh: Audit fisik berkala kuartal..."></textarea>
+                            <label class="form-label small fw-semibold mb-1">Catatan / Keterangan</label>
+                            <textarea wire:model="catatan" rows="2" class="form-control form-control-sm" placeholder="Contoh: Audit fisik berkala kuartal..."></textarea>
                         </div>
 
                         @if($gudang_id)
@@ -428,33 +428,33 @@
                         @if(count($items) > 0)
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-3 border-top mt-2">
                                 <!-- Filter Tabs -->
-                                <div class="btn-group btn-group-sm" role="group">
+                                <div class="btn-group btn-group-sm w-100 w-sm-auto" role="group">
                                     <button type="button"
                                             wire:click="$set('tableFilter', 'all')"
                                             class="btn {{ $tableFilter === 'all' ? 'btn-primary' : 'btn-outline-secondary' }}">
-                                        Semua Item ({{ count($items) }})
+                                        Semua ({{ count($items) }})
                                     </button>
                                     <button type="button"
                                             wire:click="$set('tableFilter', 'diff')"
                                             class="btn {{ $tableFilter === 'diff' ? 'btn-danger' : 'btn-outline-danger' }}">
-                                        Ada Selisih ({{ $this->countDiffItems }})
+                                        Selisih ({{ $this->countDiffItems }})
                                     </button>
                                     <button type="button"
                                             wire:click="$set('tableFilter', 'match')"
                                             class="btn {{ $tableFilter === 'match' ? 'btn-success' : 'btn-outline-success' }}">
-                                        Stok Cocok ({{ $this->countMatchedItems }})
+                                        Cocok ({{ $this->countMatchedItems }})
                                     </button>
                                 </div>
 
                                 <!-- Batch Actions -->
-                                <div class="d-flex gap-1 flex-wrap">
-                                    <button type="button" wire:click="setAllMatched" class="btn btn-outline-success btn-sm" title="Salin semua angka stok sistem ke stok fisik">
+                                <div class="d-flex gap-1 flex-wrap w-100 w-sm-auto">
+                                    <button type="button" wire:click="setAllMatched" class="btn btn-outline-success btn-sm flex-fill flex-sm-grow-0" title="Salin semua angka stok sistem ke stok fisik">
                                         <i class="bi bi-check2-all me-1"></i> Samakan Fisik
                                     </button>
-                                    <button type="button" wire:click="clearAllPhysicalStock" class="btn btn-outline-warning btn-sm" title="Nolkan semua input fisik">
+                                    <button type="button" wire:click="clearAllPhysicalStock" class="btn btn-outline-warning btn-sm flex-fill flex-sm-grow-0" title="Nolkan semua input fisik">
                                         <i class="bi bi-eraser me-1"></i> Nolkan
                                     </button>
-                                    <button type="button" wire:click="clearAllItems" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Kosongkan semua produk dari daftar opname?') || event.stopImmediatePropagation()">
+                                    <button type="button" wire:click="clearAllItems" class="btn btn-outline-secondary btn-sm flex-fill flex-sm-grow-0" onclick="return confirm('Kosongkan semua produk dari daftar opname?') || event.stopImmediatePropagation()">
                                         <i class="bi bi-trash me-1"></i> Kosongkan
                                     </button>
                                 </div>
@@ -466,7 +466,7 @@
                         @error('items') <div class="alert alert-danger m-3 py-2 small">{{ $message }}</div> @enderror
 
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
+                            <table class="table table-hover table-mobile-cards align-middle mb-0">
                                 <thead class="table-light text-secondary small text-uppercase">
                                     <tr>
                                         <th class="ps-3 py-3" style="width: 35%;">Produk & Kemasan</th>
@@ -546,12 +546,12 @@
                                                        class="form-control form-control-sm mt-1 py-0 fs-7"
                                                        placeholder="Catatan item (opsional)">
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" data-label="Stok Sistem">
                                                 <span class="badge bg-light text-dark border fs-7 px-2 py-1">
                                                     {{ number_format((float) $item['stok_sistem'], 0, ',', '.') }} {{ $item['satuan'] }}
                                                 </span>
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" data-label="Stok Fisik & Hitung">
                                                 <div class="input-group input-group-sm">
                                                     <input type="number"
                                                            min="0"
@@ -573,7 +573,7 @@
                                                 </div>
                                                 @error('items.'.$index.'.stok_fisik') <div class="invalid-feedback small">{{ $message }}</div> @enderror
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" data-label="Selisih">
                                                 @if($selisih > 0)
                                                     <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
                                                         +{{ number_format($selisih, 0, ',', '.') }}
@@ -591,9 +591,9 @@
                                             <td class="pe-3 text-end">
                                                 <button type="button"
                                                         wire:click="removeProduct({{ $index }})"
-                                                        class="btn btn-outline-danger btn-sm py-1 px-2"
+                                                        class="btn btn-outline-danger btn-sm py-1 px-2 w-100 w-md-auto"
                                                         title="Hapus dari daftar">
-                                                    <i class="bi bi-trash"></i>
+                                                    <i class="bi bi-trash"></i> <span class="d-md-none ms-1">Hapus Item</span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -619,20 +619,20 @@
 
                 <!-- Action Buttons Toolbar -->
                 <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-2">
-                    <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">
                         <i class="bi bi-arrow-left me-1"></i> Batal
                     </a>
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 flex-wrap flex-fill flex-sm-grow-0 justify-content-end">
                         <button type="button"
                                 wire:click="saveDraft"
-                                class="btn btn-outline-primary"
+                                class="btn btn-outline-primary flex-fill flex-sm-grow-0"
                                 wire:loading.attr="disabled"
                                 @if(empty($items)) disabled @endif>
                             <i class="bi bi-save me-1"></i> Simpan Draft
                         </button>
                         <button type="button"
                                 wire:click="promptConfirmation"
-                                class="btn btn-success"
+                                class="btn btn-success flex-fill flex-sm-grow-0"
                                 wire:loading.attr="disabled"
                                 @if(empty($items)) disabled @endif>
                             <i class="bi bi-check2-circle me-1"></i> Selesaikan Stok Opname
@@ -1077,39 +1077,51 @@
     <!-- Modal Katalog Buka & Pilih Manual (Existing) -->
     @if ($isCatalogModalOpen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 1055;" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-sm-down modal-dialog-scrollable">
                 <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-                    <div class="modal-header bg-primary text-white py-3 border-0">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-grid-3x3-gap-fill fs-5"></i>
-                            <div>
-                                <h5 class="modal-title fw-bold mb-0">Pilih Produk dari Katalog</h5>
-                                <small class="text-white-50">Centang produk yang ingin dimasukkan ke dalam daftar pemeriksaan fisik gudang.</small>
+                    <div class="modal-header bg-primary text-white py-2 py-sm-3 px-3 px-sm-4 border-0 flex-shrink-0">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <i class="bi bi-grid-3x3-gap-fill fs-5 flex-shrink-0"></i>
+                            <div class="min-w-0">
+                                <h5 class="modal-title fw-bold mb-0 text-truncate">Pilih Produk dari Katalog</h5>
+                                <small class="text-white-50 d-none d-sm-inline">Centang produk yang ingin dimasukkan ke dalam daftar pemeriksaan fisik gudang.</small>
                             </div>
                         </div>
-                        <button type="button" wire:click="closeCatalogModal" class="btn-close btn-close-white" aria-label="Close"></button>
+                        <button type="button" wire:click="closeCatalogModal" class="btn-close btn-close-white flex-shrink-0" aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body p-4 pt-3 bg-light-subtle">
+                    <div class="p-2 p-sm-3 bg-light border-bottom flex-shrink-0" x-data="{ showFilters: false }">
                         <!-- Filter & Search Toolbar -->
-                        <div class="row g-2 mb-2">
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                    <input type="text"
-                                           wire:model.live.debounce.250ms="catalogSearch"
-                                           class="form-control"
-                                           placeholder="Cari nama barang atau kode SKU..."
-                                           autofocus>
-                                    @if (filled($catalogSearch))
-                                        <button type="button" wire:click="$set('catalogSearch', '')" class="btn btn-outline-secondary">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    @endif
-                                </div>
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="input-group input-group-sm flex-grow-1">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                                <input type="text"
+                                       wire:model.live.debounce.250ms="catalogSearch"
+                                       class="form-control border-start-0"
+                                       placeholder="Cari nama barang atau kode SKU..."
+                                       autofocus>
+                                @if (filled($catalogSearch))
+                                    <button type="button" wire:click="$set('catalogSearch', '')" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                @endif
                             </div>
-                            <div class="col-md-4">
-                                <select wire:model.live="catalogKategoriId" class="form-select">
+                            @php
+                                $hasActiveOpnameFilter = filled($catalogKategoriId) || filled($catalogMerekId);
+                            @endphp
+                            <button
+                                type="button"
+                                @click="showFilters = !showFilters"
+                                class="btn btn-sm d-md-none flex-shrink-0 d-inline-flex align-items-center gap-1 {{ $hasActiveOpnameFilter ? 'btn-primary' : 'btn-outline-secondary bg-white' }}"
+                            >
+                                <i class="bi bi-sliders"></i>
+                                <span>Filter</span>
+                            </button>
+                        </div>
+
+                        <div class="row g-2 mb-2 d-md-flex" :class="showFilters ? 'd-flex' : 'd-none'">
+                            <div class="col-6">
+                                <select wire:model.live="catalogKategoriId" class="form-select form-select-sm">
                                     <option value="">Semua Kategori</option>
                                     @foreach($rootKategoris as $root)
                                         @if ($root->children->isNotEmpty())
@@ -1125,8 +1137,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <select wire:model.live="catalogMerekId" class="form-select">
+                            <div class="col-6">
+                                <select wire:model.live="catalogMerekId" class="form-select form-select-sm">
                                     <option value="">Semua Merek</option>
                                     @foreach($mereks as $m)
                                         <option value="{{ $m->id }}">{{ $m->nama_merek }}</option>
@@ -1135,24 +1147,23 @@
                             </div>
                         </div>
 
-                        <!-- Quick Brand Pills -->
+                        <!-- Quick Brand Pills (Horizontal Scrollable on Mobile) -->
                         @if($mereks->isNotEmpty())
-                            <div class="d-flex align-items-center gap-1 flex-wrap mb-3 p-2 bg-white rounded border">
-                                <span class="small text-muted me-1 fw-semibold" style="font-size: 0.75rem;">Merek Cepat:</span>
+                            <div class="d-flex align-items-center gap-1 nav-pills-scrollable flex-nowrap mb-2 pb-1">
                                 <button
                                     type="button"
                                     wire:click="setCatalogMerek(null)"
-                                    class="btn btn-xs py-0 px-2 rounded-pill {{ $catalogMerekId === null ? 'btn-primary' : 'btn-outline-secondary' }}"
-                                    style="font-size: 0.75rem;"
+                                    class="btn btn-xs py-1 px-2.5 rounded-pill text-nowrap flex-shrink-0 {{ $catalogMerekId === null ? 'btn-primary fw-semibold' : 'btn-outline-secondary bg-white' }}"
+                                    style="font-size: 0.74rem;"
                                 >
-                                    Semua
+                                    Semua Merek
                                 </button>
                                 @foreach($mereks as $mrk)
                                     <button
                                         type="button"
                                         wire:click="setCatalogMerek({{ $mrk->id }})"
-                                        class="btn btn-xs py-0 px-2 rounded-pill {{ $catalogMerekId === $mrk->id ? 'btn-primary' : 'btn-outline-secondary' }}"
-                                        style="font-size: 0.75rem;"
+                                        class="btn btn-xs py-1 px-2.5 rounded-pill text-nowrap flex-shrink-0 {{ $catalogMerekId === $mrk->id ? 'btn-primary fw-semibold' : 'btn-outline-secondary bg-white' }}"
+                                        style="font-size: 0.74rem;"
                                     >
                                         {{ $mrk->nama_merek }}
                                     </button>
@@ -1161,24 +1172,96 @@
                         @endif
 
                         <!-- Action Toolbar -->
-                        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-1 border-top">
                             <span class="small text-muted" style="font-size: 0.75rem;">
                                 Menampilkan {{ count($this->catalogProducts) }} produk &bull; Tercentang: <strong class="text-primary">{{ count($catalogSelectedIds) }}</strong> item
                             </span>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-primary btn-xs py-1 px-2" style="font-size: 0.75rem;">
-                                    <i class="bi bi-check-all me-1"></i>Pilih / Lepas Semua yang Tampil
+                                <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-primary bg-white btn-xs py-1 px-2" style="font-size: 0.75rem;">
+                                    <i class="bi bi-check-all me-1"></i>Pilih Semua
                                 </button>
                                 @if (count($catalogSelectedIds) > 0)
-                                    <button type="button" wire:click="$set('catalogSelectedIds', [])" class="btn btn-outline-danger btn-xs py-1 px-2" style="font-size: 0.75rem;">
-                                        <i class="bi bi-x-circle me-1"></i>Hapus Centang ({{ count($catalogSelectedIds) }})
+                                    <button type="button" wire:click="$set('catalogSelectedIds', [])" class="btn btn-outline-danger bg-white btn-xs py-1 px-2" style="font-size: 0.75rem;">
+                                        <i class="bi bi-x-circle me-1"></i>Reset ({{ count($catalogSelectedIds) }})
                                     </button>
                                 @endif
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Product List Table -->
-                        <div class="table-responsive border rounded-3 bg-white" style="max-height: 400px; overflow-y: auto;">
+                    <div class="modal-body p-0 bg-white">
+                        @php
+                            $activeGudang = $gudang_id ? $gudangs->firstWhere('id', $gudang_id) : null;
+                            $stockService = app(\App\Domains\Inventory\Services\StockService::class);
+                        @endphp
+
+                        <!-- Mobile Card List View (< 768px) — Full Width Product Name -->
+                        <div class="d-md-none">
+                            <div class="list-group list-group-flush">
+                                @forelse($this->catalogProducts as $prod)
+                                    @php
+                                        $isSelected = in_array($prod->id, $catalogSelectedIds, true);
+                                        $stokSistem = $activeGudang ? (float) $stockService->getStock($prod, $activeGudang) : 0;
+                                    @endphp
+                                    <div
+                                        wire:key="so-cat-mob-{{ $prod->id }}"
+                                        wire:click="toggleCatalogProduct({{ $prod->id }})"
+                                        style="cursor: pointer;"
+                                        class="list-group-item list-group-item-action py-2.5 px-3 {{ $isSelected ? 'bg-primary-subtle border-start border-4 border-primary' : '' }}"
+                                    >
+                                        <div class="d-flex align-items-start gap-2.5">
+                                            <div onclick="event.stopPropagation();" class="pt-1 flex-shrink-0">
+                                                <input type="checkbox"
+                                                       class="form-check-input m-0"
+                                                       style="width: 1.25rem; height: 1.25rem;"
+                                                       value="{{ $prod->id }}"
+                                                       @if($isSelected) checked @endif
+                                                       wire:click.stop="toggleCatalogProduct({{ $prod->id }})">
+                                            </div>
+                                            <div onclick="event.stopPropagation();" class="flex-shrink-0">
+                                                @if ($prod->foto_url)
+                                                    <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}"
+                                                         class="rounded-3 border object-fit-cover"
+                                                         style="width: 44px; height: 44px;"
+                                                         loading="lazy"
+                                                         wire:click="openImageModal({{ $prod->id }})">
+                                                @else
+                                                    <div class="bg-light rounded-3 border d-flex align-items-center justify-content-center text-muted" style="width: 44px; height: 44px;">
+                                                        <i class="bi bi-image"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="min-w-0 flex-grow-1">
+                                                <div class="fw-bold {{ $isSelected ? 'text-primary' : 'text-dark' }}" style="font-size: 0.9rem; line-height: 1.3;">
+                                                    {{ $prod->nama }}
+                                                </div>
+                                                <div class="d-flex align-items-center flex-wrap gap-1 mt-1">
+                                                    <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.7rem;">{{ $prod->kode_katalog ?? '-' }}</span>
+                                                    <span class="badge bg-light text-secondary border" style="font-size: 0.7rem;">{{ $prod->kategori->nama_kategori ?? '-' }}</span>
+                                                    @if($prod->merek)
+                                                        <span class="badge bg-white text-dark border" style="font-size: 0.7rem;">{{ $prod->merek->nama_merek }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top border-light-subtle">
+                                                    <span class="text-muted" style="font-size: 0.74rem;">Satuan: <strong>{{ $prod->satuan?->label() ?? 'Pcs' }}</strong></span>
+                                                    <span class="badge {{ $stokSistem <= 0 ? 'bg-secondary-subtle text-secondary' : 'bg-info-subtle text-info' }} border font-monospace" style="font-size: 0.74rem;">
+                                                        Stok Sistem: {{ number_format($stokSistem, 2, ',', '.') }} {{ $prod->satuan?->label() ?? 'Pcs' }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-5 px-3 text-muted small">
+                                        <i class="bi bi-inbox d-block fs-2 text-muted mb-2"></i>
+                                        Tidak ada produk katalog yang sesuai atau semua sudah ada di tabel opname.
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <!-- Desktop & Tablet Product List Table (>= 768px) -->
+                        <div class="table-responsive bg-white d-none d-md-block">
                             <table class="table table-hover table-sm align-middle mb-0">
                                 <thead class="table-light sticky-top">
                                     <tr>
@@ -1191,10 +1274,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $activeGudang = $gudang_id ? $gudangs->firstWhere('id', $gudang_id) : null;
-                                        $stockService = app(\App\Domains\Inventory\Services\StockService::class);
-                                    @endphp
                                     @forelse($this->catalogProducts as $prod)
                                         @php
                                             $isSelected = in_array($prod->id, $catalogSelectedIds, true);
@@ -1268,13 +1347,13 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between align-items-center">
-                        <button type="button" wire:click="closeCatalogModal" class="btn btn-outline-secondary btn-sm">Batal</button>
+                    <div class="modal-footer bg-light py-2 px-3 flex-shrink-0 d-flex justify-content-between align-items-center gap-2">
+                        <button type="button" wire:click="closeCatalogModal" class="btn btn-outline-secondary btn-sm flex-fill flex-sm-grow-0">Batal</button>
                         <button type="button"
                                 wire:click="addSelectedCatalogProducts"
-                                class="btn btn-primary btn-sm px-4 fw-semibold shadow-sm"
+                                class="btn btn-primary btn-sm px-3 px-sm-4 fw-semibold shadow-sm flex-fill flex-sm-grow-0"
                                 @if(empty($catalogSelectedIds)) disabled @endif>
-                            <i class="bi bi-plus-lg me-1"></i> Tambahkan ({{ count($catalogSelectedIds) }}) Produk Terpilih ke Opname
+                            <i class="bi bi-plus-lg me-1"></i> Tambahkan ({{ count($catalogSelectedIds) }}) Produk
                         </button>
                     </div>
                 </div>

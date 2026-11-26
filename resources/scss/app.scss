@@ -172,6 +172,67 @@ body {
     }
 }
 
+// Mobile layout & touch-friendly refinements
+@media (max-width: 575.98px) {
+    #topbar {
+        padding: 0.65rem 0.875rem;
+    }
+
+    .content-body {
+        padding: 0.875rem;
+    }
+}
+
+.nav-pills-scrollable {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+
+    .nav-link {
+        white-space: nowrap;
+    }
+}
+
+// Responsive stacked card layout for interactive form tables on mobile (< 768px)
+@media (max-width: 767.98px) {
+    .table-mobile-cards {
+        thead {
+            display: none;
+        }
+
+        tbody,
+        tr,
+        td {
+            display: block;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        tbody tr {
+            padding: 0.875rem;
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        tbody td {
+            padding: 0.25rem 0 !important;
+            border: 0 !important;
+            text-align: left !important;
+        }
+
+        tbody td[data-label]::before {
+            content: attr(data-label);
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 0.2rem;
+        }
+    }
+}
+
 // Global print cleanup
 @media print {
     #sidebar,

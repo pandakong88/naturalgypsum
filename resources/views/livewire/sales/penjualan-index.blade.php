@@ -1,13 +1,13 @@
 <div>
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-center mb-3 mb-md-4 flex-wrap gap-2">
         <div>
             <h4 class="fw-bold mb-1 text-dark">Daftar Penjualan</h4>
             <p class="text-muted small mb-0">Kelola dan pantau seluruh transaksi penjualan barang kepada pelanggan.</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 w-100 w-sm-auto">
             @can('create_sales')
-                <a href="{{ route('penjualan.create') }}" class="btn btn-primary px-3 shadow-sm d-flex align-items-center gap-1.5">
+                <a href="{{ route('penjualan.create') }}" class="btn btn-primary px-3 shadow-sm d-flex align-items-center justify-content-center gap-1.5 flex-fill flex-sm-grow-0">
                     <i class="bi bi-cart-plus fs-6"></i>
                     <span class="fw-semibold">Tambah Penjualan</span>
                 </a>
@@ -16,16 +16,16 @@
     </div>
 
     <!-- Unified Sleek Filter Card -->
-    <div class="card mb-4 border-0 shadow-sm overflow-hidden">
+    <div class="card mb-3 mb-md-4 border-0 shadow-sm overflow-hidden">
         <!-- Top Status & Method Filter Pills -->
         <div class="card-header bg-white border-bottom py-2 px-3">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                <ul class="nav nav-pills gap-1.5" role="tablist">
+                <ul class="nav nav-pills nav-pills-scrollable flex-nowrap gap-1.5 pb-1 pb-md-0" role="tablist">
                     <li class="nav-item">
                         <button
                             type="button"
                             wire:click="setQuickFilter('semua')"
-                            class="nav-link py-1 px-3 small rounded-pill {{ $statusTransaksiFilter === 'aktif' && empty($metodePembayaranFilter) ? 'active bg-primary text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
+                            class="nav-link py-1 px-3 small rounded-pill text-nowrap {{ $statusTransaksiFilter === 'aktif' && empty($metodePembayaranFilter) ? 'active bg-primary text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
                         >
                             Semua Aktif
                         </button>
@@ -34,7 +34,7 @@
                         <button
                             type="button"
                             wire:click="setQuickFilter('tunai')"
-                            class="nav-link py-1 px-3 small rounded-pill {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'tunai' ? 'active bg-success text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
+                            class="nav-link py-1 px-3 small rounded-pill text-nowrap {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'tunai' ? 'active bg-success text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
                         >
                             <i class="bi bi-cash-stack me-1"></i>Tunai (Cash)
                         </button>
@@ -43,7 +43,7 @@
                         <button
                             type="button"
                             wire:click="setQuickFilter('transfer')"
-                            class="nav-link py-1 px-3 small rounded-pill {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'transfer' ? 'active bg-info text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
+                            class="nav-link py-1 px-3 small rounded-pill text-nowrap {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'transfer' ? 'active bg-info text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
                         >
                             <i class="bi bi-bank me-1"></i>Transfer Bank
                         </button>
@@ -52,7 +52,7 @@
                         <button
                             type="button"
                             wire:click="setQuickFilter('tempo')"
-                            class="nav-link py-1 px-3 small rounded-pill {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'tempo' ? 'active bg-warning text-dark fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
+                            class="nav-link py-1 px-3 small rounded-pill text-nowrap {{ $statusTransaksiFilter === 'aktif' && $metodePembayaranFilter === 'tempo' ? 'active bg-warning text-dark fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
                         >
                             <i class="bi bi-clock-history me-1"></i>Tempo (Piutang)
                         </button>
@@ -61,7 +61,7 @@
                         <button
                             type="button"
                             wire:click="setQuickFilter('batal')"
-                            class="nav-link py-1 px-3 small rounded-pill {{ $statusTransaksiFilter === 'dibatalkan' ? 'active bg-danger text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
+                            class="nav-link py-1 px-3 small rounded-pill text-nowrap {{ $statusTransaksiFilter === 'dibatalkan' ? 'active bg-danger text-white fw-bold shadow-xs' : 'text-secondary bg-light-subtle border' }}"
                         >
                             <i class="bi bi-x-circle me-1"></i>Dibatalkan (Void)
                         </button>
@@ -77,11 +77,11 @@
         </div>
 
         <!-- Filter Controls: Search, Warehouse, & Dates -->
-        <div class="card-body p-3">
+        <div class="card-body p-2.5 p-md-3">
             <div class="row g-2 align-items-center">
                 <!-- Search Bar -->
-                <div class="col-lg-5 col-md-6">
-                    <div class="input-group">
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                         <input
                             type="text"
@@ -98,8 +98,8 @@
                 </div>
 
                 <!-- Gudang Filter -->
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="input-group">
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-end-0 text-muted px-2"><i class="bi bi-building"></i></span>
                         <select wire:model.live="gudangFilter" class="form-select border-start-0 ps-0">
                             <option value="">Semua Gudang</option>
@@ -116,9 +116,9 @@
                 </div>
 
                 <!-- Date Range & Shortcuts -->
-                <div class="col-lg-5 col-md-12 d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
+                <div class="col-12 col-lg-5 d-flex align-items-center justify-content-lg-end gap-2 flex-wrap">
                     <!-- Quick Date Buttons -->
-                    <div class="btn-group btn-group-sm" role="group">
+                    <div class="btn-group btn-group-sm flex-fill flex-sm-grow-0" role="group">
                         <button
                             type="button"
                             wire:click="setDateFilter('today')"
@@ -143,27 +143,27 @@
                     </div>
 
                     <!-- Date Pickers -->
-                    <div class="d-flex align-items-center gap-1">
+                    <div class="d-flex align-items-center gap-1 flex-fill flex-sm-grow-0">
                         <input
                             type="date"
                             wire:model.live="startDate"
-                            class="form-control form-control-sm"
-                            style="width: 130px;"
+                            class="form-control form-control-sm flex-fill"
+                            style="min-width: 115px;"
                             title="Dari Tanggal"
                         >
                         <span class="text-muted small">-</span>
                         <input
                             type="date"
                             wire:model.live="endDate"
-                            class="form-control form-control-sm"
-                            style="width: 130px;"
+                            class="form-control form-control-sm flex-fill"
+                            style="min-width: 115px;"
                             title="Sampai Tanggal"
                         >
                         @if ($startDate || $endDate)
                             <button
                                 type="button"
                                 wire:click="clearDateFilter"
-                                class="btn btn-sm btn-outline-danger py-1 px-1.5"
+                                class="btn btn-sm btn-outline-danger py-1 px-1.5 flex-shrink-0"
                                 title="Reset Tanggal"
                             >
                                 <i class="bi bi-x"></i>
@@ -183,10 +183,138 @@
         </div>
     @endif
 
-    <!-- Data Table Card -->
+    <!-- Data Table & Mobile Card List Card -->
     <div class="card border-0 shadow-sm overflow-hidden">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @forelse ($penjualans as $penjualan)
+                    @php
+                        $isBatal = $penjualan->isDibatalkan();
+                    @endphp
+                    <div class="p-3 border-bottom {{ $isBatal ? 'bg-danger-subtle bg-opacity-10' : '' }}" wire:key="penjualan-mob-{{ $penjualan->id }}">
+                        <!-- Top Row: No Faktur, Date & Status -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <div>
+                                <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                                    <a href="{{ route('penjualan.show', $penjualan->id) }}"
+                                       class="fw-bold font-monospace text-decoration-none fs-6 {{ $isBatal ? 'text-decoration-line-through text-danger' : 'text-primary' }}">
+                                        {{ $penjualan->no_penjualan }}
+                                    </a>
+                                    @if ($isBatal)
+                                        <span class="badge bg-danger" style="font-size: 0.65rem;">BATAL</span>
+                                    @endif
+                                </div>
+                                <div class="text-muted" style="font-size: 0.74rem;">
+                                    <i class="bi bi-calendar3 me-1"></i>{{ $penjualan->tanggal->format('d/m/Y') }} &bull; {{ $penjualan->created_at->format('H:i') }} WIB
+                                </div>
+                            </div>
+                            <div class="text-end flex-shrink-0">
+                                @if ($isBatal)
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Dibatalkan</span>
+                                @else
+                                    <span class="badge {{ $penjualan->status_pembayaran->badgeClass() }}">
+                                        {{ $penjualan->status_pembayaran->label() }}
+                                    </span>
+                                    <div class="text-muted mt-0.5" style="font-size: 0.7rem;">
+                                        @if ($penjualan->metode_pembayaran === 'tunai')
+                                            <i class="bi bi-cash-stack text-success me-1"></i>Tunai POS
+                                        @elseif ($penjualan->metode_pembayaran === 'transfer')
+                                            <i class="bi bi-bank text-primary me-1"></i>Transfer Bank
+                                        @elseif (in_array($penjualan->metode_pembayaran, ['tempo', 'belum_bayar']))
+                                            <i class="bi bi-clock-history text-warning-emphasis me-1"></i>Tempo (Piutang)
+                                        @else
+                                            {{ $penjualan->getMetodeLabel() }}
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Customer & Warehouse Row -->
+                        <div class="mb-2">
+                            <div class="fw-bold text-dark">{{ $penjualan->pelanggan->nama ?? 'Pelanggan Umum' }}</div>
+                            <div class="d-flex align-items-center flex-wrap gap-1.5 mt-1" style="font-size: 0.74rem;">
+                                <span class="badge bg-light text-secondary border">
+                                    <i class="bi bi-building me-1"></i>{{ $penjualan->gudang->nama_gudang ?? '-' }}
+                                </span>
+                                <span class="badge bg-light text-dark border font-monospace">
+                                    {{ $penjualan->details_count ?? $penjualan->details->count() }} item
+                                </span>
+                                @if (filled($penjualan->pelanggan?->kontak) && trim($penjualan->pelanggan->kontak) !== '-')
+                                    <span class="text-muted">
+                                        <i class="bi bi-telephone me-1"></i>{{ $penjualan->pelanggan->kontak }}
+                                    </span>
+                                @endif
+                                @if ($penjualan->nama_sopir || $penjualan->plat_nomor)
+                                    <span class="text-muted">
+                                        <i class="bi bi-truck me-1"></i>{{ $penjualan->nama_sopir ?: 'Sopir' }}
+                                        @if ($penjualan->plat_nomor) ({{ $penjualan->plat_nomor }}) @endif
+                                    </span>
+                                @endif
+                            </div>
+                            @if ($isBatal && $penjualan->alasan_batal)
+                                <div class="text-danger small mt-1" style="font-size: 0.73rem;">
+                                    <i class="bi bi-chat-left-quote me-1"></i>Alasan: {{ $penjualan->alasan_batal }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Total & Cashier Box -->
+                        <div class="p-2 rounded-3 bg-light border d-flex justify-content-between align-items-center mb-2">
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                <i class="bi bi-person-check me-1"></i>Kasir: <strong>{{ $penjualan->user->name ?? ($penjualan->creator->name ?? '-') }}</strong>
+                            </div>
+                            <div class="text-end">
+                                <span class="text-muted d-block" style="font-size: 0.68rem;">Total Akhir</span>
+                                <span class="fw-bold font-monospace fs-6 {{ $isBatal ? 'text-muted text-decoration-line-through' : 'text-dark' }}">
+                                    Rp {{ number_format((float) $penjualan->total_akhir, 0, ',', '.') }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                            <a href="{{ route('penjualan.show', $penjualan->id) }}" class="btn btn-sm btn-outline-primary py-1 px-2.5 flex-fill">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </a>
+                            @if (! $isBatal)
+                                <a href="{{ route('penjualan.print.faktur', $penjualan->id) }}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 px-2 flex-fill">
+                                    <i class="bi bi-file-earmark-text me-1"></i>Faktur
+                                </a>
+                                <a href="{{ route('penjualan.print.thermal', $penjualan->id) }}" target="_blank" class="btn btn-sm btn-outline-dark py-1 px-2 flex-fill">
+                                    <i class="bi bi-receipt me-1"></i>Struk
+                                </a>
+                            @endif
+                            @can('create_sales')
+                                <a href="{{ route('penjualan.create', ['duplicate_id' => $penjualan->id]) }}" class="btn btn-sm btn-light border py-1 px-2" title="Duplikat Pesanan">
+                                    <i class="bi bi-copy text-info"></i>
+                                </a>
+                            @endcan
+                            @if (! $isBatal)
+                                @can('cancel_sales')
+                                    <button type="button" wire:click="openCancelModal({{ $penjualan->id }})" class="btn btn-sm btn-outline-danger py-1 px-2" title="Batalkan Nota">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                @endcan
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5 px-3 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary opacity-50"></i>
+                        <div>Tidak ada data penjualan yang ditemukan sesuai filter yang dipilih.</div>
+                        @if ($search || $gudangFilter || $metodePembayaranFilter || $statusTransaksiFilter !== 'aktif' || $startDate || $endDate)
+                            <button type="button" wire:click="resetAllFilters" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Filter
+                            </button>
+                        @endif
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light-subtle border-bottom">
                         <tr class="text-secondary small fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">

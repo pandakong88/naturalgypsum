@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 420" width="100%" height="100%">
+  <defs>
+    <!-- Background & Card Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f0f9ff"/>
+    </linearGradient>
+
+    <!-- Left Wing (Shadowed 3D Side) Gradients -->
+    <linearGradient id="leftWing1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="leftWing2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="leftWing3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#172554"/>
+    </linearGradient>
+
+    <!-- Right Wing (Lit 3D Side) Gradients -->
+    <linearGradient id="rightWing1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="rightWing2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="rightWing3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+
+    <!-- Typography Gradients -->
+    <linearGradient id="scriptGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="mainTextGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="55%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <!-- Soft Drop Shadow for 3D Chevron -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="125%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <filter id="textShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1e3a8a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Main Background Canvas -->
+  <rect width="1400" height="420" rx="20" fill="url(#bgGrad)"/>
+  <rect x="8" y="8" width="1384" height="404" rx="16" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- Subtle Architectural Grid Background Accent -->
+  <g stroke="#0ea5e9" stroke-opacity="0.06" stroke-width="1">
+    <line x1="0" y1="80" x2="1400" y2="80"/>
+    <line x1="0" y1="180" x2="1400" y2="180"/>
+    <line x1="0" y1="280" x2="1400" y2="280"/>
+    <line x1="230" y1="0" x2="230" y2="330"/>
+    <line x1="560" y1="0" x2="560" y2="330"/>
+  </g>
+
+  <!-- ==================== 3D ARCHITECTURAL CHEVRON EMBLEM (LEFT) ==================== -->
+  <!-- Inspired directly by the 3 blue V-shaped perspective bars in the original logo, upgraded to 3D gypsum/PVC ceiling layers -->
+  <g filter="url(#dropShadow)" transform="translate(10, 5)">
+    <!-- LAYER 1 (TOP LAYER - Cyan / Sky Blue Ceiling Panel) -->
+    <!-- Left Wing -->
+    <polygon points="35,45 230,96 230,134 35,83" fill="url(#leftWing1)"/>
+    <!-- Right Wing -->
+    <polygon points="230,96 545,35 545,73 230,134" fill="url(#rightWing1)"/>
+    <!-- 3D Under-Bevel Highlight -->
+    <polygon points="35,83 230,134 230,141 35,90" fill="#0369a1" opacity="0.85"/>
+    <polygon points="230,134 545,73 545,80 230,141" fill="#0284c7" opacity="0.85"/>
+
+    <!-- LAYER 2 (MIDDLE LAYER - Royal Cobalt Blue Gypsum Board) -->
+    <!-- Left Wing -->
+    <polygon points="35,105 230,158 230,198 35,145" fill="url(#leftWing2)"/>
+    <!-- Right Wing -->
+    <polygon points="230,158 545,95 545,135 230,198" fill="url(#rightWing2)"/>
+    <!-- 3D Under-Bevel Highlight -->
+    <polygon points="35,145 230,198 230,205 35,152" fill="#1e3a8a"/>
+    <polygon points="230,198 545,135 545,142 230,205" fill="#1d4ed8"/>
+
+    <!-- LAYER 3 (BOTTOM LAYER - Deep Navy Structural Profile) -->
+    <!-- Left Wing -->
+    <polygon points="35,167 230,222 230,264 35,209" fill="url(#leftWing3)"/>
+    <!-- Right Wing -->
+    <polygon points="230,222 545,157 545,199 230,264" fill="url(#rightWing3)"/>
+    <!-- Golden / Amber Architectural Trim under the 3rd Layer -->
+    <polygon points="35,213 230,268 230,275 35,220" fill="#d97706"/>
+    <polygon points="230,268 545,203 545,210 230,275" fill="url(#goldAccent)"/>
+
+    <!-- Center Vertex Crisp 3D Crease Line -->
+    <line x1="230" y1="96" x2="230" y2="275" stroke="#ffffff" stroke-width="2" stroke-opacity="0.65"/>
+  </g>
+
+  <!-- ==================== BRAND TYPOGRAPHY (RIGHT) ==================== -->
+  <g transform="translate(585, 0)">
+    <!-- Top Script Line: "Toko Natural" -->
+    <text x="190" y="115"
+          font-family="'Brush Script MT', 'Segoe Script', 'Lucida Handwriting', 'Palatino Linotype', Georgia, cursive"
+          font-size="86"
+          font-style="italic"
+          font-weight="normal"
+          fill="url(#scriptGrad)"
+          letter-spacing="2"
+          filter="url(#textShadow)">
+      Toko Natural
+    </text>
+
+    <!-- Decorative Flourish under Toko Natural -->
+    <path d="M 195 130 Q 460 118 750 130" fill="none" stroke="url(#goldAccent)" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="195" cy="130" r="4.5" fill="#f59e0b"/>
+
+    <!-- Main Bold Title: "GYPSUM & PVC" -->
+    <text x="0" y="238"
+          font-family="'Cinzel', 'Trajan Pro', 'Georgia', 'Times New Roman', serif"
+          font-size="94"
+          font-weight="900"
+          fill="url(#mainTextGrad)"
+          letter-spacing="3"
+          filter="url(#textShadow)">
+      GYPSUM <tspan fill="#0284c7" font-family="Georgia, serif" font-weight="bold">&amp;</tspan> PVC
+    </text>
+  </g>
+
+  <!-- ==================== SUBTITLE RIBBON ==================== -->
+  <g transform="translate(45, 295)">
+    <rect x="0" y="0" width="1310" height="46" rx="10" fill="#1e3a8a"/>
+    <rect x="0" y="0" width="10" height="46" rx="4" fill="#f59e0b"/>
+    <rect x="1300" y="0" width="10" height="46" rx="4" fill="#0ea5e9"/>
+    <text x="655" y="30"
+          text-anchor="middle"
+          font-family="'Montserrat', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+          font-size="22"
+          font-weight="700"
+          fill="#ffffff"
+          letter-spacing="5.5">
+      APLIKATOR DAN PENYEDIA BAHAN GYPSUM DAN PVC
+    </text>
+  </g>
+
+  <!-- ==================== FOOTER ADDRESS & PHONE BAR ==================== -->
+  <g transform="translate(45, 355)">
+    <!-- Address Pill -->
+    <g transform="translate(135, 0)">
+      <!-- Location Pin Icon -->
+      <circle cx="20" cy="22" r="15" fill="#e0f2fe"/>
+      <path d="M20 11 C15.5 11 12 14.5 12 19 C12 24.5 20 32 20 32 C20 32 28 24.5 28 19 C28 14.5 24.5 11 20 11 Z M20 22 A3 3 0 1 1 20 16 A3 3 0 1 1 20 22 Z" fill="#0284c7"/>
+      <text x="46" y="29"
+            font-family="'Segoe UI', 'Inter', Arial, sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#1e293b"
+            letter-spacing="1.2">
+        Jln. Piyungan Prambanan KM 2 Pucung
+      </text>
+    </g>
+
+    <!-- Divider Pipe -->
+    <rect x="695" y="7" width="3" height="30" rx="1.5" fill="#f59e0b"/>
+
+    <!-- Phone / WA Pill -->
+    <g transform="translate(725, 0)">
+      <rect x="0" y="3" width="335" height="38" rx="19" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+      <circle cx="22" cy="22" r="14" fill="#1d4ed8"/>
+      <!-- Phone Handset Vector -->
+      <path d="M17.5 15.5 C16.5 16.5 16.5 19 18.5 22 C20.5 25 23 26.5 25 26.5 C26 26.5 27.5 25.5 27.5 24.5 C27.5 23.8 26 22.5 25.2 22.5 C24.5 22.5 24 23.2 23.3 23.2 C22.5 23.2 20.8 21.5 20.8 20.5 C20.8 19.8 21.5 19.3 21.5 18.5 C21.5 17.7 20.2 16 19.3 15.5 C18.6 15.2 18 15.2 17.5 15.5 Z" fill="#ffffff"/>
+      <text x="46" y="29"
+            font-family="'Segoe UI', 'Inter', Arial, sans-serif"
+            font-size="23"
+            font-weight="800"
+            fill="#1e3a8a"
+            letter-spacing="1.5">
+        HP: 082136702637
+      </text>
+    </g>
+  </g>
+</svg>

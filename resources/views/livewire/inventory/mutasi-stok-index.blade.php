@@ -45,27 +45,27 @@
     </div>
 
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 no-print">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2 no-print">
         <div>
             <h4 class="fw-bold mb-1">Riwayat Mutasi Stok</h4>
             <p class="text-muted small mb-0">Audit trail seluruh pergerakan barang masuk, keluar, transfer, dan penyesuaian stok secara kronologis.</p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
             @if(request()->query('from') === 'stok')
-                <a href="{{ route('stok.index') }}" class="btn btn-outline-primary">
+                <a href="{{ route('stok.index') }}" class="btn btn-outline-primary flex-fill flex-md-grow-0">
                     <i class="bi bi-arrow-left me-1"></i>Kembali ke Stok Saat Ini
                 </a>
             @else
-                <a href="{{ route('stok.index') }}" class="btn btn-outline-secondary">
+                <a href="{{ route('stok.index') }}" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                     <i class="bi bi-layers me-1"></i>Lihat Stok Saat Ini
                 </a>
             @endif
 
-            <button type="button" onclick="window.print()" class="btn btn-outline-secondary">
+            <button type="button" onclick="window.print()" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-printer me-1"></i>Cetak
             </button>
 
-            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white">
+            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white flex-fill flex-md-grow-0">
                 <span wire:loading.remove wire:target="exportExcel"><i class="bi bi-file-earmark-excel me-1"></i>Ekspor Excel</span>
                 <span wire:loading wire:target="exportExcel">
                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
@@ -76,63 +76,63 @@
     </div>
 
     <!-- Movement KPI Metric Cards -->
-    <div class="row g-3 mb-4 no-print">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4 no-print">
         <!-- Total Mutasi -->
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div
                 wire:click="filterByArah('')"
-                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer {{ $filterArah === '' ? 'ring-2 border-primary border' : '' }}"
+                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer h-100 {{ $filterArah === '' ? 'ring-2 border-primary border' : '' }}"
                 title="Klik untuk tampilkan semua pergerakan"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Mutasi Transaksi</span>
-                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Total Mutasi</span>
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2 d-none d-sm-flex">
                             <i class="bi bi-clock-history fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalMutasi'], 0, ',', '.') }}</h3>
-                    <small class="text-muted">Baris pergerakan stok tercatat</small>
+                    <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalMutasi'], 0, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Baris pergerakan tercatat</small>
                 </div>
             </div>
         </div>
 
         <!-- Total Masuk (+) -->
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div
                 wire:click="filterByArah('masuk')"
-                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer {{ $filterArah === 'masuk' ? 'border border-success bg-success bg-opacity-10' : '' }}"
+                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer h-100 {{ $filterArah === 'masuk' ? 'border border-success bg-success bg-opacity-10' : '' }}"
                 title="Klik untuk filter hanya barang masuk (+)"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Barang Masuk (+)</span>
-                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Barang Masuk (+)</span>
+                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2 d-none d-sm-flex">
                             <i class="bi bi-arrow-down-left-circle fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-success">+{{ number_format($metrics['totalMasuk'], 2, ',', '.') }}</h3>
-                    <small class="text-muted">Unit barang masuk bertambah</small>
+                    <h4 class="fw-bold mb-0 text-success">+{{ number_format($metrics['totalMasuk'], 2, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Unit masuk bertambah</small>
                 </div>
             </div>
         </div>
 
         <!-- Total Keluar (-) -->
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div
                 wire:click="filterByArah('keluar')"
-                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer {{ $filterArah === 'keluar' ? 'border border-danger bg-danger bg-opacity-10' : '' }}"
+                class="card border-0 shadow-sm rounded-3 kpi-card cursor-pointer h-100 {{ $filterArah === 'keluar' ? 'border border-danger bg-danger bg-opacity-10' : '' }}"
                 title="Klik untuk filter hanya barang keluar (-)"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Barang Keluar (-)</span>
-                        <div class="p-2 bg-danger bg-opacity-10 text-danger rounded-2">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Barang Keluar (-)</span>
+                        <div class="p-2 bg-danger bg-opacity-10 text-danger rounded-2 d-none d-sm-flex">
                             <i class="bi bi-arrow-up-right-circle fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-danger">-{{ number_format($metrics['totalKeluar'], 2, ',', '.') }}</h3>
-                    <small class="text-muted">Unit barang keluar berkurang</small>
+                    <h4 class="fw-bold mb-0 text-danger">-{{ number_format($metrics['totalKeluar'], 2, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Unit keluar berkurang</small>
                 </div>
             </div>
         </div>
@@ -141,19 +141,19 @@
         @php
             $isNetPositive = $metrics['netPergerakan'] >= 0;
         @endphp
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Net Pergerakan Bersih</span>
-                        <div class="p-2 {{ $isNetPositive ? 'bg-primary bg-opacity-10 text-primary' : 'bg-warning bg-opacity-10 text-warning' }} rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Net Pergerakan</span>
+                        <div class="p-2 {{ $isNetPositive ? 'bg-primary bg-opacity-10 text-primary' : 'bg-warning bg-opacity-10 text-warning' }} rounded-2 d-none d-sm-flex">
                             <i class="bi {{ $isNetPositive ? 'bi-graph-up-arrow' : 'bi-graph-down-arrow' }} fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 {{ $isNetPositive ? 'text-primary' : 'text-warning' }}">
+                    <h4 class="fw-bold mb-0 {{ $isNetPositive ? 'text-primary' : 'text-warning' }}">
                         {{ $isNetPositive ? '+' : '' }}{{ number_format($metrics['netPergerakan'], 2, ',', '.') }}
-                    </h3>
-                    <small class="text-muted">Selisih arus stok keluar/masuk</small>
+                    </h4>
+                    <small class="text-muted d-block text-truncate">Selisih arus stok</small>
                 </div>
             </div>
         </div>
@@ -204,15 +204,15 @@
 
             <!-- Second Row: Multi-Criteria Filter Dropdowns -->
             <div class="row g-2">
-                <div class="col-md-3 col-lg-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label small text-muted mb-1">Dari Tanggal</label>
                     <input type="date" wire:model.live="startDate" class="form-control form-control-sm">
                 </div>
-                <div class="col-md-3 col-lg-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label small text-muted mb-1">Sampai Tanggal</label>
                     <input type="date" wire:model.live="endDate" class="form-control form-control-sm">
                 </div>
-                <div class="col-md-3 col-lg-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label small text-muted mb-1">Arah Mutasi</label>
                     <select wire:model.live="filterArah" class="form-select form-select-sm">
                         <option value="">Semua Arah</option>
@@ -220,7 +220,7 @@
                         <option value="keluar">Barang Keluar (-)</option>
                     </select>
                 </div>
-                <div class="col-md-3 col-lg-3">
+                <div class="col-6 col-md-3 col-lg-3">
                     <label class="form-label small text-muted mb-1">Gudang</label>
                     <select wire:model.live="filterGudang" class="form-select form-select-sm">
                         <option value="">Semua Gudang</option>
@@ -229,7 +229,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 col-lg-3">
+                <div class="col-12 col-md-12 col-lg-3">
                     <label class="form-label small text-muted mb-1">Jenis Mutasi</label>
                     <select wire:model.live="filterJenis" class="form-select form-select-sm">
                         <option value="">Semua Jenis Mutasi</option>
@@ -304,10 +304,81 @@
         </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Data Table (Desktop & Tablet) & Card List (Mobile) -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none no-print">
+                <div class="list-group list-group-flush">
+                    @forelse ($mutasis as $index => $mutasi)
+                        @php
+                            $qty = (float) $mutasi->jumlah;
+                            $isPositive = $qty > 0;
+                            $docUrl = $this->getDocumentUrl($mutasi);
+                        @endphp
+                        <div class="list-group-item p-3">
+                            <!-- Top Row: Number, Badge, Date & Mutation Qty -->
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <div>
+                                    <div class="d-flex align-items-center gap-1 flex-wrap mb-1">
+                                        <span class="text-muted small">#{{ $mutasis->firstItem() + $index }}</span>
+                                        <span class="badge {{ $mutasi->jenis->badgeClass() }}">
+                                            {{ $mutasi->jenis->label() }}
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3 me-1"></i>{{ $mutasi->tanggal ? $mutasi->tanggal->translatedFormat('d/m/Y H:i') : '-' }} WIB
+                                    </small>
+                                </div>
+                                <div class="text-end flex-shrink-0">
+                                    <span class="fw-bold font-monospace fs-6 {{ $isPositive ? 'text-success' : 'text-danger' }}">
+                                        {{ $isPositive ? '+' : '' }}{{ number_format($qty, 2, ',', '.') }}
+                                    </span>
+                                    <small class="text-muted d-block">{{ $mutasi->produk->satuan->value ?? '' }}</small>
+                                </div>
+                            </div>
+
+                            <!-- Product & Warehouse Info -->
+                            <div class="bg-light rounded-2 p-2 mb-2 border">
+                                <div class="fw-bold text-dark">{{ $mutasi->produk->nama ?? '-' }}</div>
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mt-1 small">
+                                    <span class="text-muted font-monospace">{{ $mutasi->produk->kode_katalog ?? '-' }}</span>
+                                    <span class="text-secondary"><i class="bi bi-building me-1"></i>{{ $mutasi->gudang->nama_gudang ?? '-' }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Footer: Reference, Operator & Detail Button -->
+                            <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                                <div class="d-flex align-items-center flex-wrap gap-1 min-w-0">
+                                    @if ($docUrl)
+                                        <a href="{{ $docUrl }}" target="_blank" rel="noopener noreferrer" class="badge bg-light text-primary border text-decoration-none font-monospace">
+                                            {{ $mutasi->referensi }} <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                        </a>
+                                    @else
+                                        <span class="badge bg-light text-dark border font-monospace">
+                                            {{ $mutasi->referensi }}
+                                        </span>
+                                    @endif
+                                    <span class="text-muted" style="font-size: 0.72rem;">&bull; {{ $mutasi->user->name ?? 'Sistem' }}</span>
+                                </div>
+                                <button type="button" wire:click="openDetailModal({{ $mutasi->id }})" class="btn btn-sm btn-outline-secondary flex-shrink-0">
+                                    <i class="bi bi-info-circle me-1"></i>Detail
+                                </button>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3">
+                            <div class="text-muted">
+                                <i class="bi bi-clock-history display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">Tidak ada data riwayat mutasi yang sesuai filter.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px & Print) -->
+            <div class="table-responsive d-none d-md-block d-print-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

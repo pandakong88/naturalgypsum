@@ -16,9 +16,9 @@ class ProfilPerusahaanSeeder extends Seeder
             ['id' => 1],
             [
                 'nama_toko' => 'NATURAL GYPSUM & PVC',
-                'slogan' => 'Distributor & Toko Material Plafon, Gypsum, Rangka Hollow & PVC',
-                'alamat' => 'Jl. Raya Utama Toko Natural Gypsum',
-                'telepon' => '0812-3456-7890',
+                'slogan' => 'Aplikator dan Penyedia Bahan Gypsum dan PVC',
+                'alamat' => 'Jln. Piyungan Prambanan KM 2 Pucung',
+                'telepon' => '082136702637',
                 'email' => 'info@naturalgypsum.com',
                 'website' => 'naturalgypsum.com',
                 'catatan_kaki_faktur' => 'Barang yang sudah dibeli tidak dapat ditukar/dikembalikan tanpa perjanjian tertulis.',

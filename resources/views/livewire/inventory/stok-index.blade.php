@@ -53,117 +53,117 @@
     </div>
 
     <!-- Page Header (Screen) -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 d-print-none">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2 d-print-none">
         <div>
             <h4 class="fw-bold mb-1">Stok Saat Ini</h4>
             <p class="text-muted small mb-0">Monitor kuantitas stok fisik aktual per gudang, ambang batas minimum, dan status ketersediaan barang.</p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <button type="button" onclick="window.print()" class="btn btn-outline-secondary" title="Cetak data stok saat ini">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <button type="button" onclick="window.print()" class="btn btn-outline-secondary flex-fill flex-md-grow-0" title="Cetak data stok saat ini">
                 <i class="bi bi-printer me-1"></i>Cetak
             </button>
             <button
                 type="button"
                 wire:click="exportExcel"
                 wire:loading.attr="disabled"
-                class="btn btn-outline-success"
+                class="btn btn-outline-success flex-fill flex-md-grow-0"
                 title="Unduh data stok dalam format Excel (.xlsx)"
             >
                 <span wire:loading.remove wire:target="exportExcel"><i class="bi bi-file-earmark-excel me-1"></i>Ekspor Excel</span>
                 <span wire:loading wire:target="exportExcel"><span class="spinner-border spinner-border-sm me-1" role="status"></span>Membuat Excel...</span>
             </button>
-            <a href="{{ route('stok.mutasi.index') }}" class="btn btn-outline-primary">
+            <a href="{{ route('stok.mutasi.index') }}" class="btn btn-outline-primary flex-fill flex-md-grow-0">
                 <i class="bi bi-clock-history me-1"></i>Lihat Mutasi Stok
             </a>
         </div>
     </div>
 
     <!-- POIN A: KPI Metric Cards (Interactive click-to-filter) -->
-    <div class="row g-3 mb-4 d-print-none">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4 d-print-none">
         <!-- Total SKU Card -->
-        <div class="col-sm-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
+        <div class="col-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
             <div
                 wire:click="filterByStatus('')"
                 class="card border-0 shadow-sm h-100 metric-card-interactive {{ $filterStatus === '' ? 'metric-card-active' : '' }}"
                 title="Klik untuk tampilkan semua status stok"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-semibold">Total SKU</span>
-                        <div class="rounded-circle bg-primary bg-opacity-10 p-2 text-primary">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-semibold text-truncate">Total SKU</span>
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-2 text-primary d-none d-sm-flex">
                             <i class="bi bi-boxes fs-6"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold mb-0 font-monospace">{{ number_format($metrics['totalSku'], 0, ',', '.') }}</h4>
-                    <span class="text-muted small">Jenis Barang Aktif</span>
+                    <span class="text-muted small d-block text-truncate">Jenis Barang Aktif</span>
                 </div>
             </div>
         </div>
 
         <!-- Total Unit Fisik Card -->
-        <div class="col-sm-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
+        <div class="col-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-semibold">Total Unit Fisik</span>
-                        <div class="rounded-circle bg-info bg-opacity-10 p-2 text-info">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-semibold text-truncate">Total Unit Fisik</span>
+                        <div class="rounded-circle bg-info bg-opacity-10 p-2 text-info d-none d-sm-flex">
                             <i class="bi bi-layers-fill fs-6"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold mb-0 font-monospace">{{ number_format($metrics['totalFisik'], 2, ',', '.') }}</h4>
-                    <span class="text-muted small">Akumulasi Kuantitas</span>
+                    <span class="text-muted small d-block text-truncate">Akumulasi Kuantitas</span>
                 </div>
             </div>
         </div>
 
         <!-- Stok Menipis Card (Interactive) -->
-        <div class="col-sm-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
+        <div class="col-6 col-xl-{{ $canViewPurchasePrices ? '2' : '3' }}">
             <div
                 wire:click="filterByStatus('menipis')"
                 class="card border-0 shadow-sm h-100 metric-card-interactive {{ $filterStatus === 'menipis' ? 'metric-card-active' : '' }}"
                 title="Klik untuk filter barang menipis"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-semibold">Stok Menipis</span>
-                        <div class="rounded-circle bg-warning bg-opacity-10 p-2 text-warning">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-semibold text-truncate">Stok Menipis</span>
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-2 text-warning d-none d-sm-flex">
                             <i class="bi bi-exclamation-triangle-fill fs-6"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold mb-0 font-monospace text-warning">{{ number_format($metrics['totalMenipis'], 0, ',', '.') }}</h4>
-                    <span class="text-muted small">&le; Batas Minimum</span>
+                    <span class="text-muted small d-block text-truncate">&le; Batas Minimum</span>
                 </div>
             </div>
         </div>
 
         <!-- Stok Habis Card (Interactive) -->
-        <div class="col-sm-6 col-xl-{{ $canViewPurchasePrices ? '3' : '3' }}">
+        <div class="col-6 col-xl-{{ $canViewPurchasePrices ? '3' : '3' }}">
             <div
                 wire:click="filterByStatus('habis')"
                 class="card border-0 shadow-sm h-100 metric-card-interactive {{ $filterStatus === 'habis' ? 'metric-card-active' : '' }}"
                 title="Klik untuk filter barang habis/kosong"
             >
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-semibold">Stok Habis</span>
-                        <div class="rounded-circle bg-danger bg-opacity-10 p-2 text-danger">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-semibold text-truncate">Stok Habis</span>
+                        <div class="rounded-circle bg-danger bg-opacity-10 p-2 text-danger d-none d-sm-flex">
                             <i class="bi bi-x-circle-fill fs-6"></i>
                         </div>
                     </div>
                     <h4 class="fw-bold mb-0 font-monospace text-danger">{{ number_format($metrics['totalHabis'], 0, ',', '.') }}</h4>
-                    <span class="text-muted small">Stok &le; 0 (Kosong)</span>
+                    <span class="text-muted small d-block text-truncate">Stok &le; 0 (Kosong)</span>
                 </div>
             </div>
         </div>
 
         <!-- Nilai Aset Stok (Only for users who can view purchase prices) -->
         @if ($canViewPurchasePrices)
-            <div class="col-sm-12 col-xl-3">
+            <div class="col-12 col-xl-3">
                 <div class="card border-0 shadow-sm h-100 bg-success-subtle bg-opacity-50">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
+                    <div class="card-body p-2 p-sm-3">
+                        <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
                             <span class="text-success-emphasis small fw-semibold">Estimasi Valuasi Aset</span>
-                            <div class="rounded-circle bg-success bg-opacity-20 p-2 text-success">
+                            <div class="rounded-circle bg-success bg-opacity-20 p-2 text-success d-none d-sm-flex">
                                 <i class="bi bi-cash-stack fs-6"></i>
                             </div>
                         </div>
@@ -344,7 +344,145 @@
     <!-- POIN D: Data Table with Product Thumbnail, Valuation & POIN B: Direct Actions -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none d-print-none">
+                <div class="list-group list-group-flush">
+                    @forelse ($stoks as $index => $item)
+                        @php
+                            $produk = $isConsolidated ? $item : $item->produk;
+                            $qty = $isConsolidated ? (float) ($item->total_stok ?? 0) : (float) $item->jumlah;
+                            $min = (float) $produk->stok_minimum;
+                            $status = $isConsolidated
+                                ? \App\Domains\Inventory\Enums\StatusStok::determine($qty, $min)
+                                : $item->status;
+                            $isNegative = $qty < 0;
+                            $isEmpty = $qty == 0;
+                            $isCritical = $qty > 0 && $qty <= $min;
+                            $produkId = $produk->id;
+                        @endphp
+                        <div class="list-group-item p-3 {{ ($isNegative || $isEmpty) ? 'bg-danger-subtle bg-opacity-10' : ($isCritical ? 'bg-warning-subtle bg-opacity-10' : '') }}">
+                            <!-- Top Row: Image, SKU, Status & Product Name -->
+                            <div class="d-flex align-items-start gap-2 mb-2">
+                                @if ($produk->foto)
+                                    <div
+                                        role="button"
+                                        wire:click="openImageModal({{ $produkId }})"
+                                        class="position-relative overflow-hidden rounded border flex-shrink-0"
+                                        style="width: 48px; height: 48px; cursor: pointer;"
+                                    >
+                                        <img src="{{ $produk->foto_url ?? asset('storage/' . $produk->foto) }}" alt="{{ $produk->nama }}" class="w-100 h-100 object-fit-cover" loading="lazy">
+                                    </div>
+                                @else
+                                    <div class="rounded bg-light border d-flex align-items-center justify-content-center text-secondary flex-shrink-0" style="width: 48px; height: 48px;">
+                                        <i class="bi bi-box-seam fs-6"></i>
+                                    </div>
+                                @endif
+                                <div class="flex-grow-1 min-w-0">
+                                    <div class="d-flex align-items-center justify-content-between gap-1 mb-1">
+                                        <div class="d-flex align-items-center gap-1 flex-wrap">
+                                            <span class="text-muted small">#{{ $stoks->firstItem() + $index }}</span>
+                                            <span class="badge bg-light text-dark border font-monospace fw-semibold">
+                                                {{ $produk->kode_katalog }}
+                                            </span>
+                                        </div>
+                                        <span class="badge {{ $status->badgeClass() }}">
+                                            {{ $status->label() }}
+                                        </span>
+                                    </div>
+                                    <a href="{{ route('master.produk.show', ['id' => $produkId, 'from' => 'stok']) }}" class="fw-bold text-dark text-decoration-none d-block">
+                                        {{ $produk->nama }}
+                                    </a>
+                                    @if ($produk->ukuran)
+                                        <small class="text-muted d-block">Ukuran: {{ $produk->ukuran }}</small>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Category, Brand & Warehouse Info -->
+                            <div class="d-flex align-items-center flex-wrap gap-1 mb-2">
+                                <span class="badge bg-light text-dark border">
+                                    {{ $produk->kategori->nama_kategori }}
+                                </span>
+                                @if ($produk->merek)
+                                    <span class="badge bg-secondary-subtle text-secondary border">
+                                        {{ $produk->merek->nama_merek }}
+                                    </span>
+                                @endif
+                                @if ($isConsolidated)
+                                    @php
+                                        $activeStoks = $produk->stok->filter(fn ($s) => (float) $s->jumlah != 0);
+                                    @endphp
+                                    @if ($activeStoks->isEmpty())
+                                        <span class="badge bg-secondary-subtle text-secondary border">Belum Ada Stok</span>
+                                    @elseif ($activeStoks->count() === 1)
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                            <i class="bi bi-building me-1"></i>{{ $activeStoks->first()->gudang->nama_gudang }}
+                                        </span>
+                                    @else
+                                        <button type="button" wire:click="openDetailModal({{ $produkId }})" class="badge bg-primary-subtle text-primary border border-primary-subtle text-decoration-none">
+                                            <i class="bi bi-buildings me-1"></i>{{ $activeStoks->count() }} Gudang (Detail)
+                                        </button>
+                                    @endif
+                                @else
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                        <i class="bi bi-building me-1"></i>{{ $item->gudang->nama_gudang }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            <!-- Stock & Valuation Summary Box -->
+                            <div class="bg-light rounded-2 p-2 mb-2 border d-flex justify-content-between align-items-center gap-2">
+                                <div>
+                                    <span class="text-muted d-block" style="font-size: 0.7rem;">Stok Fisik (Min: {{ number_format($min, 0, ',', '.') }})</span>
+                                    <span class="fw-bold font-monospace fs-6 {{ $isNegative ? 'text-danger' : 'text-dark' }}">
+                                        {{ number_format($qty, 2, ',', '.') }} {{ $produk->satuan->value }}
+                                    </span>
+                                    @if ($qty != 0 && !$isNegative)
+                                        @php $konversi = $produk->getKonversiFisik($qty); @endphp
+                                        @if ($konversi['has_conversion'] && filled($konversi['badge_text']))
+                                            <small class="d-block text-primary fw-semibold" style="font-size: 0.7rem;">
+                                                <i class="bi bi-box-seam me-1"></i>{{ $konversi['badge_text'] }}
+                                            </small>
+                                        @endif
+                                    @endif
+                                </div>
+                                @if ($canViewPurchasePrices)
+                                    <div class="text-end">
+                                        <span class="text-muted d-block" style="font-size: 0.7rem;">Estimasi Nilai</span>
+                                        <span class="fw-bold text-dark font-monospace">
+                                            Rp {{ number_format($qty * (float)$produk->harga_beli, 0, ',', '.') }}
+                                        </span>
+                                        <small class="text-muted d-block" style="font-size: 0.68rem;">@ Rp {{ number_format((float)$produk->harga_beli, 0, ',', '.') }}</small>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-1">
+                                <button type="button" wire:click="openDetailModal({{ $produkId }})" class="btn btn-sm btn-outline-secondary flex-fill">
+                                    <i class="bi bi-diagram-3 me-1"></i>Gudang
+                                </button>
+                                <a href="{{ route('stok.mutasi.index', $isConsolidated ? ['filterProduk' => $produkId, 'from' => 'stok'] : ['filterProduk' => $produkId, 'filterGudang' => $item->gudang_id, 'from' => 'stok']) }}" class="btn btn-sm btn-outline-primary flex-fill">
+                                    <i class="bi bi-clock-history me-1"></i>Mutasi
+                                </a>
+                                <a href="{{ route('master.produk.show', ['id' => $produkId, 'from' => 'stok']) }}" class="btn btn-sm btn-outline-info flex-fill">
+                                    <i class="bi bi-eye me-1"></i>Produk
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3">
+                            <div class="text-muted">
+                                <i class="bi bi-boxes display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">Tidak ada data stok yang sesuai dengan filter.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px & Print) -->
+            <div class="table-responsive d-none d-md-block d-print-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -590,50 +728,107 @@
     <!-- POIN B: Enhanced Multi-Warehouse Detail Modal with Direct Actions -->
     @if ($isDetailModalOpen && $selectedProduk)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content border-0 shadow">
-                    <div class="modal-header bg-light">
-                        <div>
+                    <div class="modal-header bg-light py-2 py-sm-3 px-3 px-sm-4">
+                        <div class="min-w-0 pe-2">
                             <h5 class="modal-title fw-bold mb-0">Rincian Stok Lintas Gudang</h5>
-                            <small class="text-muted font-monospace">{{ $selectedProduk->kode_katalog }} &mdash; {{ $selectedProduk->nama }}</small>
+                            <small class="text-muted font-monospace d-block text-truncate">{{ $selectedProduk->kode_katalog }} &mdash; {{ $selectedProduk->nama }}</small>
                         </div>
-                        <button type="button" wire:click="closeDetailModal" class="btn-close" aria-label="Close"></button>
+                        <button type="button" wire:click="closeDetailModal" class="btn-close flex-shrink-0" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body p-4">
-                        <div class="alert alert-light border d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                    <div class="modal-body p-3 p-sm-4">
+                        <div class="alert alert-light border d-flex justify-content-between align-items-center mb-3 py-2 px-3 flex-wrap gap-2">
                             <div>
                                 <span class="text-muted small d-block">Total Akumulasi Stok Seluruh Gudang:</span>
-                                <span class="fw-bold fs-4 {{ $totalCrossWarehouseStock < 0 ? 'text-danger' : 'text-primary' }}">
+                                <span class="fw-bold fs-5 {{ $totalCrossWarehouseStock < 0 ? 'text-danger' : 'text-primary' }}">
                                     {{ number_format($totalCrossWarehouseStock, 2, ',', '.') }} {{ $selectedProduk->satuan->value }}
                                 </span>
                             </div>
-                            <div class="text-end">
+                            <div class="text-sm-end">
                                 <span class="text-muted small d-block">Ambang Batas Minimum:</span>
-                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle fs-6">
+                                <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">
                                     {{ number_format((float)$selectedProduk->stok_minimum, 2, ',', '.') }} {{ $selectedProduk->satuan->value }}
                                 </span>
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered align-middle mb-0">
+                        <!-- Mobile Compact Card List (< 768px) -->
+                        <div class="d-md-none">
+                            <div class="list-group">
+                                @foreach ($warehouseBreakdown as $row)
+                                    <div class="list-group-item p-2 px-3">
+                                        <div class="d-flex justify-content-between align-items-center gap-2 mb-1">
+                                            <div class="fw-bold text-dark text-truncate">
+                                                <i class="bi bi-building me-1 text-secondary"></i>{{ $row['gudang'] }}
+                                            </div>
+                                            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                                                <span class="font-monospace fw-bold {{ $row['jumlah'] < 0 ? 'text-danger' : 'text-dark' }}">
+                                                    {{ number_format($row['jumlah'], 2, ',', '.') }} {{ $selectedProduk->satuan->value }}
+                                                </span>
+                                                <span class="badge {{ $row['status']->badgeClass() }}">
+                                                    {{ $row['status']->label() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center gap-2">
+                                            <small class="text-muted text-truncate d-block" style="max-width: 58%;" title="{{ $row['lokasi'] }}">
+                                                <i class="bi bi-geo-alt me-1"></i>{{ $row['lokasi'] ?: '-' }}
+                                            </small>
+                                            <div class="d-flex gap-1 flex-shrink-0">
+                                                @can('create', App\Domains\Inventory\Models\TransferGudang::class)
+                                                    @if ($row['jumlah'] > 0)
+                                                        <a
+                                                            href="{{ route('transfer.create', ['from_gudang_id' => $row['gudang_id'], 'produk_id' => $selectedProduk->id]) }}"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="btn btn-xs btn-outline-success py-0 px-2"
+                                                            style="font-size: 0.72rem;"
+                                                        >
+                                                            <i class="bi bi-arrow-right-circle me-1"></i>Transfer
+                                                        </a>
+                                                    @endif
+                                                @endcan
+                                                <a
+                                                    href="{{ route('stok.mutasi.index', ['filterProduk' => $selectedProduk->id, 'filterGudang' => $row['gudang_id'], 'from' => 'stok']) }}"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="btn btn-xs btn-outline-primary py-0 px-2"
+                                                    style="font-size: 0.72rem;"
+                                                >
+                                                    <i class="bi bi-clock-history me-1"></i>Mutasi
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Desktop & Tablet Table (>= 768px) -->
+                        <div class="table-responsive d-none d-md-block">
+                            <table class="table table-bordered table-sm align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Nama Gudang</th>
+                                        <th class="text-nowrap ps-3">Nama Gudang</th>
                                         <th>Lokasi</th>
-                                        <th class="text-end">Kuantitas Stok</th>
+                                        <th class="text-end text-nowrap">Kuantitas Stok</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-end" style="width: 220px;">Aksi Cepat</th>
+                                        <th class="text-end pe-3 text-nowrap" style="width: 190px;">Aksi Cepat</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($warehouseBreakdown as $row)
                                         <tr>
-                                            <td class="fw-semibold">
+                                            <td class="fw-semibold text-nowrap ps-3">
                                                 <i class="bi bi-building me-1 text-secondary"></i>{{ $row['gudang'] }}
                                             </td>
-                                            <td class="text-muted small">{{ $row['lokasi'] }}</td>
-                                            <td class="text-end font-monospace fw-bold {{ $row['jumlah'] < 0 ? 'text-danger' : 'text-dark' }}">
+                                            <td class="text-muted small">
+                                                <div class="text-truncate" style="max-width: 210px;" title="{{ $row['lokasi'] }}">
+                                                    {{ $row['lokasi'] ?: '-' }}
+                                                </div>
+                                            </td>
+                                            <td class="text-end font-monospace fw-bold text-nowrap {{ $row['jumlah'] < 0 ? 'text-danger' : 'text-dark' }}">
                                                 {{ number_format($row['jumlah'], 2, ',', '.') }} {{ $selectedProduk->satuan->value }}
                                             </td>
                                             <td class="text-center">
@@ -641,8 +836,8 @@
                                                     {{ $row['status']->label() }}
                                                 </span>
                                             </td>
-                                            <td class="text-end">
-                                                <div class="d-flex justify-content-end gap-1 flex-wrap">
+                                            <td class="text-end pe-3 text-nowrap">
+                                                <div class="d-flex justify-content-end gap-1">
                                                     @can('create', App\Domains\Inventory\Models\TransferGudang::class)
                                                         @if ($row['jumlah'] > 0)
                                                             <a
@@ -673,14 +868,14 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer bg-light d-flex justify-content-between flex-wrap gap-2">
-                        <div class="d-flex gap-2 flex-wrap">
+                    <div class="modal-footer bg-light py-2 px-3 px-sm-4 d-flex justify-content-between flex-wrap gap-2">
+                        <div class="d-flex gap-2 flex-wrap flex-fill flex-sm-grow-0">
                             @can('create', App\Domains\Inventory\Models\TransferGudang::class)
                                 <a
                                     href="{{ route('transfer.create', ['produk_id' => $selectedProduk->id]) }}"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="btn btn-primary"
+                                    class="btn btn-sm btn-primary flex-fill flex-sm-grow-0"
                                     title="Buat Transfer Antar Gudang untuk produk ini (Tab Baru)"
                                 >
                                     <i class="bi bi-arrow-repeat me-1"></i>Transfer Antar Gudang
@@ -690,13 +885,13 @@
                                 href="{{ route('master.produk.show', ['id' => $selectedProduk->id, 'from' => 'stok']) }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="btn btn-outline-info"
+                                class="btn btn-sm btn-outline-info flex-fill flex-sm-grow-0"
                                 title="Buka Master Produk di tab baru"
                             >
-                                <i class="bi bi-box-arrow-up-right me-1"></i>Detail Master Produk
+                                <i class="bi bi-box-arrow-up-right me-1"></i>Detail Produk
                             </a>
                         </div>
-                        <button type="button" wire:click="closeDetailModal" class="btn btn-secondary">Tutup</button>
+                        <button type="button" wire:click="closeDetailModal" class="btn btn-sm btn-secondary flex-fill flex-sm-grow-0">Tutup</button>
                     </div>
                 </div>
             </div>

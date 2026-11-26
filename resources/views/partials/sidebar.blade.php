@@ -1,7 +1,11 @@
 <aside id="sidebar" :class="{ 'show': sidebarOpen }">
     <a href="{{ route('dashboard') }}" class="sidebar-brand">
-        <i class="bi bi-box-seam-fill text-primary"></i>
-        <span>Natural Gypsum</span>
+        <img src="{{ asset('images/logo-natural-modern-icon.svg') }}" alt="Natural Gypsum & PVC" width="38" height="38" class="rounded-2 flex-shrink-0">
+        <div class="d-flex flex-column lh-1">
+            <span class="fw-bolder text-white" style="letter-spacing: 0.14em; font-size: 1.05rem;">NATURAL</span>
+            <span class="fw-bold mt-1" style="color: #C28550; letter-spacing: 0.18em; font-size: 0.64rem;">GYPSUM &amp; PVC</span>
+            <span class="visually-hidden">Natural Gypsum</span>
+        </div>
     </a>
 
     <div class="sidebar-nav">

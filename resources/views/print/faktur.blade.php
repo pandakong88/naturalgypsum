@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Faktur Penjualan - {{ $penjualan->no_penjualan }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <style>
         * {
             box-sizing: border-box;
@@ -124,10 +126,13 @@
             flex: 1;
         }
         .company-logo {
+            height: 54px;
             max-height: 58px;
             max-width: 130px;
+            width: auto;
             object-fit: contain;
             border-radius: 3px;
+            flex-shrink: 0;
         }
         .company-info h1 {
             font-size: 19px;
@@ -446,6 +451,124 @@
             color: #0f172a;
         }
 
+        /* Mobile Screen Responsiveness (Does not affect Print / PDF) */
+        @media screen and (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+            .page-container {
+                padding: 16px 14px;
+                border-radius: 8px;
+            }
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .btn-group {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .btn-group .btn {
+                flex: 1 1 auto;
+                justify-content: center;
+                text-align: center;
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .paper-switcher {
+                display: none;
+            }
+            .invoice-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .invoice-title-block {
+                text-align: left;
+                width: 100%;
+                border-top: 1px dashed #cbd5e1;
+                padding-top: 10px;
+            }
+            .meta-table {
+                margin-left: 0;
+                width: 100%;
+            }
+            .meta-table td {
+                padding: 2px 4px 2px 0;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .items-table,
+            .items-table tbody,
+            .items-table tr,
+            .items-table td {
+                display: block;
+                width: 100% !important;
+            }
+            .items-table thead {
+                display: none;
+            }
+            .items-table tbody tr {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                padding: 8px 10px;
+                background: #ffffff !important;
+            }
+            .items-table tbody td {
+                border: none;
+                border-bottom: 1px dashed #f1f5f9;
+                padding: 4px 0;
+                text-align: right;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+            }
+            .items-table tbody td:first-child {
+                display: none;
+            }
+            .items-table tbody td.item-desc-cell {
+                display: block;
+                text-align: left;
+                border-bottom: 1px solid #e2e8f0;
+                padding-bottom: 6px;
+                margin-bottom: 4px;
+            }
+            .items-table tbody td:last-child {
+                border-bottom: none;
+                padding-top: 6px;
+            }
+            .items-table tbody td[data-label]::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #64748b;
+                font-size: 10.5px;
+                text-align: left;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            .summary-wrapper {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .totals-card {
+                order: -1;
+            }
+            .signatures {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                margin-top: 16px;
+            }
+            .sig-box {
+                min-height: 65px;
+                border: 1px dashed #e2e8f0;
+                border-radius: 5px;
+                padding: 8px;
+            }
+        }
+
         /* Print Settings */
         @media print {
             body {
@@ -519,11 +642,18 @@
         <!-- Header -->
         <div class="invoice-header">
             <div class="company-brand">
-                @if ($toko->logo_path)
-                    <img src="{{ asset('storage/' . $toko->logo_path) }}" alt="{{ $toko->nama_toko }}" class="company-logo">
-                @endif
+                <img src="{{ $toko->getLogoUrl() }}" alt="{{ $toko->nama_toko }}" class="company-logo">
                 <div class="company-info">
-                    <h1>{!! $toko->nama_toko !!}</h1>
+                    @if (strtoupper(trim($toko->nama_toko)) === 'NATURAL GYPSUM & PVC')
+                        <div style="display: inline-block; line-height: 1; margin-bottom: 5px;">
+                            <span style="display: none;">{!! $toko->nama_toko !!}</span>
+                            <div style="font-size: 23px; font-weight: 900; color: #18181B; letter-spacing: 3.5px;">NATURAL</div>
+                            <div style="height: 2px; background-color: #18181B; margin: 3px 0 4px 0;"></div>
+                            <div style="font-size: 10.5px; font-weight: 800; color: #B87D4B; letter-spacing: 4.8px;">GYPSUM &amp; PVC</div>
+                        </div>
+                    @else
+                        <h1>{!! $toko->nama_toko !!}</h1>
+                    @endif
                     @if ($toko->slogan)
                         <div class="subtitle">{{ $toko->slogan }}</div>
                     @endif
@@ -657,7 +787,7 @@
                     @endphp
                     <tr>
                         <td class="text-center font-mono" style="color: #64748b;">{{ $index + 1 }}</td>
-                        <td>
+                        <td class="item-desc-cell">
                             <div style="font-weight: 700; color: #0f172a; font-size: 11.5px;">
                                 {{ $detail->produk->nama ?? '-' }}
                             </div>
@@ -681,19 +811,19 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="text-center" style="font-size: 10.5px; color: #475569;">
+                        <td class="text-center" data-label="Gudang" style="font-size: 10.5px; color: #475569;">
                             {{ $detail->gudang->nama_gudang ?? '-' }}
                         </td>
-                        <td class="text-center font-mono" style="font-weight: 700; font-size: 12px; color: #0f172a;">
+                        <td class="text-center font-mono" data-label="Qty" style="font-weight: 700; font-size: 12px; color: #0f172a;">
                             {{ number_format($qty, 0, ',', '.') }}
                         </td>
-                        <td class="text-center" style="font-size: 10.5px; color: #475569;">
+                        <td class="text-center" data-label="Satuan" style="font-size: 10.5px; color: #475569;">
                             {{ $detail->produk->satuan->label() ?? '' }}
                         </td>
-                        <td class="text-end font-mono">
+                        <td class="text-end font-mono" data-label="Harga Satuan (Rp)">
                             {{ number_format((float) $detail->harga_satuan, 0, ',', '.') }}
                         </td>
-                        <td class="text-end font-mono" style="font-size: 10.5px; color: #64748b;">
+                        <td class="text-end font-mono" data-label="Diskon" style="font-size: 10.5px; color: #64748b;">
                             @if ((float) $detail->nilai_diskon > 0)
                                 @if ($detail->jenis_diskon?->value === 'persentase')
                                     {{ number_format((float) $detail->nilai_diskon, 1, ',', '.') }}%
@@ -704,7 +834,7 @@
                                 -
                             @endif
                         </td>
-                        <td class="text-end font-mono" style="font-weight: 700; color: #0f172a;">
+                        <td class="text-end font-mono" data-label="Subtotal (Rp)" style="font-weight: 700; color: #0f172a;">
                             {{ number_format((float) $detail->subtotal, 0, ',', '.') }}
                         </td>
                     </tr>

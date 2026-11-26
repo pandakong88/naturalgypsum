@@ -1,17 +1,17 @@
 <div>
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2">
         <div>
             <h4 class="fw-bold mb-1">
                 Aturan Diskon & Promosi
                 @if ($showTrashed)
-                    <span class="badge bg-danger ms-2"><i class="bi bi-trash3 me-1"></i>Data Terhapus</span>
+                    <span class="badge bg-danger ms-1 ms-sm-2"><i class="bi bi-trash3 me-1"></i>Data Terhapus</span>
                 @endif
             </h4>
             <p class="text-muted small mb-0">Kelola skema potongan harga otomatis berdasarkan kategori, merek, kuantiti, atau jenis pelanggan.</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <button wire:click="toggleShowTrashed" class="btn {{ $showTrashed ? 'btn-outline-danger' : 'btn-outline-secondary' }}" title="{{ $showTrashed ? 'Kembali ke Data Aktif' : 'Lihat Aturan Terhapus' }}">
+        <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
+            <button wire:click="toggleShowTrashed" class="btn {{ $showTrashed ? 'btn-outline-danger' : 'btn-outline-secondary' }} flex-fill flex-md-grow-0" title="{{ $showTrashed ? 'Kembali ke Data Aktif' : 'Lihat Aturan Terhapus' }}">
                 <i class="bi {{ $showTrashed ? 'bi-arrow-left me-1' : 'bi-trash3 me-1' }}"></i>
                 {{ $showTrashed ? 'Kembali ke Aturan Aktif' : 'Data Terhapus' }}
                 @if ($trashedCount > 0 && ! $showTrashed)
@@ -19,7 +19,7 @@
                 @endif
             </button>
             @if (! $showTrashed)
-                <button wire:click="openCreateModal" class="btn btn-primary">
+                <button wire:click="openCreateModal" class="btn btn-primary flex-fill flex-md-grow-0">
                     <i class="bi bi-plus-lg me-1"></i>Tambah Aturan Diskon
                 </button>
             @endif
@@ -28,7 +28,7 @@
 
     <!-- Flash Messages -->
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-3 mb-md-4" role="alert">
             <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -36,15 +36,15 @@
 
     <!-- Trashed Notice Banner -->
     @if ($showTrashed)
-        <div class="alert alert-warning border-0 shadow-sm mb-4 d-flex align-items-center justify-content-between">
+        <div class="alert alert-warning border-0 shadow-sm mb-3 mb-md-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div class="d-flex align-items-center">
-                <i class="bi bi-exclamation-triangle-fill fs-4 me-3 text-warning"></i>
+                <i class="bi bi-exclamation-triangle-fill fs-4 me-3 text-warning flex-shrink-0"></i>
                 <div>
                     <strong>Mode Data Terhapus (Tempat Sampah)</strong>
                     <div class="small text-muted">Menampilkan aturan diskon yang sebelumnya dihapus. Anda dapat memulihkan (*Restore*) atau menghapus permanen data ini.</div>
                 </div>
             </div>
-            <button wire:click="toggleShowTrashed" class="btn btn-sm btn-outline-dark">
+            <button wire:click="toggleShowTrashed" class="btn btn-sm btn-outline-dark ms-auto">
                 <i class="bi bi-arrow-left me-1"></i>Kembali
             </button>
         </div>
@@ -52,55 +52,55 @@
 
     @if (! $showTrashed)
         <!-- Summary KPI Cards -->
-        <div class="row g-3 mb-4">
+        <div class="row g-2 g-md-3 mb-3 mb-md-4">
             <div class="col-6 col-lg-3">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-3 d-flex align-items-center">
-                        <div class="bg-primary-subtle text-primary rounded p-3 me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                            <i class="bi bi-tags fs-4"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Total Aturan</div>
+                    <div class="card-body p-2 p-sm-3 d-flex align-items-center justify-content-between gap-2">
+                        <div class="min-w-0">
+                            <div class="text-muted small text-truncate">Total Aturan</div>
                             <h4 class="fw-bold mb-0 text-dark">{{ number_format($totalCount) }}</h4>
                         </div>
+                        <div class="bg-primary-subtle text-primary rounded p-2 d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                            <i class="bi bi-tags fs-5"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-3 d-flex align-items-center">
-                        <div class="bg-success-subtle text-success rounded p-3 me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                            <i class="bi bi-lightning-charge fs-4"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Sedang Berjalan</div>
+                    <div class="card-body p-2 p-sm-3 d-flex align-items-center justify-content-between gap-2">
+                        <div class="min-w-0">
+                            <div class="text-muted small text-truncate">Sedang Berjalan</div>
                             <h4 class="fw-bold mb-0 text-success">{{ number_format($activeCount) }}</h4>
                         </div>
+                        <div class="bg-success-subtle text-success rounded p-2 d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                            <i class="bi bi-lightning-charge fs-5"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-3 d-flex align-items-center">
-                        <div class="bg-info-subtle text-info rounded p-3 me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                            <i class="bi bi-calendar-event fs-4"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Akan Datang</div>
+                    <div class="card-body p-2 p-sm-3 d-flex align-items-center justify-content-between gap-2">
+                        <div class="min-w-0">
+                            <div class="text-muted small text-truncate">Akan Datang</div>
                             <h4 class="fw-bold mb-0 text-info">{{ number_format($upcomingCount) }}</h4>
                         </div>
+                        <div class="bg-info-subtle text-info rounded p-2 d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                            <i class="bi bi-calendar-event fs-5"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-lg-3">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-3 d-flex align-items-center">
-                        <div class="bg-secondary-subtle text-secondary rounded p-3 me-3 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                            <i class="bi bi-pause-circle fs-4"></i>
-                        </div>
-                        <div>
-                            <div class="text-muted small">Kedaluwarsa / Off</div>
+                    <div class="card-body p-2 p-sm-3 d-flex align-items-center justify-content-between gap-2">
+                        <div class="min-w-0">
+                            <div class="text-muted small text-truncate">Kedaluwarsa / Off</div>
                             <h4 class="fw-bold mb-0 text-secondary">{{ number_format($expiredOrInactiveCount) }}</h4>
+                        </div>
+                        <div class="bg-secondary-subtle text-secondary rounded p-2 d-none d-sm-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                            <i class="bi bi-pause-circle fs-5"></i>
                         </div>
                     </div>
                 </div>
@@ -109,10 +109,10 @@
     @endif
 
     <!-- Filters & Search -->
-    <div class="card mb-4 border-0 shadow-sm">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
+    <div class="card mb-3 mb-md-4 border-0 shadow-sm">
+        <div class="card-body p-3">
+            <div class="row g-2 g-md-3">
+                <div class="col-12 col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
                     <div class="input-group">
                         <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
                         <input
@@ -123,7 +123,7 @@
                         >
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
+                <div class="col-6 col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
                     <select wire:model.live="filterTargetPelanggan" class="form-select">
                         <option value="">Semua Target Pelanggan</option>
                         <option value="semua">Semua Tipe Pelanggan</option>
@@ -133,7 +133,7 @@
                         <option value="spesifik">Pelanggan Spesifik</option>
                     </select>
                 </div>
-                <div class="col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
+                <div class="col-6 col-md-4 col-lg-{{ $showTrashed ? '4' : '3' }}">
                     <select wire:model.live="filterTargetProduk" class="form-select">
                         <option value="">Semua Target Produk</option>
                         <option value="semua">Semua Produk Katalog</option>
@@ -143,7 +143,7 @@
                     </select>
                 </div>
                 @if (! $showTrashed)
-                    <div class="col-md-12 col-lg-3">
+                    <div class="col-12 col-md-12 col-lg-3">
                         <select wire:model.live="filterStatus" class="form-select">
                             <option value="">Semua Status</option>
                             <option value="active">Sedang Aktif Berjalan</option>
@@ -156,10 +156,210 @@
         </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Data Table (Desktop & Tablet) & Card List (Mobile) -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                <div class="list-group list-group-flush">
+                    @forelse ($aturans as $index => $aturan)
+                        @php
+                            $today = \Carbon\Carbon::today();
+                            $isExpired = $aturan->tanggal_selesai && $today->gt($aturan->tanggal_selesai);
+                            $isNotStarted = $aturan->tanggal_mulai && $today->lt($aturan->tanggal_mulai);
+                        @endphp
+                        <div class="list-group-item p-3">
+                            <!-- Top Row: Number, Status/Priority & Discount Value -->
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <div class="d-flex align-items-center flex-wrap gap-1">
+                                    <span class="text-muted small">#{{ $aturans->firstItem() + $index }}</span>
+                                    @if (! $showTrashed)
+                                        @if (! $aturan->is_active)
+                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                                <i class="bi bi-pause-circle me-1"></i>Nonaktif
+                                            </span>
+                                        @elseif ($isExpired)
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                                                <i class="bi bi-x-circle me-1"></i>Kedaluwarsa
+                                            </span>
+                                        @elseif ($isNotStarted)
+                                            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">
+                                                <i class="bi bi-clock me-1"></i>Akan Datang
+                                            </span>
+                                        @else
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                                <i class="bi bi-check-circle-fill me-1"></i>Aktif Berjalan
+                                            </span>
+                                        @endif
+                                    @else
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                                            <i class="bi bi-trash3 me-1"></i>{{ $aturan->deleted_at->format('d/m/Y H:i') }}
+                                        </span>
+                                    @endif
+
+                                    @if ($aturan->priority > 0)
+                                        <span class="badge bg-light text-primary border">
+                                            <i class="bi bi-arrow-up-circle me-1"></i>Prioritas: {{ $aturan->priority }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="text-end flex-shrink-0">
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle font-monospace fs-6">
+                                        @if ($aturan->jenis_diskon === 'persentase')
+                                            -{{ rtrim(rtrim(number_format($aturan->nilai_diskon, 2), '0'), '.') }}%
+                                        @else
+                                            -Rp {{ number_format($aturan->nilai_diskon, 0, ',', '.') }}
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Rule Name & Notes -->
+                            <div class="mb-2">
+                                <div class="fw-bold text-dark">{{ $aturan->nama }}</div>
+                                @if ($aturan->keterangan)
+                                    <small class="text-muted d-block">{{ $aturan->keterangan }}</small>
+                                @endif
+                            </div>
+
+                            <!-- Targets & Conditions Box -->
+                            <div class="bg-light rounded-2 p-2 mb-2 border small">
+                                <div class="d-flex flex-wrap gap-1 mb-1">
+                                    <!-- Target Pelanggan Badge -->
+                                    @if ($aturan->target_pelanggan === 'umum')
+                                        <span class="badge bg-secondary-subtle text-secondary border">
+                                            <i class="bi bi-person me-1"></i>Umum
+                                        </span>
+                                    @elseif ($aturan->target_pelanggan === 'pemborong')
+                                        <span class="badge bg-info-subtle text-info border">
+                                            <i class="bi bi-tools me-1"></i>Aplikator
+                                        </span>
+                                    @elseif ($aturan->target_pelanggan === 'langganan')
+                                        <span class="badge bg-primary-subtle text-primary border">
+                                            <i class="bi bi-shop me-1"></i>Toko
+                                        </span>
+                                    @elseif ($aturan->target_pelanggan === 'spesifik')
+                                        <span class="badge bg-white text-dark border">
+                                            <i class="bi bi-person-check me-1"></i>{{ $aturan->pelanggan?->nama ?? 'Pelanggan Terpilih' }}
+                                        </span>
+                                    @else
+                                        <span class="badge bg-white text-muted border">
+                                            Semua Tipe Pelanggan
+                                        </span>
+                                    @endif
+
+                                    <!-- Target Produk Badge -->
+                                    @if ($aturan->target_produk === 'kategori')
+                                        @php
+                                            $katCount = $aturan->kategoris->count();
+                                            $katList = $katCount > 0 ? $aturan->kategoris->pluck('nama_kategori')->join(', ') : ($aturan->kategori?->nama_kategori ?? '-');
+                                        @endphp
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle" title="{{ $katList }}">
+                                            <i class="bi bi-folder2-open me-1"></i>{{ $katCount > 1 ? $katCount . ' Kategori' : $katList }}
+                                        </span>
+                                    @elseif ($aturan->target_produk === 'merek')
+                                        @php
+                                            $mrkCount = $aturan->mereks->count();
+                                            $mrkList = $mrkCount > 0 ? $aturan->mereks->pluck('nama_merek')->join(', ') : ($aturan->merek?->nama_merek ?? '-');
+                                        @endphp
+                                        <span class="badge bg-secondary-subtle text-dark border" title="{{ $mrkList }}">
+                                            <i class="bi bi-tag me-1"></i>{{ $mrkCount > 1 ? $mrkCount . ' Merek' : $mrkList }}
+                                        </span>
+                                    @elseif ($aturan->target_produk === 'spesifik')
+                                        @php
+                                            $prodCount = $aturan->produks->count();
+                                            $prodList = $prodCount > 0 ? $aturan->produks->pluck('nama')->join(', ') : ($aturan->produk?->nama ?? '-');
+                                        @endphp
+                                        <span class="badge bg-white text-dark border" title="{{ $prodList }}">
+                                            <i class="bi bi-box me-1"></i>
+                                            @if ($prodCount > 1)
+                                                {{ $prodCount }} Produk Spesifik
+                                            @else
+                                                SKU: {{ $aturan->produk?->kode_katalog ?? ($aturan->produks->first()?->kode_katalog ?? '-') }}
+                                            @endif
+                                        </span>
+                                    @else
+                                        <span class="badge bg-white text-secondary border">Semua Produk</span>
+                                    @endif
+                                </div>
+
+                                @if (! $showTrashed)
+                                    <div class="d-flex justify-content-between align-items-center text-muted pt-1 border-top mt-1" style="font-size: 0.75rem;">
+                                        <span>
+                                            <strong>Min. Beli:</strong>
+                                            @if ($aturan->min_kuantiti > 0)
+                                                &ge; {{ rtrim(rtrim(number_format($aturan->min_kuantiti, 2), '0'), '.') }}
+                                            @else
+                                                Tanpa Min
+                                            @endif
+                                        </span>
+                                        <span>
+                                            <i class="bi bi-calendar3 me-1"></i>
+                                            @if ($isExpired)
+                                                Selesai {{ $aturan->tanggal_selesai->format('d M Y') }}
+                                            @elseif ($isNotStarted)
+                                                Mulai {{ $aturan->tanggal_mulai->format('d M Y') }}
+                                            @elseif ($aturan->tanggal_selesai)
+                                                Sampai {{ $aturan->tanggal_selesai->format('d M Y') }}
+                                            @else
+                                                Permanen
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Bottom Action Row -->
+                            @if (! $showTrashed)
+                                <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                                    <div class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            wire:click="confirmToggleActive({{ $aturan->id }})"
+                                            {{ $aturan->is_active ? 'checked' : '' }}
+                                        >
+                                        <label class="form-check-label small {{ $aturan->is_active ? 'text-success fw-semibold' : 'text-muted' }}">
+                                            {{ $aturan->is_active ? 'Switch ON' : 'Switch OFF' }}
+                                        </label>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <button wire:click="openEditModal({{ $aturan->id }})" class="btn btn-sm btn-outline-primary px-3" title="Edit Aturan Diskon">
+                                            <i class="bi bi-pencil me-1"></i>Edit
+                                        </button>
+                                        <button wire:click="confirmDelete({{ $aturan->id }})" class="btn btn-sm btn-outline-danger" title="Hapus ke Tempat Sampah">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="d-flex gap-2 pt-1">
+                                    <button wire:click="confirmRestore({{ $aturan->id }})" class="btn btn-sm btn-outline-success flex-fill">
+                                        <i class="bi bi-arrow-counterclockwise me-1"></i>Pulihkan
+                                    </button>
+                                    <button wire:click="confirmForceDelete({{ $aturan->id }})" class="btn btn-sm btn-outline-danger flex-fill">
+                                        <i class="bi bi-trash3 me-1"></i>Hapus Permanen
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3">
+                            <div class="text-muted">
+                                <i class="bi {{ $showTrashed ? 'bi-trash3' : 'bi-tags' }} display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">
+                                    {{ $showTrashed ? 'Tempat sampah kosong. Tidak ada aturan diskon yang terhapus.' : 'Belum ada aturan diskon yang sesuai filter.' }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -389,24 +589,24 @@
     <!-- Create / Edit Modal -->
     @if ($isFormOpen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); z-index: 1060;" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable my-3 my-md-4">
+            <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-scrollable my-0 my-sm-3 my-md-4">
                 <form wire:submit="save" class="modal-content border-0 shadow-lg rounded-3">
-                    <div class="modal-header bg-light border-bottom py-3 px-4">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="bg-primary-subtle text-primary rounded p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <div class="modal-header bg-light border-bottom py-2 py-sm-3 px-3 px-sm-4 flex-shrink-0">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <div class="bg-primary-subtle text-primary rounded p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 38px; height: 38px;">
                                 <i class="bi bi-percent fs-5"></i>
                             </div>
-                            <div>
-                                <h5 class="modal-title fw-bold text-dark mb-0">
+                            <div class="min-w-0">
+                                <h5 class="modal-title fw-bold text-dark mb-0 text-truncate">
                                     {{ $aturanId ? 'Edit Aturan Diskon' : 'Tambah Aturan Diskon Baru' }}
                                 </h5>
-                                <small class="text-muted">Tentukan target pelanggan, cakupan produk, dan besaran potongan harga.</small>
+                                <small class="text-muted d-none d-sm-inline">Tentukan target pelanggan, cakupan produk, dan besaran potongan harga.</small>
                             </div>
                         </div>
                         <button type="button" wire:click="closeFormModal" class="btn-close" aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body p-4 bg-light-subtle">
+                    <div class="modal-body p-3 p-sm-4 bg-light-subtle">
                         <div class="row g-3">
                             <!-- Nama Aturan -->
                             <div class="col-12">
@@ -755,7 +955,7 @@
                             @endif
 
                             <!-- Jenis & Nilai Diskon -->
-                            <div class="col-sm-4">
+                            <div class="col-6 col-sm-4">
                                 <label for="jenis_diskon" class="form-label fw-semibold small mb-1">Jenis Diskon <span class="text-danger">*</span></label>
                                 <select id="jenis_diskon" wire:model.live="jenis_diskon" class="form-select form-select-sm" required>
                                     <option value="persentase">Persentase (%)</option>
@@ -763,7 +963,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-6 col-sm-4">
                                 <label for="nilai_diskon" class="form-label fw-semibold small mb-1">
                                     Nilai Diskon <span class="text-danger">*</span>
                                 </label>
@@ -797,7 +997,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-12 col-sm-4">
                                 <label for="min_kuantiti" class="form-label fw-semibold small mb-1">
                                     Minimal Pembelian (Qty)
                                 </label>
@@ -814,7 +1014,7 @@
                             </div>
 
                             <!-- Periode Berlaku & Prioritas -->
-                            <div class="col-sm-4">
+                            <div class="col-6 col-sm-4">
                                 <label for="tanggal_mulai" class="form-label fw-semibold small mb-1">Tanggal Mulai (Opsional)</label>
                                 <input
                                     type="date"
@@ -825,7 +1025,7 @@
                                 <small class="text-muted" style="font-size: 0.72rem;">Kosongkan jika langsung aktif.</small>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-6 col-sm-4">
                                 <label for="tanggal_selesai" class="form-label fw-semibold small mb-1">Tanggal Berakhir (Opsional)</label>
                                 <input
                                     type="date"
@@ -839,7 +1039,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-12 col-sm-4">
                                 <label for="priority" class="form-label fw-semibold small mb-1">
                                     Tingkat Prioritas <span class="text-danger">*</span>
                                 </label>
@@ -889,9 +1089,9 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light border-top py-2 px-4 d-flex justify-content-between">
-                        <button type="button" wire:click="closeFormModal" class="btn btn-outline-secondary">Batal</button>
-                        <button type="submit" class="btn btn-primary px-4 fw-semibold shadow-sm" wire:loading.attr="disabled">
+                    <div class="modal-footer bg-light border-top py-2 px-3 px-sm-4 flex-shrink-0 d-flex justify-content-between gap-2">
+                        <button type="button" wire:click="closeFormModal" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">Batal</button>
+                        <button type="submit" class="btn btn-primary px-3 px-sm-4 fw-semibold shadow-sm flex-fill flex-sm-grow-0" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="save">
                                 <i class="bi bi-check-lg me-1"></i>Simpan Aturan Diskon
                             </span>

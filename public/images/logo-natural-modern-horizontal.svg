@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" width="100%" height="100%">
+  <!-- Flat Alabaster Background -->
+  <rect width="920" height="240" rx="14" fill="#FAF8F5"/>
+
+  <!-- Left Architectural 'N' Monogram -->
+  <g transform="translate(32, 28)">
+    <!-- Left Pillar + Diagonal Gypsum Plane (Matte Charcoal #18181B) -->
+    <path d="M 12 8 L 68 8 L 126 94 L 126 176 L 68 90 L 68 176 L 12 176 Z" fill="#18181B"/>
+
+    <!-- Right Pillar: 3 Full-Height Vertical Fluted PVC / WPC Wood Slats (Warm Bronze #B87D4B) -->
+    <rect x="126" y="8" width="15" height="168" fill="#B87D4B"/>
+    <rect x="132.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+    <rect x="149" y="8" width="15" height="168" fill="#B87D4B"/>
+    <rect x="155.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+    <rect x="172" y="8" width="15" height="168" fill="#B87D4B"/>
+    <rect x="178.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+  </g>
+
+  <!-- Right Modern Geometric Wordmark -->
+  <g transform="translate(260, 0)">
+    <text x="0" y="122"
+          font-family="'Montserrat', 'Plus Jakarta Sans', 'Arial Black', 'Segoe UI', sans-serif"
+          font-size="98"
+          font-weight="900"
+          fill="#18181B"
+          letter-spacing="7">
+      NATURAL
+    </text>
+
+    <!-- Crisp Horizontal Hairline Divider -->
+    <line x1="4" y1="145" x2="612" y2="145" stroke="#18181B" stroke-width="3.5"/>
+
+    <!-- Sub-Brand: GYPSUM & PVC -->
+    <text x="4" y="196"
+          font-family="'Montserrat', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif"
+          font-size="42"
+          font-weight="700"
+          fill="#B87D4B"
+          letter-spacing="14">
+      GYPSUM &amp; PVC
+    </text>
+  </g>
+</svg>

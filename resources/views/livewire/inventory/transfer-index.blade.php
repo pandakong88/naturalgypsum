@@ -42,17 +42,17 @@
     </div>
 
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 no-print">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2 no-print">
         <div>
             <h4 class="fw-bold mb-0">Transfer Antar Gudang</h4>
             <p class="text-muted small mb-0">Kelola dan pantau riwayat mutasi perpindahan stok antar lokasi gudang</p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <button type="button" onclick="window.print()" class="btn btn-outline-secondary">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <button type="button" onclick="window.print()" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-printer me-1"></i> Cetak
             </button>
 
-            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white">
+            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white flex-fill flex-md-grow-0">
                 <span wire:loading.remove wire:target="exportExcel"><i class="bi bi-file-earmark-excel me-1"></i> Ekspor Excel</span>
                 <span wire:loading wire:target="exportExcel">
                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
@@ -61,7 +61,7 @@
             </button>
 
             @can('create', \App\Domains\Inventory\Models\TransferGudang::class)
-                <a href="{{ route('transfer.create') }}" class="btn btn-primary">
+                <a href="{{ route('transfer.create') }}" class="btn btn-primary flex-fill flex-md-grow-0">
                     <i class="bi bi-plus-lg me-1"></i> Transfer Baru
                 </a>
             @endcan
@@ -83,67 +83,67 @@
     @endif
 
     <!-- Transfer KPI Metric Cards -->
-    <div class="row g-3 mb-4 no-print">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4 no-print">
         <!-- Total Transaksi Transfer -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Dokumen Transfer</span>
-                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Total Dokumen</span>
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2 d-none d-sm-flex">
                             <i class="bi bi-arrow-left-right fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalTransfers'], 0, ',', '.') }}</h3>
-                    <small class="text-muted">Surat transfer tercatat</small>
+                    <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalTransfers'], 0, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Surat transfer tercatat</small>
                 </div>
             </div>
         </div>
 
         <!-- Total Item/SKU Dipindahkan -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Variasi SKU</span>
-                        <div class="p-2 bg-info bg-opacity-10 text-info rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Total Variasi SKU</span>
+                        <div class="p-2 bg-info bg-opacity-10 text-info rounded-2 d-none d-sm-flex">
                             <i class="bi bi-boxes fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-info">{{ number_format($metrics['totalItems'], 0, ',', '.') }}</h3>
-                    <small class="text-muted">Item unik produk dipindahkan</small>
+                    <h4 class="fw-bold mb-0 text-info">{{ number_format($metrics['totalItems'], 0, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Item unik dipindahkan</small>
                 </div>
             </div>
         </div>
 
         <!-- Total Volume Kuantitas Fisik -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Kuantitas Fisik</span>
-                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Total Kuantitas</span>
+                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2 d-none d-sm-flex">
                             <i class="bi bi-cart-check fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-success">{{ number_format($metrics['totalQuantity'], 2, ',', '.') }}</h3>
-                    <small class="text-muted">Unit barang berpindah lokasi</small>
+                    <h4 class="fw-bold mb-0 text-success">{{ number_format($metrics['totalQuantity'], 2, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Unit berpindah lokasi</small>
                 </div>
             </div>
         </div>
 
         <!-- Rute Teraktif -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Rute Transfer Terpopuler</span>
-                        <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Rute Terpopuler</span>
+                        <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-2 d-none d-sm-flex">
                             <i class="bi bi-geo-alt fs-5"></i>
                         </div>
                     </div>
                     <h6 class="fw-bold mb-0 text-truncate text-dark" title="{{ $metrics['mostActiveRoute'] }}">{{ $metrics['mostActiveRoute'] }}</h6>
-                    <small class="text-muted">Asal → Tujuan terbanyak</small>
+                    <small class="text-muted d-block text-truncate">Asal → Tujuan terbanyak</small>
                 </div>
             </div>
         </div>
@@ -194,7 +194,7 @@
 
             <!-- Second Row: Multi-Criteria Filter Dropdowns -->
             <div class="row g-2">
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <label class="form-label small text-muted mb-1">Gudang Asal</label>
                     <select wire:model.live="gudangAsalFilter" class="form-select form-select-sm">
                         <option value="">Semua Gudang Asal</option>
@@ -203,7 +203,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <label class="form-label small text-muted mb-1">Gudang Tujuan</label>
                     <select wire:model.live="gudangTujuanFilter" class="form-select form-select-sm">
                         <option value="">Semua Gudang Tujuan</option>
@@ -212,11 +212,11 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <label class="form-label small text-muted mb-1">Dari Tanggal</label>
                     <input type="date" wire:model.live="startDate" class="form-control form-control-sm">
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <label class="form-label small text-muted mb-1">Sampai Tanggal</label>
                     <input type="date" wire:model.live="endDate" class="form-control form-control-sm">
                 </div>
@@ -269,10 +269,74 @@
         </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Data Table (Desktop & Tablet) & Card List (Mobile) -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none no-print">
+                <div class="list-group list-group-flush">
+                    @forelse ($transfers as $t)
+                        <div class="list-group-item p-3">
+                            <!-- Top Row: No. Transfer, Date & Item Count -->
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <div>
+                                    <a href="{{ route('transfer.show', $t->id) }}" class="fw-bold text-primary text-decoration-none font-monospace d-block">
+                                        {{ $t->no_transfer }}
+                                    </a>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3 me-1"></i>{{ $t->tanggal ? $t->tanggal->format('d/m/Y') : '-' }}
+                                        &bull; {{ $t->created_at ? $t->created_at->format('H:i') : '' }} WIB
+                                    </small>
+                                </div>
+                                <div class="text-end flex-shrink-0">
+                                    <span class="badge bg-light text-dark border">
+                                        {{ $t->details->count() }} Item
+                                    </span>
+                                    <small class="d-block text-muted" style="font-size: 0.7rem;">
+                                        {{ number_format((float) $t->details->sum('jumlah'), 2, ',', '.') }} unit
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Route Box -->
+                            <div class="bg-light rounded-2 p-2 mb-2 border d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                                <span class="badge bg-secondary-subtle text-secondary border">
+                                    <i class="bi bi-box-arrow-right me-1"></i>{{ $t->gudangAsal->nama_gudang ?? '-' }}
+                                </span>
+                                <i class="bi bi-arrow-right text-primary"></i>
+                                <span class="badge bg-primary-subtle text-primary border">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>{{ $t->gudangTujuan->nama_gudang ?? '-' }}
+                                </span>
+                            </div>
+
+                            <!-- Footer: Creator & Action Buttons -->
+                            <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                                <small class="text-muted" style="font-size: 0.72rem;">
+                                    <i class="bi bi-person me-1"></i>{{ $t->user->name ?? ($t->creator->name ?? 'Sistem') }}
+                                </small>
+                                <div class="d-flex gap-1">
+                                    <button type="button" wire:click="openQuickModal({{ $t->id }})" class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-list-ul me-1"></i>Pratinjau
+                                    </button>
+                                    <a href="{{ route('transfer.show', $t->id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye me-1"></i>Detail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3">
+                            <div class="text-muted">
+                                <i class="bi bi-arrow-left-right display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">Tidak ada data transfer stok yang sesuai kriteria filter.</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px & Print) -->
+            <div class="table-responsive d-none d-md-block d-print-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -352,7 +416,7 @@
     <!-- Quick Preview Modal -->
     @if ($isQuickModalOpen && $selectedTransfer)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-fullscreen-sm-down modal-dialog-scrollable">
                 <div class="modal-content border-0 shadow">
                     <div class="modal-header bg-light">
                         <div>

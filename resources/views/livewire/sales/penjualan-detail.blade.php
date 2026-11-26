@@ -30,9 +30,9 @@
     @endif
 
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-wrap gap-2">
         <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
+            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                 <h4 class="fw-bold mb-0 {{ $isBatal ? 'text-decoration-line-through text-danger' : '' }}">
                     Faktur Penjualan {{ $penjualan->no_penjualan }}
                 </h4>
@@ -53,27 +53,27 @@
                 Dicatat pada {{ $penjualan->created_at->format('d/m/Y H:i') }} oleh {{ $penjualan->user->name ?? ($penjualan->creator->name ?? 'Sistem') }}
             </p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <a href="{{ route('penjualan.index') }}" class="btn btn-outline-secondary">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <a href="{{ route('penjualan.index') }}" class="btn btn-sm btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-arrow-left me-1"></i>Kembali
             </a>
             @can('create_sales')
-                <a href="{{ route('penjualan.create', ['duplicate_id' => $penjualan->id]) }}" class="btn btn-outline-info shadow-sm">
-                    <i class="bi bi-copy me-1"></i>Duplikat Pesanan
+                <a href="{{ route('penjualan.create', ['duplicate_id' => $penjualan->id]) }}" class="btn btn-sm btn-outline-info shadow-sm flex-fill flex-md-grow-0">
+                    <i class="bi bi-copy me-1"></i>Duplikat
                 </a>
             @endcan
             @if (! $isBatal)
-                <a href="{{ route('penjualan.print.faktur', $penjualan) }}" target="_blank" class="btn btn-primary shadow-sm">
-                    <i class="bi bi-file-earmark-text me-1"></i>Cetak Faktur (A4/A5)
+                <a href="{{ route('penjualan.print.faktur', $penjualan) }}" target="_blank" class="btn btn-sm btn-primary shadow-sm flex-fill flex-md-grow-0">
+                    <i class="bi bi-file-earmark-text me-1"></i>Cetak Faktur
                 </a>
-                <a href="{{ route('penjualan.print.surat-jalan', $penjualan) }}" target="_blank" class="btn btn-success shadow-sm">
-                    <i class="bi bi-truck me-1"></i>Surat Jalan (Gudang & Sopir)
+                <a href="{{ route('penjualan.print.surat-jalan', $penjualan) }}" target="_blank" class="btn btn-sm btn-success shadow-sm flex-fill flex-md-grow-0">
+                    <i class="bi bi-truck me-1"></i>Surat Jalan
                 </a>
-                <a href="{{ route('penjualan.print.thermal', $penjualan) }}" target="_blank" class="btn btn-outline-dark shadow-sm">
-                    <i class="bi bi-receipt me-1"></i>Struk Kasir (Thermal)
+                <a href="{{ route('penjualan.print.thermal', $penjualan) }}" target="_blank" class="btn btn-sm btn-outline-dark shadow-sm flex-fill flex-md-grow-0">
+                    <i class="bi bi-receipt me-1"></i>Struk Kasir
                 </a>
                 @can('cancel_sales')
-                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger shadow-sm">
+                    <button type="button" wire:click="openCancelModal" class="btn btn-sm btn-outline-danger shadow-sm flex-fill flex-md-grow-0">
                         <i class="bi bi-x-circle me-1"></i>Batalkan Nota
                     </button>
                 @endcan
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Summary Info Cards -->
-    <div class="row g-4 mb-4">
+    <div class="row g-2 g-md-4 mb-3 mb-md-4">
         <!-- Customer Information -->
         <div class="col-md-6 col-lg-4">
             <div class="card border-0 shadow-sm h-100">
@@ -200,7 +200,100 @@
             </h6>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
+            @php $totalFisik = 0; @endphp
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @foreach ($penjualan->details as $index => $detail)
+                    @php
+                        $totalFisik += (float) $detail->jumlah;
+                    @endphp
+                    <div class="p-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                            <div class="fw-bold text-dark" style="font-size: 0.92rem; line-height: 1.3;">
+                                <span class="badge bg-light text-secondary border me-1">#{{ $index + 1 }}</span>
+                                {{ $detail->produk->nama ?? '-' }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center flex-wrap gap-1 mb-2" style="font-size: 0.74rem;">
+                            <span class="badge bg-light text-secondary border font-monospace">{{ $detail->produk->kode_katalog ?? 'Tanpa SKU' }}</span>
+                            <span class="badge bg-light text-dark border">{{ $detail->produk->kategori->nama_kategori ?? '-' }}</span>
+                            @if ($detail->produk?->merek)
+                                <span class="badge bg-secondary-subtle text-secondary">{{ $detail->produk->merek->nama_merek }}</span>
+                            @endif
+                            @if ($detail->gudang && $detail->gudang->id !== $penjualan->gudang_id)
+                                <span class="badge bg-primary-subtle text-primary border">
+                                    <i class="bi bi-building me-1"></i>Ambil dari: {{ $detail->gudang->nama_gudang }}
+                                </span>
+                            @endif
+                        </div>
+
+                        @if ($konversi = $detail->getDeskripsiKemasan())
+                            <div class="mb-2">
+                                <span class="badge bg-primary-subtle text-primary border" style="font-size: 0.72rem;">
+                                    <i class="bi bi-box-seam me-1"></i>{{ $konversi }}
+                                </span>
+                            </div>
+                        @endif
+
+                        <div class="p-2 rounded-3 bg-light border d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="small">
+                                <div class="fw-bold text-dark font-monospace">
+                                    {{ number_format((float) $detail->jumlah, 2, ',', '.') }} {{ $detail->produk->satuan->label() ?? '' }}
+                                    <span class="text-muted fw-normal">&times;</span>
+                                    Rp {{ number_format((float) $detail->harga_satuan, 0, ',', '.') }}
+                                </div>
+                                @if ($detail->isHargaDiubah())
+                                    @php $selisihHarga = (float) $detail->harga_satuan - (float) $detail->harga_normal; @endphp
+                                    <div class="mt-0.5">
+                                        <span class="text-muted text-decoration-line-through me-1" style="font-size: 0.72rem;">
+                                            Rp {{ number_format((float) $detail->harga_normal, 0, ',', '.') }}
+                                        </span>
+                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle" style="font-size: 0.65rem;">
+                                            Harga diubah ({{ $selisihHarga > 0 ? '+' : '-' }}Rp {{ number_format(abs($selisihHarga), 0, ',', '.') }})
+                                        </span>
+                                    </div>
+                                @endif
+                                @if ($detail->nilai_diskon > 0)
+                                    <div class="text-danger small" style="font-size: 0.74rem;">
+                                        Diskon:
+                                        @if ($detail->jenis_diskon?->value === 'persentase')
+                                            -{{ number_format((float) $detail->nilai_diskon, 1, ',', '.') }}%
+                                        @else
+                                            -Rp {{ number_format((float) $detail->nilai_diskon, 0, ',', '.') }}
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="text-end ms-auto">
+                                <span class="text-muted d-block" style="font-size: 0.68rem;">Subtotal</span>
+                                <span class="fw-bold text-primary font-monospace fs-6">
+                                    Rp {{ number_format((float) $detail->subtotal, 0, ',', '.') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                <!-- Mobile Footer Summary -->
+                <div class="p-3 bg-light">
+                    <div class="d-flex justify-content-between align-items-center small mb-1">
+                        <span class="text-muted fw-semibold">Total Fisik Muatan:</span>
+                        <span class="fw-bold font-monospace text-dark">{{ number_format($totalFisik, 2, ',', '.') }} unit</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center small mb-2">
+                        <span class="text-muted fw-semibold">Biaya Ongkir:</span>
+                        <span class="fw-bold font-monospace text-dark">Rp {{ number_format((float) $penjualan->biaya_ongkir, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                        <span class="fw-bold text-dark">Grand Total Penjualan:</span>
+                        <span class="fw-bold fs-5 text-primary font-monospace">Rp {{ number_format((float) $penjualan->total_akhir, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

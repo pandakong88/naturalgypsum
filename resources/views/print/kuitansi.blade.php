@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kuitansi Pembayaran - {{ $pembayaran->no_pembayaran }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <style>
         * {
             box-sizing: border-box;
@@ -313,6 +315,132 @@
             border: 1px solid #f5c2c7;
         }
 
+        /* Mobile Screen Responsiveness (Does not affect Print / PDF) */
+        @media screen and (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+            .page-container {
+                padding: 16px 14px;
+                border-radius: 8px;
+            }
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .action-bar > div {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .action-bar .btn {
+                flex: 1 1 auto;
+                justify-content: center;
+                text-align: center;
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .kuitansi-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .kuitansi-title-block {
+                text-align: left;
+                width: 100%;
+                border-top: 1px dashed #cbd5e1;
+                padding-top: 10px;
+            }
+            .meta-table {
+                margin-left: 0;
+                width: 100%;
+            }
+            .meta-table td {
+                padding: 2px 4px 2px 0;
+            }
+            .receipt-main-box {
+                padding: 12px 14px;
+            }
+            .receipt-row {
+                flex-direction: column;
+                margin-bottom: 10px;
+            }
+            .receipt-label {
+                width: 100%;
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+            .receipt-colon {
+                display: none;
+            }
+            .items-table,
+            .items-table tbody,
+            .items-table tr,
+            .items-table td {
+                display: block;
+                width: 100% !important;
+            }
+            .items-table thead {
+                display: none;
+            }
+            .items-table tbody tr {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                padding: 8px 10px;
+                background: #ffffff;
+            }
+            .items-table tbody td {
+                border: none;
+                border-bottom: 1px dashed #f1f5f9;
+                padding: 4px 0;
+                text-align: right;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+            }
+            .items-table tbody td:first-child {
+                display: none;
+            }
+            .items-table tbody td:last-child {
+                border-bottom: none;
+                padding-top: 6px;
+            }
+            .items-table tbody td[data-label]::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #64748b;
+                font-size: 10.5px;
+                text-align: left;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            .summary-wrapper {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .totals-table {
+                order: -1;
+                border: 1px solid #e2e8f0;
+                border-radius: 5px;
+            }
+            .signatures {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                margin-top: 16px;
+            }
+            .sig-box {
+                min-height: 65px;
+                border: 1px dashed #e2e8f0;
+                border-radius: 5px;
+                padding: 8px;
+            }
+            .sig-title {
+                margin-bottom: 24px;
+            }
+        }
+
         /* Print Settings */
         @media print {
             body {
@@ -362,20 +490,27 @@
             $toko = \App\Domains\Administration\Models\ProfilPerusahaan::getSettings();
         @endphp
         <div class="kuitansi-header">
-            <div class="company-info">
-                @if ($toko->logo_path)
-                    <div style="margin-bottom: 6px;">
-                        <img src="{{ asset('storage/' . $toko->logo_path) }}" alt="{{ $toko->nama_toko }}" style="max-height: 50px; max-width: 220px; object-fit: contain;">
+            <div style="display: flex; align-items: flex-start; gap: 14px; flex: 1;">
+                <img src="{{ $toko->getLogoUrl() }}" alt="{{ $toko->nama_toko }}" style="height: 54px; max-width: 130px; width: auto; object-fit: contain; flex-shrink: 0;">
+                <div class="company-info">
+                    @if (strtoupper(trim($toko->nama_toko)) === 'NATURAL GYPSUM & PVC')
+                        <div style="display: inline-block; line-height: 1; margin-bottom: 5px;">
+                            <span style="display: none;">{{ $toko->nama_toko }}</span>
+                            <div style="font-size: 23px; font-weight: 900; color: #18181B; letter-spacing: 3.5px;">NATURAL</div>
+                            <div style="height: 2px; background-color: #18181B; margin: 3px 0 4px 0;"></div>
+                            <div style="font-size: 10.5px; font-weight: 800; color: #B87D4B; letter-spacing: 4.8px;">GYPSUM &amp; PVC</div>
+                        </div>
+                    @else
+                        <h1>{{ $toko->nama_toko }}</h1>
+                    @endif
+                    @if ($toko->slogan)
+                        <div class="subtitle">{{ $toko->slogan }}</div>
+                    @endif
+                    <div class="contact">
+                        {{ $toko->alamat ?: 'Alamat Toko' }}
+                        @if ($toko->telepon) &bull; Telp / WA: {{ $toko->telepon }} @endif
+                        @if ($toko->email) &bull; Email: {{ $toko->email }} @endif
                     </div>
-                @endif
-                <h1>{{ $toko->nama_toko }}</h1>
-                @if ($toko->slogan)
-                    <div class="subtitle">{{ $toko->slogan }}</div>
-                @endif
-                <div class="contact">
-                    {{ $toko->alamat ?: 'Alamat Toko' }}
-                    @if ($toko->telepon) &bull; Telp / WA: {{ $toko->telepon }} @endif
-                    @if ($toko->email) &bull; Email: {{ $toko->email }} @endif
                 </div>
             </div>
             <div class="kuitansi-title-block">
@@ -483,19 +618,19 @@
                 @forelse ($pembayaran->alokasi as $index => $item)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
-                        <td class="text-start font-mono fw-bold">
+                        <td class="text-start font-mono fw-bold" data-label="No. Faktur">
                             {{ $item->penjualan->no_penjualan ?? '-' }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="Tanggal">
                             {{ $item->penjualan?->tanggal?->format('d/m/Y') ?? '-' }}
                         </td>
-                        <td class="text-end font-mono">
+                        <td class="text-end font-mono" data-label="Total Faktur">
                             Rp {{ number_format($item->penjualan?->total ?? 0, 0, ',', '.') }}
                         </td>
-                        <td class="text-end font-mono">
+                        <td class="text-end font-mono" data-label="Sisa Piutang">
                             Rp {{ number_format($item->penjualan?->sisa_piutang ?? 0, 0, ',', '.') }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="Status Faktur">
                             @php
                                 $status = $item->penjualan?->status_pembayaran?->value ?? 'belum';
                                 $statusLabel = $item->penjualan?->status_pembayaran?->label() ?? 'Belum Lunas';
@@ -504,7 +639,7 @@
                                 {{ $statusLabel }}
                             </span>
                         </td>
-                        <td class="text-end font-mono fw-bold">
+                        <td class="text-end font-mono fw-bold" data-label="Jumlah Alokasi (Rp)">
                             Rp {{ number_format($item->jumlah_dialokasikan, 0, ',', '.') }}
                         </td>
                     </tr>

@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ ($isPO ?? false) ? 'Surat Pesanan (PO)' : 'Bukti Pembelian & Barang Masuk' }} - {{ $pembelian->no_pembelian }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <style>
         * {
             box-sizing: border-box;
@@ -268,6 +270,127 @@
             font-weight: 700;
         }
 
+        /* Mobile Screen Responsiveness (Does not affect Print / PDF) */
+        @media screen and (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+            .page-container {
+                padding: 16px 14px;
+                border-radius: 8px;
+            }
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .action-bar > div {
+                width: 100%;
+                display: flex;
+            }
+            .action-bar .btn {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .doc-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .title-block {
+                text-align: left;
+                width: 100%;
+                border-top: 1px dashed #cbd5e1;
+                padding-top: 10px;
+            }
+            .meta-table {
+                margin-left: 0;
+                width: 100%;
+            }
+            .meta-table td {
+                padding: 2px 4px 2px 0;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 10px 12px;
+            }
+            .items-table,
+            .items-table tbody,
+            .items-table tr,
+            .items-table td {
+                display: block;
+                width: 100% !important;
+            }
+            .items-table thead {
+                display: none;
+            }
+            .items-table tbody tr {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                padding: 8px 10px;
+                background: #ffffff;
+            }
+            .items-table tbody td {
+                border: none;
+                border-bottom: 1px dashed #f1f5f9;
+                padding: 4px 0;
+                text-align: right;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+            }
+            .items-table tbody td:first-child {
+                display: none;
+            }
+            .items-table tbody td.item-desc-cell {
+                display: block;
+                text-align: left;
+                border-bottom: 1px solid #e2e8f0;
+                padding-bottom: 6px;
+                margin-bottom: 4px;
+            }
+            .items-table tbody td:last-child {
+                border-bottom: none;
+                padding-top: 6px;
+            }
+            .items-table tbody td[data-label]::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #64748b;
+                font-size: 10.5px;
+                text-align: left;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            .summary-wrapper {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .totals-table {
+                order: -1;
+                border: 1px solid #e2e8f0;
+                border-radius: 5px;
+            }
+            .signatures {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                margin-top: 16px;
+            }
+            .sig-box {
+                min-height: 65px;
+                border: 1px dashed #e2e8f0;
+                border-radius: 5px;
+                padding: 8px;
+            }
+            .sig-title {
+                margin-bottom: 24px;
+            }
+        }
+
         /* Print Settings */
         @media print {
             body {
@@ -310,13 +433,28 @@
     <div class="page-container">
 
         <!-- Header -->
+        @php
+            $toko = \App\Domains\Administration\Models\ProfilPerusahaan::getSettings();
+        @endphp
         <div class="doc-header">
-            <div class="company-info">
-                <h1>NATURAL GYPSUM & PVC</h1>
-                <div class="subtitle">Distributor & Toko Material Plafon, Gypsum, Rangka Hollow & PVC</div>
-                <div class="contact">
-                    Jl. Raya Utama Toko Natural Gypsum &bull; Telp / WA: Toko Kasir<br>
-                    Pusat Grosir & Eceran Material Interior Plafon Berkualitas
+            <div style="display: flex; align-items: flex-start; gap: 14px; flex: 1;">
+                <img src="{{ $toko->getLogoUrl() }}" alt="{{ $toko->nama_toko }}" style="height: 54px; max-width: 130px; width: auto; object-fit: contain; flex-shrink: 0;">
+                <div class="company-info">
+                    @if (strtoupper(trim($toko->nama_toko)) === 'NATURAL GYPSUM & PVC')
+                        <div style="display: inline-block; line-height: 1; margin-bottom: 5px;">
+                            <span style="display: none;">{{ $toko->nama_toko }}</span>
+                            <div style="font-size: 23px; font-weight: 900; color: #18181B; letter-spacing: 3.5px;">NATURAL</div>
+                            <div style="height: 2px; background-color: #18181B; margin: 3px 0 4px 0;"></div>
+                            <div style="font-size: 10.5px; font-weight: 800; color: #B87D4B; letter-spacing: 4.8px;">GYPSUM &amp; PVC</div>
+                        </div>
+                    @else
+                        <h1>{{ $toko->nama_toko }}</h1>
+                    @endif
+                    <div class="subtitle">{{ $toko->slogan ?: 'Aplikator dan Penyedia Bahan Gypsum dan PVC' }}</div>
+                    <div class="contact">
+                        {{ $toko->alamat ?: 'Jln. Piyungan Prambanan KM 2 Pucung' }}
+                        @if ($toko->telepon) &bull; Telp / WA: <strong>{{ $toko->telepon }}</strong> @endif
+                    </div>
                 </div>
             </div>
             <div class="title-block">
@@ -411,7 +549,7 @@
                 @foreach ($pembelian->details as $index => $detail)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
-                        <td class="text-start">
+                        <td class="text-start item-desc-cell">
                             <strong>{{ $detail->produk->nama ?? '-' }}</strong>
                             @if ($detail->produk?->kode_katalog)
                                 <div class="font-mono" style="color: #64748b; font-size: 10px;">
@@ -419,7 +557,7 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="text-start">
+                        <td class="text-start" data-label="Kategori & Merek">
                             <span>{{ $detail->produk?->kategori?->nama_kategori ?? '-' }}</span>
                             @if ($detail->produk?->merek?->nama_merek)
                                 <div style="color: #64748b; font-size: 10px;">
@@ -427,42 +565,46 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="text-start">
+                        <td class="text-start" data-label="Gudang Tujuan">
                             <span style="background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 3px; font-weight: 600;">
                                 {{ $detail->gudang->nama_gudang ?? '-' }}
                             </span>
                         </td>
-                        <td class="text-end font-mono fw-bold">
-                            {{ number_format((float) $detail->jumlah, 2, ',', '.') }}
-                            <span style="font-weight: normal; color: #64748b; font-size: 10px;">{{ $detail->produk?->satuan?->label() ?? '' }}</span>
-                            @php
-                                $konv = $detail->produk?->getKonversiFisik((float) $detail->jumlah);
-                            @endphp
-                            @if ($detail->qty_lembar && $detail->panjang_meter)
-                                <div style="color: #0369a1; font-size: 9.5px; font-weight: normal;">
-                                    ({{ (int) $detail->qty_lembar }} lbr &times; {{ (float) $detail->panjang_meter }}m)
-                                </div>
-                                @if ($konv && !empty($konv['jumlah_kemasan_utuh']))
-                                    <div style="color: #64748b; font-size: 9px; font-style: italic; font-weight: normal;">
+                        <td class="text-end font-mono fw-bold" data-label="{{ ($isPO ?? false) ? 'Qty Dipesan' : 'Qty Masuk' }}">
+                            <div>
+                                {{ number_format((float) $detail->jumlah, 2, ',', '.') }}
+                                <span style="font-weight: normal; color: #64748b; font-size: 10px;">{{ $detail->produk?->satuan?->label() ?? '' }}</span>
+                                @php
+                                    $konv = $detail->produk?->getKonversiFisik((float) $detail->jumlah);
+                                @endphp
+                                @if ($detail->qty_lembar && $detail->panjang_meter)
+                                    <div style="color: #0369a1; font-size: 9.5px; font-weight: normal;">
+                                        ({{ (int) $detail->qty_lembar }} lbr &times; {{ (float) $detail->panjang_meter }}m)
+                                    </div>
+                                    @if ($konv && !empty($konv['jumlah_kemasan_utuh']))
+                                        <div style="color: #64748b; font-size: 9px; font-style: italic; font-weight: normal;">
+                                            {{ $konv['badge_text'] }}
+                                        </div>
+                                    @endif
+                                @elseif ($konv && $konv['has_conversion'])
+                                    <div style="color: #64748b; font-size: 9.5px; font-weight: normal;">
                                         {{ $konv['badge_text'] }}
                                     </div>
                                 @endif
-                            @elseif ($konv && $konv['has_conversion'])
-                                <div style="color: #64748b; font-size: 9.5px; font-weight: normal;">
-                                    {{ $konv['badge_text'] }}
-                                </div>
-                            @endif
+                            </div>
                         </td>
                         @can('view_purchase_prices')
-                            <td class="text-end font-mono">
-                                Rp {{ number_format((float) $detail->harga_beli_satuan, 2, ',', '.') }}
-                                @if ($detail->diskon_satuan > 0)
-                                    <div style="font-size: 9px; color: #dc2626;">
-                                        Diskon: -Rp {{ number_format((float) $detail->diskon_satuan, 0, ',', '.') }}
-                                    </div>
-                                @endif
+                            <td class="text-end font-mono" data-label="Harga Beli Satuan">
+                                <div>
+                                    Rp {{ number_format((float) $detail->harga_beli_satuan, 2, ',', '.') }}
+                                    @if ($detail->diskon_satuan > 0)
+                                        <div style="font-size: 9px; color: #dc2626;">
+                                            Diskon: -Rp {{ number_format((float) $detail->diskon_satuan, 0, ',', '.') }}
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
-                            <td class="text-end font-mono fw-bold">
+                            <td class="text-end font-mono fw-bold" data-label="Subtotal (Rp)">
                                 Rp {{ number_format((float) $detail->subtotal, 2, ',', '.') }}
                             </td>
                         @endcan

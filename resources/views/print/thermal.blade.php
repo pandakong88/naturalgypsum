@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Struk Kasir - {{ $penjualan->no_penjualan }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     <style>
         * {
             box-sizing: border-box;
@@ -114,8 +116,10 @@
             margin-bottom: 8px;
         }
         .store-logo {
+            height: 36px;
             max-height: 40px;
             max-width: 100px;
+            width: auto;
             object-fit: contain;
             margin-bottom: 4px;
         }
@@ -277,11 +281,9 @@
 
         <!-- Store Header -->
         <div class="receipt-header">
-            @if ($toko->logo_path)
-                <div>
-                    <img src="{{ asset('storage/' . $toko->logo_path) }}" alt="{{ $toko->nama_toko }}" class="store-logo">
-                </div>
-            @endif
+            <div>
+                <img src="{{ $toko->getLogoUrl() }}" alt="{{ $toko->nama_toko }}" class="store-logo">
+            </div>
             <div class="store-title">{!! $toko->nama_toko !!}</div>
             @if ($toko->slogan)
                 <div class="store-sub">{{ $toko->slogan }}</div>

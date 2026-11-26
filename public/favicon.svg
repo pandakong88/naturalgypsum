@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%">
+  <!-- Flat Matte Charcoal Rounded Badge -->
+  <rect x="6" y="6" width="228" height="228" rx="42" fill="#18181B"/>
+
+  <!-- Left Pillar + Diagonal Gypsum Plane (Alabaster White #FAF8F5) -->
+  <path d="M 38 36 L 92 36 L 146 118 L 146 204 L 92 122 L 92 204 L 38 204 Z" fill="#FAF8F5"/>
+
+  <!-- Right Pillar: 3 Full-Height Vertical Fluted PVC / WPC Wood Slats (Warm Bronze #C28550) -->
+  <rect x="146" y="36" width="14" height="168" fill="#C28550"/>
+  <rect x="152" y="36" width="2" height="168" fill="#9A6334" opacity="0.4"/>
+  <rect x="167" y="36" width="14" height="168" fill="#C28550"/>
+  <rect x="173" y="36" width="2" height="168" fill="#9A6334" opacity="0.4"/>
+  <rect x="188" y="36" width="14" height="168" fill="#C28550"/>
+  <rect x="194" y="36" width="2" height="168" fill="#9A6334" opacity="0.4"/>
+</svg>

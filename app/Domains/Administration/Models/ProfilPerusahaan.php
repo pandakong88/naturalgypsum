@@ -4,6 +4,7 @@ namespace App\Domains\Administration\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class ProfilPerusahaan extends Model
 {
@@ -53,6 +54,25 @@ class ProfilPerusahaan extends Model
 
         try {
             $record = self::first();
+            if ($record) {
+                $needsSave = false;
+
+                if (filled($record->logo_path) && ! str_starts_with($record->logo_path, 'images/') && ! Storage::disk('public')->exists($record->logo_path)) {
+                    $record->logo_path = null;
+                    $needsSave = true;
+                }
+
+                if ($record->alamat === 'Jl. Raya Utama Toko Natural Gypsum') {
+                    $record->slogan = 'Aplikator dan Penyedia Bahan Gypsum dan PVC';
+                    $record->alamat = 'Jln. Piyungan Prambanan KM 2 Pucung';
+                    $record->telepon = '082136702637';
+                    $needsSave = true;
+                }
+
+                if ($needsSave) {
+                    $record->save();
+                }
+            }
         } catch (\Throwable) {
             $record = null;
         }
@@ -74,15 +94,34 @@ class ProfilPerusahaan extends Model
     }
 
     /**
+     * Get the active logo URL for document headers (Kop Faktur, Surat Jalan, Kuitansi, etc.).
+     * Falls back to the default modern architectural 'N' monogram mark when no custom logo is uploaded.
+     */
+    public function getLogoUrl(): string
+    {
+        if (filled($this->logo_path)) {
+            if (str_starts_with($this->logo_path, 'images/')) {
+                return asset($this->logo_path);
+            }
+
+            if (Storage::disk('public')->exists($this->logo_path)) {
+                return asset('storage/'.$this->logo_path);
+            }
+        }
+
+        return asset('images/logo-natural-modern-kop.svg');
+    }
+
+    /**
      * Make an unsaved default instance with fallback values.
      */
     public static function makeDefault(): self
     {
         $instance = new self;
         $instance->nama_toko = 'NATURAL GYPSUM & PVC';
-        $instance->slogan = 'Distributor & Toko Material Plafon, Gypsum, Rangka Hollow & PVC';
-        $instance->alamat = 'Jl. Raya Utama Toko Natural Gypsum';
-        $instance->telepon = '0812-3456-7890';
+        $instance->slogan = 'Aplikator dan Penyedia Bahan Gypsum dan PVC';
+        $instance->alamat = 'Jln. Piyungan Prambanan KM 2 Pucung';
+        $instance->telepon = '082136702637';
         $instance->email = 'info@naturalgypsum.com';
         $instance->website = 'naturalgypsum.com';
         $instance->catatan_kaki_faktur = 'Barang yang sudah dibeli tidak dapat ditukar/dikembalikan tanpa perjanjian tertulis.';

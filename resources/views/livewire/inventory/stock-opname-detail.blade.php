@@ -363,44 +363,41 @@
     <!-- Screen-Only Application UI -->
     <div class="no-print">
         <!-- Page Header (Screen Only) -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary btn-sm py-0 px-2">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-                <h4 class="mb-0 font-weight-bold text-dark">Detail Stok Opname: {{ $stockOpname->no_stock_opname }}</h4>
+        <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary btn-sm py-0 px-2">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h4 class="mb-0 font-weight-bold text-dark">Detail Stok Opname: {{ $stockOpname->no_stock_opname }}</h4>
+                    @php $statusEnum = $stockOpname->status; @endphp
+                    <span class="badge bg-{{ $statusEnum->badgeColor() }} px-2 py-1 shadow-sm">
+                        {{ $statusEnum->label() }}
+                    </span>
+                </div>
+                <p class="text-muted mb-0 small">Informasi hasil pemeriksaan stok fisik dan rekonsiliasi mutasi sistem.</p>
             </div>
-            <p class="text-muted mb-0 small">Informasi hasil pemeriksaan stok fisik dan rekonsiliasi mutasi sistem.</p>
-        </div>
-        <div class="d-flex gap-2 align-items-center flex-wrap">
-            @if($isDraft)
-                <button type="button" wire:click="openPrintCountSheetModal" class="btn btn-outline-secondary shadow-sm">
-                    <i class="bi bi-printer me-1"></i> Cetak Lembar Hitung Lapangan
-                </button>
-                <div class="btn-group">
-                    <button type="button" wire:click="exportTemplate" class="btn btn-outline-success shadow-sm">
+            <div class="d-flex gap-2 align-items-center flex-wrap w-100 w-md-auto">
+                @if($isDraft)
+                    <button type="button" wire:click="openPrintCountSheetModal" class="btn btn-outline-secondary btn-sm shadow-sm flex-fill flex-md-grow-0">
+                        <i class="bi bi-printer me-1"></i> Cetak Lembar Hitung
+                    </button>
+                    <button type="button" wire:click="exportTemplate" class="btn btn-outline-success btn-sm shadow-sm flex-fill flex-md-grow-0">
                         <i class="bi bi-file-earmark-excel me-1"></i> Download Excel
                     </button>
-                    <button type="button" wire:click="openImportExcelModal" class="btn btn-success shadow-sm">
+                    <button type="button" wire:click="openImportExcelModal" class="btn btn-success btn-sm shadow-sm flex-fill flex-md-grow-0">
                         <i class="bi bi-cloud-arrow-up me-1"></i> Import Excel
                     </button>
-                </div>
-            @else
-                <button type="button" onclick="window.print()" class="btn btn-outline-secondary shadow-sm">
-                    <i class="bi bi-printer me-1"></i> Cetak Berita Acara
-                </button>
-                <button type="button" wire:click="exportTemplate" class="btn btn-outline-success shadow-sm">
-                    <i class="bi bi-file-earmark-excel me-1"></i> Export Hasil Excel
-                </button>
-            @endif
-
-            @php $statusEnum = $stockOpname->status; @endphp
-            <span class="badge bg-{{ $statusEnum->badgeColor() }} fs-6 px-3 py-2 shadow-sm">
-                {{ $statusEnum->label() }}
-            </span>
+                @else
+                    <button type="button" onclick="window.print()" class="btn btn-outline-secondary btn-sm shadow-sm flex-fill flex-md-grow-0">
+                        <i class="bi bi-printer me-1"></i> Cetak Berita Acara
+                    </button>
+                    <button type="button" wire:click="exportTemplate" class="btn btn-outline-success btn-sm shadow-sm flex-fill flex-md-grow-0">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Export Hasil Excel
+                    </button>
+                @endif
+            </div>
         </div>
-    </div>
 
     @if(session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show no-print" role="alert">
@@ -489,7 +486,7 @@
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table table-hover {{ $isDraft ? 'table-mobile-cards' : '' }} align-middle mb-0">
                     <thead class="table-light text-secondary small text-uppercase">
                         <tr>
                             <th class="ps-3 py-3" style="width: 35%;">Produk & Kemasan</th>
@@ -539,12 +536,12 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" data-label="Stok Sistem">
                                         <span class="badge bg-light text-dark border fs-7 px-2 py-1">
                                             {{ number_format((float) $item['stok_sistem'], 0, ',', '.') }} {{ $item['satuan'] }}
                                         </span>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" data-label="Stok Fisik">
                                         <div class="input-group input-group-sm">
                                             <input type="number"
                                                    min="0"
@@ -560,7 +557,7 @@
                                         </div>
                                         @error('items.'.$index.'.stok_fisik') <div class="invalid-feedback small">{{ $message }}</div> @enderror
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center" data-label="Selisih">
                                         @if($selisih > 0)
                                             <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">+{{ number_format($selisih, 0, ',', '.') }}</span>
                                         @elseif($selisih < 0)
@@ -569,12 +566,12 @@
                                             <span class="badge bg-light text-muted border px-2 py-1">0 (Cocok)</span>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Catatan Item">
                                         <input type="text" wire:model="items.{{ $index }}.catatan" class="form-control form-control-sm py-0 fs-7" placeholder="Catatan item...">
                                     </td>
                                     <td class="pe-3 text-end no-print">
-                                        <button type="button" wire:click="removeProduct({{ $index }})" class="btn btn-outline-danger btn-sm py-1 px-2" title="Hapus">
-                                            <i class="bi bi-trash"></i>
+                                        <button type="button" wire:click="removeProduct({{ $index }})" class="btn btn-outline-danger btn-sm py-1 px-2 w-100 w-md-auto" title="Hapus">
+                                            <i class="bi bi-trash"></i> <span class="d-md-none ms-1">Hapus Item</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -658,31 +655,31 @@
 
     <!-- Actions Toolbar (Screen Only) -->
     <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-2 no-print">
-        <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary">
+        <a href="{{ route('inventory.stock-opname.index') }}" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">
             <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
         </a>
 
-        <div class="d-flex gap-2 flex-wrap">
+        <div class="d-flex gap-2 flex-wrap flex-fill flex-sm-grow-0 justify-content-end">
             @if($isDraft)
                 @can('delete', $stockOpname)
-                    <button type="button" wire:click="promptDeleteDraftModal" class="btn btn-outline-danger" wire:loading.attr="disabled">
+                    <button type="button" wire:click="promptDeleteDraftModal" class="btn btn-outline-danger flex-fill flex-sm-grow-0" wire:loading.attr="disabled">
                         <i class="bi bi-trash me-1"></i> Hapus Draft
                     </button>
                 @endcan
-                <button type="button" wire:click="refreshDraftSnapshots" class="btn btn-outline-warning" wire:loading.attr="disabled" title="Perbarui baseline snapshot dengan stok live sistem saat ini jika ada mutasi di tengah opname">
-                    <i class="bi bi-arrow-clockwise me-1"></i> Perbarui Snapshot Live
+                <button type="button" wire:click="refreshDraftSnapshots" class="btn btn-outline-warning flex-fill flex-sm-grow-0" wire:loading.attr="disabled" title="Perbarui baseline snapshot dengan stok live sistem saat ini jika ada mutasi di tengah opname">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Perbarui Snapshot
                 </button>
-                <button type="button" wire:click="updateDraft" class="btn btn-outline-primary" wire:loading.attr="disabled">
+                <button type="button" wire:click="updateDraft" class="btn btn-outline-primary flex-fill flex-sm-grow-0" wire:loading.attr="disabled">
                     <i class="bi bi-save me-1"></i> Simpan Draft
                 </button>
-                <button type="button" wire:click="completeDraft" class="btn btn-success" wire:loading.attr="disabled" onclick="return confirm('Selesaikan Stok Opname ini dan sesuaikan stok di sistem?') || event.stopImmediatePropagation()">
+                <button type="button" wire:click="completeDraft" class="btn btn-success flex-fill flex-sm-grow-0" wire:loading.attr="disabled" onclick="return confirm('Selesaikan Stok Opname ini dan sesuaikan stok di sistem?') || event.stopImmediatePropagation()">
                     <i class="bi bi-check2-circle me-1"></i> Selesaikan Stok Opname
                 </button>
             @endif
 
             @if($stockOpname->status === \App\Domains\Inventory\Enums\StatusStockOpname::Selesai)
                 @can('delete', $stockOpname)
-                    <button type="button" wire:click="promptCancelModal" class="btn btn-outline-danger" wire:loading.attr="disabled">
+                    <button type="button" wire:click="promptCancelModal" class="btn btn-outline-danger flex-fill flex-sm-grow-0" wire:loading.attr="disabled">
                         <i class="bi bi-x-circle me-1"></i> Batalkan Stok Opname
                     </button>
                 @endcan

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 184" width="100%" height="100%">
+  <!-- Transparent Background Architectural 'N' Monogram for Light Backgrounds (Kop Faktur, Surat Jalan, Login) -->
+  <!-- Left Pillar + Diagonal Gypsum Plane (Matte Charcoal #18181B) -->
+  <path d="M 12 8 L 68 8 L 126 94 L 126 176 L 68 90 L 68 176 L 12 176 Z" fill="#18181B"/>
+
+  <!-- Right Pillar: 3 Full-Height Vertical Fluted PVC / WPC Wood Slats (Warm Bronze #B87D4B) -->
+  <!-- Slat 1 -->
+  <rect x="126" y="8" width="15" height="168" fill="#B87D4B"/>
+  <rect x="132.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+  <!-- Slat 2 -->
+  <rect x="149" y="8" width="15" height="168" fill="#B87D4B"/>
+  <rect x="155.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+  <!-- Slat 3 -->
+  <rect x="172" y="8" width="15" height="168" fill="#B87D4B"/>
+  <rect x="178.5" y="8" width="2" height="168" fill="#8C582B" opacity="0.45"/>
+</svg>

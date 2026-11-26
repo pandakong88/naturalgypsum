@@ -81,15 +81,20 @@ test('surat jalan and faktur print routes render successfully with company profi
     $resSuratJalan = $this->get(route('penjualan.print.surat-jalan', $penjualan));
     $resSuratJalan->assertStatus(200)
         ->assertSee('SURAT JALAN', false)
-        ->assertSee('NATURAL GYPSUM', false);
+        ->assertSee('NATURAL GYPSUM', false)
+        ->assertSee('logo-natural-modern-kop.svg', false)
+        ->assertSee('favicon.svg', false);
 
     $resFaktur = $this->get(route('penjualan.print.faktur', $penjualan));
     $resFaktur->assertStatus(200)
         ->assertSee('FAKTUR PENJUALAN', false)
-        ->assertSee('NATURAL GYPSUM', false);
+        ->assertSee('NATURAL GYPSUM', false)
+        ->assertSee('logo-natural-modern-kop.svg', false)
+        ->assertSee('favicon.svg', false);
 
     $resThermal = $this->get(route('penjualan.print.thermal', $penjualan));
     $resThermal->assertStatus(200)
         ->assertSee('Struk Kasir', false)
-        ->assertSee('NATURAL GYPSUM', false);
+        ->assertSee('NATURAL GYPSUM', false)
+        ->assertSee('logo-natural-modern-kop.svg', false);
 });

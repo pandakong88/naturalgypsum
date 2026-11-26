@@ -1,10 +1,10 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-start align-items-sm-center mb-3 mb-md-4 flex-wrap gap-2">
         <div>
             <h4 class="fw-bold mb-0">Buat Transfer Antar Gudang</h4>
             <p class="text-muted small mb-0">Pindahkan stok produk antar lokasi gudang fisik</p>
         </div>
-        <a href="{{ route('transfer.index') }}" class="btn btn-outline-secondary">
+        <a href="{{ route('transfer.index') }}" class="btn btn-outline-secondary btn-sm btn-md-normal">
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
     </div>
@@ -22,13 +22,13 @@
                 <h6 class="fw-bold mb-0 text-primary"><i class="bi bi-info-circle me-1"></i> Informasi Transfer</h6>
             </div>
             <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-4">
+                <div class="row g-2 g-md-3">
+                    <div class="col-12 col-md-4">
                         <label class="form-label fw-semibold">Tanggal <span class="text-danger">*</span></label>
                         <input type="date" wire:model="tanggal" class="form-control @error('tanggal') is-invalid @enderror">
                         @error('tanggal') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-6 col-md-4">
                         <label class="form-label fw-semibold">Gudang Asal (Sumber Stok) <span class="text-danger">*</span></label>
                         <select wire:model.live="gudang_asal_id" class="form-select @error('gudang_asal_id') is-invalid @enderror">
                             <option value="">-- Pilih Gudang Asal --</option>
@@ -38,7 +38,7 @@
                         </select>
                         @error('gudang_asal_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-6 col-md-4">
                         <label class="form-label fw-semibold">Gudang Tujuan (Penerima) <span class="text-danger">*</span></label>
                         <select wire:model="gudang_tujuan_id" class="form-select @error('gudang_tujuan_id') is-invalid @enderror">
                             <option value="">-- Pilih Gudang Tujuan --</option>
@@ -50,7 +50,7 @@
                         </select>
                         @error('gudang_tujuan_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-12">
                         <label class="form-label fw-semibold">Keterangan / Catatan Pengiriman</label>
                         <textarea wire:model="keterangan" class="form-control" rows="2" placeholder="Contoh: No. Polisi armada, nama driver, kebutuhan restock proyek..."></textarea>
                     </div>
@@ -100,25 +100,25 @@
         <!-- Daftar Barang yang Ditransfer -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex justify-content-between align-items-start align-items-md-center flex-column flex-md-row gap-2 mb-3">
                     <div>
                         <h6 class="fw-bold mb-0 text-primary"><i class="bi bi-box-seam me-1"></i> Daftar Barang yang Ditransfer</h6>
                         <small class="text-muted">Ketik nama barang di bawah atau gunakan tombol Pilih dari Katalog.</small>
                     </div>
-                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
                         @if ($gudang_asal_id)
-                            <div class="form-check form-switch mb-0 me-2">
+                            <div class="form-check form-switch mb-0 me-auto me-md-2">
                                 <input class="form-check-input cursor-pointer" type="checkbox" role="switch" id="onlyAvailableStockSwitch" wire:model.live="onlyAvailableStock">
                                 <label class="form-check-label small text-secondary cursor-pointer" for="onlyAvailableStockSwitch">
                                     Hanya stok tersedia
                                 </label>
                             </div>
                         @endif
-                        <button type="button" wire:click="openCatalogModal" class="btn btn-sm btn-primary">
+                        <button type="button" wire:click="openCatalogModal" class="btn btn-sm btn-primary flex-fill flex-md-grow-0">
                             <i class="bi bi-grid-3x3-gap me-1"></i>+ Buka Katalog & Pilih Banyak
                         </button>
                         @if(count(array_filter($items, fn($i) => !empty($i['produk_id']))) > 0)
-                            <button type="button" wire:click="clearAllItems" class="btn btn-sm btn-outline-danger" title="Kosongkan semua daftar barang">
+                            <button type="button" wire:click="clearAllItems" class="btn btn-sm btn-outline-danger flex-fill flex-md-grow-0" title="Kosongkan semua daftar barang">
                                 <i class="bi bi-trash me-1"></i>Kosongkan
                             </button>
                         @endif
@@ -127,13 +127,13 @@
 
                 <!-- Quick Product Search Bar -->
                 <div class="position-relative">
-                    <div class="input-group input-group-lg">
+                    <div class="input-group">
                         <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
                         <input
                             type="text"
                             wire:model.live.debounce.250ms="quickSearchQuery"
-                            class="form-control fs-6"
-                            placeholder="{{ $gudang_asal_id ? 'Ketik nama produk atau kode SKU untuk menambahkan ke transfer...' : 'Pilih Gudang Asal terlebih dahulu...' }}"
+                            class="form-control"
+                            placeholder="{{ $gudang_asal_id ? 'Ketik nama produk atau kode SKU untuk tambah cepat...' : 'Pilih Gudang Asal terlebih dahulu...' }}"
                             @disabled(!$gudang_asal_id)
                         >
                         @if (filled($quickSearchQuery))
@@ -150,9 +150,9 @@
                                 <button
                                     type="button"
                                     wire:click="addQuickProduct({{ $res['id'] }})"
-                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2 px-3"
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-2 py-2 px-2 px-sm-3"
                                 >
-                                    <div class="d-flex align-items-center gap-2">
+                                    <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
                                         @if (!empty($res['foto_url']))
                                             <img src="{{ $res['foto_url'] }}" alt="{{ $res['nama'] }}" class="rounded border object-fit-cover flex-shrink-0" style="width: 34px; height: 34px;">
                                         @else
@@ -160,17 +160,17 @@
                                                 <i class="bi bi-image" style="font-size: 0.85rem;"></i>
                                             </div>
                                         @endif
-                                        <div>
-                                            <strong class="text-dark">{{ $res['nama'] }}</strong>
-                                            <div class="text-muted small" style="font-size: 0.75rem;">
+                                        <div class="min-w-0">
+                                            <strong class="text-dark d-block text-truncate">{{ $res['nama'] }}</strong>
+                                            <div class="text-muted small text-truncate" style="font-size: 0.73rem;">
                                                 <span class="badge bg-light text-dark border me-1">{{ $res['kode_katalog'] }}</span>
-                                                {{ $res['kategori'] }} &bull; Satuan: <strong>{{ $res['satuan'] }}</strong>
+                                                {{ $res['kategori'] }} &bull; <strong>{{ $res['satuan'] }}</strong>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-end">
-                                        <span class="badge {{ $res['stok'] <= 0 ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-success-subtle text-success border-success-subtle' }} border px-2 py-1" style="font-size: 0.75rem;">
-                                            <i class="bi bi-box me-1"></i>Stok Asal: {{ number_format($res['stok'], 2, ',', '.') }} {{ $res['satuan'] }}
+                                    <div class="text-end flex-shrink-0">
+                                        <span class="badge {{ $res['stok'] <= 0 ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-success-subtle text-success border-success-subtle' }} border px-2 py-1" style="font-size: 0.72rem;">
+                                            <i class="bi bi-box me-1"></i>{{ number_format($res['stok'], 2, ',', '.') }} {{ $res['satuan'] }}
                                         </span>
                                     </div>
                                 </button>
@@ -202,7 +202,7 @@
                 }
             }">
                 <div class="table-responsive" style="overflow: visible;">
-                    <table class="table align-middle mb-0">
+                    <table class="table table-mobile-cards align-middle mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4" style="width: 50px;">#</th>
@@ -229,8 +229,8 @@
                                     $isDuplicate = in_array((int)($item['produk_id'] ?? 0), $this->duplicateProductIds);
                                 @endphp
                                 <tr wire:key="transfer-row-{{ $index }}-{{ $item['produk_id'] ?? 'empty' }}">
-                                    <td class="ps-4 text-muted fw-semibold">{{ $index + 1 }}</td>
-                                    <td style="position: relative;">
+                                    <td class="ps-4 text-muted fw-semibold d-none d-md-table-cell">{{ $index + 1 }}</td>
+                                    <td style="position: relative;" data-label="Baris #{{ $index + 1 }} — Produk">
                                         @if ($prodModel)
                                             <input type="hidden" wire:model="items.{{ $index }}.produk_id" value="{{ $prodModel->id }}">
                                             <div class="p-2 border rounded-3 bg-light d-flex justify-content-between align-items-center" style="min-height: 48px;">
@@ -358,17 +358,17 @@
                                                     <div class="p-1">
                                                         <div class="px-2 py-1.5 bg-light rounded-top small text-muted d-flex justify-content-between align-items-center border-bottom">
                                                             <span class="fw-semibold">Pilih Produk (<span x-text="results.length"></span>)</span>
-                                                            <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.65rem;">Tekan Enter untuk pilih pertama</span>
+                                                            <span class="badge bg-secondary-subtle text-secondary d-none d-sm-inline-block" style="font-size: 0.65rem;">Tekan Enter untuk pilih pertama</span>
                                                         </div>
                                                         <template x-for="p in results" :key="p.id">
                                                             <div
                                                                 @click="select(p.id)"
-                                                                class="d-flex justify-content-between align-items-center p-2 rounded-2 border-bottom border-light"
+                                                                class="d-flex justify-content-between align-items-center gap-2 p-2 rounded-2 border-bottom border-light"
                                                                 style="cursor: pointer; transition: background-color 0.15s ease;"
                                                                 onmouseover="this.style.backgroundColor='#e0f2fe'"
                                                                 onmouseout="this.style.backgroundColor='transparent'"
                                                             >
-                                                                <div class="d-flex align-items-center gap-2 pe-2">
+                                                                <div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1">
                                                                     <template x-if="p.foto_url">
                                                                         <img :src="p.foto_url" :alt="p.nama" class="rounded border object-fit-cover flex-shrink-0" style="width: 34px; height: 34px;">
                                                                     </template>
@@ -377,21 +377,21 @@
                                                                             <i class="bi bi-image" style="font-size: 0.85rem;"></i>
                                                                         </div>
                                                                     </template>
-                                                                    <div>
-                                                                        <div class="fw-bold text-dark" style="font-size: 0.88rem;" x-text="p.nama"></div>
+                                                                    <div class="min-w-0">
+                                                                        <div class="fw-bold text-dark text-truncate" style="font-size: 0.86rem;" x-text="p.nama"></div>
                                                                         <div class="d-flex align-items-center gap-1 mt-0.5 flex-wrap">
-                                                                            <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.68rem;" x-text="'SKU: ' + p.kode"></span>
+                                                                            <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.68rem;" x-text="p.kode"></span>
                                                                             <span class="badge bg-light text-secondary border" style="font-size: 0.68rem;" x-text="p.kategori"></span>
                                                                             <span class="badge bg-light text-primary border" style="font-size: 0.68rem;" x-text="p.satuan"></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="text-end text-nowrap">
+                                                                <div class="text-end text-nowrap flex-shrink-0">
                                                                     <span
                                                                         class="badge border font-monospace"
                                                                         :class="p.stok > 0 ? 'bg-success-subtle text-success border-success-subtle' : 'bg-danger-subtle text-danger border-danger-subtle'"
-                                                                        style="font-size: 0.72rem;"
-                                                                        x-text="'Stok Asal: ' + Number(p.stok).toLocaleString('id-ID', {minimumFractionDigits: 2})"
+                                                                        style="font-size: 0.7rem;"
+                                                                        x-text="Number(p.stok).toLocaleString('id-ID', {minimumFractionDigits: 2})"
                                                                     ></span>
                                                                 </div>
                                                             </div>
@@ -411,7 +411,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td>
+                                    <td data-label="Jumlah Transfer">
                                         <div class="input-group">
                                             <button
                                                 type="button"
@@ -493,8 +493,8 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-sm btn-outline-danger" @disabled(count($items) === 1 && empty($item['produk_id']))>
-                                            <i class="bi bi-trash"></i>
+                                        <button type="button" wire:click="removeItem({{ $index }})" class="btn btn-sm btn-outline-danger w-100 w-md-auto" @disabled(count($items) === 1 && empty($item['produk_id']))>
+                                            <i class="bi bi-trash"></i> <span class="d-md-none ms-1">Hapus Baris</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -554,12 +554,12 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-end gap-2">
-            <a href="{{ route('transfer.index') }}" class="btn btn-secondary">Batal</a>
+        <div class="d-flex justify-content-end gap-2 flex-wrap">
+            <a href="{{ route('transfer.index') }}" class="btn btn-secondary flex-fill flex-sm-grow-0">Batal</a>
             <button
                 type="button"
                 wire:click="promptConfirmation"
-                class="btn btn-primary px-4 fw-semibold"
+                class="btn btn-primary px-4 fw-semibold flex-fill flex-sm-grow-0"
                 @disabled($this->hasOverflowItems || empty($gudang_asal_id) || empty($gudang_tujuan_id))
             >
                 <i class="bi bi-check-circle me-1"></i> Review & Simpan Transfer
@@ -570,41 +570,53 @@
     <!-- Modal Katalog Produk & Multi-Add -->
     @if ($isCatalogModalOpen)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 1055;" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-sm-down modal-dialog-scrollable">
                 <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-                    <div class="modal-header bg-primary text-white py-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-grid-3x3-gap-fill fs-5"></i>
-                            <div>
-                                <h5 class="modal-title fw-bold mb-0">Katalog Produk & Pilih Sekaligus</h5>
-                                <small class="text-white-50">Centang produk yang ingin dipindahkan dari Gudang Asal, lalu klik Tambahkan.</small>
+                    <div class="modal-header bg-primary text-white py-2 py-sm-3 px-3 px-sm-4 flex-shrink-0">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <i class="bi bi-grid-3x3-gap-fill fs-5 flex-shrink-0"></i>
+                            <div class="min-w-0">
+                                <h5 class="modal-title fw-bold mb-0 text-truncate">Katalog Produk & Pilih Sekaligus</h5>
+                                <small class="text-white-50 d-none d-sm-inline">Centang produk yang ingin dipindahkan dari Gudang Asal, lalu klik Tambahkan.</small>
                             </div>
                         </div>
-                        <button type="button" class="btn-close btn-close-white" wire:click="closeCatalogModal"></button>
+                        <button type="button" class="btn-close btn-close-white flex-shrink-0" wire:click="closeCatalogModal"></button>
                     </div>
 
-                    <div class="modal-body p-3 bg-light-subtle">
+                    <div class="p-2 p-sm-3 bg-light border-bottom flex-shrink-0" x-data="{ showFilters: false }">
                         <!-- Filter & Search Toolbar -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-md-5">
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                    <input
-                                        type="text"
-                                        wire:model.live.debounce.250ms="catalogSearchQuery"
-                                        class="form-control"
-                                        placeholder="Ketik nama atau kode SKU barang..."
-                                        autofocus
-                                    >
-                                    @if (filled($catalogSearchQuery))
-                                        <button type="button" wire:click="$set('catalogSearchQuery', '')" class="btn btn-outline-secondary">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    @endif
-                                </div>
+                        <div class="d-flex gap-2 mb-2">
+                            <div class="input-group input-group-sm flex-grow-1">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                                <input
+                                    type="text"
+                                    wire:model.live.debounce.250ms="catalogSearchQuery"
+                                    class="form-control border-start-0"
+                                    placeholder="Ketik nama atau kode SKU barang..."
+                                    autofocus
+                                >
+                                @if (filled($catalogSearchQuery))
+                                    <button type="button" wire:click="$set('catalogSearchQuery', '')" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                @endif
                             </div>
-                            <div class="col-md-4">
-                                <select wire:model.live="catalogKategoriId" class="form-select">
+                            @php
+                                $hasActiveTransferFilter = filled($catalogKategoriId) || filled($catalogMerekId);
+                            @endphp
+                            <button
+                                type="button"
+                                @click="showFilters = !showFilters"
+                                class="btn btn-sm d-md-none flex-shrink-0 d-inline-flex align-items-center gap-1 {{ $hasActiveTransferFilter ? 'btn-primary' : 'btn-outline-secondary bg-white' }}"
+                            >
+                                <i class="bi bi-sliders"></i>
+                                <span>Filter</span>
+                            </button>
+                        </div>
+
+                        <div class="row g-2 mb-2 d-md-flex" :class="showFilters ? 'd-flex' : 'd-none'">
+                            <div class="col-6">
+                                <select wire:model.live="catalogKategoriId" class="form-select form-select-sm">
                                     <option value="">-- Semua Kategori --</option>
                                     @foreach ($rootKategoris as $root)
                                         @if ($root->children->isNotEmpty())
@@ -620,8 +632,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <select wire:model.live="catalogMerekId" class="form-select">
+                            <div class="col-6">
+                                <select wire:model.live="catalogMerekId" class="form-select form-select-sm">
                                     <option value="">-- Semua Merek --</option>
                                     @foreach ($mereks as $m)
                                         <option value="{{ $m->id }}">{{ $m->nama_merek }}</option>
@@ -631,24 +643,92 @@
                         </div>
 
                         <!-- Action Toolbar -->
-                        <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-1 border-top">
                             <span class="small text-muted" style="font-size: 0.75rem;">
                                 Menampilkan {{ count($catalogProducts) }} barang &bull; Tercentang: <strong class="text-primary">{{ count($catalogSelectedProductIds) }}</strong> item
                             </span>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-primary btn-xs py-1 px-2" style="font-size: 0.75rem;">
+                                <button type="button" wire:click="selectAllFoundCatalogProducts" class="btn btn-outline-primary bg-white btn-xs py-1 px-2" style="font-size: 0.75rem;">
                                     <i class="bi bi-check-all me-1"></i>Centang Semua
                                 </button>
                                 @if (count($catalogSelectedProductIds) > 0)
-                                    <button type="button" wire:click="clearSelectedCatalogProducts" class="btn btn-outline-danger btn-xs py-1 px-2" style="font-size: 0.75rem;">
-                                        <i class="bi bi-x-circle me-1"></i>Hapus Centang
+                                    <button type="button" wire:click="clearSelectedCatalogProducts" class="btn btn-outline-danger bg-white btn-xs py-1 px-2" style="font-size: 0.75rem;">
+                                        <i class="bi bi-x-circle me-1"></i>Reset
                                     </button>
                                 @endif
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Product List Table -->
-                        <div class="table-responsive border rounded bg-white" style="max-height: 380px; overflow-y: auto;">
+                    <div class="modal-body p-0 bg-white">
+                        <!-- Mobile Card List View (< 768px) — Full Width Product Name -->
+                        <div class="d-md-none">
+                            <div class="list-group list-group-flush">
+                                @forelse ($catalogProducts as $cp)
+                                    @php $checked = in_array($cp['id'], $catalogSelectedProductIds, true); @endphp
+                                    <div
+                                        wire:key="transfer-cat-mob-{{ $cp['id'] }}"
+                                        wire:click="toggleCatalogProduct({{ $cp['id'] }})"
+                                        style="cursor: pointer;"
+                                        class="list-group-item list-group-item-action py-2.5 px-3 {{ $checked ? 'bg-primary-subtle border-start border-4 border-primary' : '' }}"
+                                    >
+                                        <div class="d-flex align-items-start gap-2.5">
+                                            <div onclick="event.stopPropagation();" class="pt-1 flex-shrink-0">
+                                                <input
+                                                    type="checkbox"
+                                                    class="form-check-input m-0"
+                                                    style="width: 1.25rem; height: 1.25rem;"
+                                                    wire:click="toggleCatalogProduct({{ $cp['id'] }})"
+                                                    {{ $checked ? 'checked' : '' }}
+                                                >
+                                            </div>
+                                            <div onclick="event.stopPropagation();" class="flex-shrink-0">
+                                                @if (!empty($cp['foto_url']))
+                                                    <img
+                                                        src="{{ $cp['foto_url'] }}"
+                                                        alt="{{ $cp['nama'] }}"
+                                                        class="rounded-3 border object-fit-cover"
+                                                        style="width: 44px; height: 44px;"
+                                                        loading="lazy"
+                                                        wire:click="openImageModal({{ $cp['id'] }})"
+                                                    >
+                                                @else
+                                                    <div class="bg-light rounded-3 border d-flex align-items-center justify-content-center text-muted" style="width: 44px; height: 44px;">
+                                                        <i class="bi bi-image"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="min-w-0 flex-grow-1">
+                                                <div class="fw-bold {{ $checked ? 'text-primary' : 'text-dark' }}" style="font-size: 0.9rem; line-height: 1.3;">
+                                                    {{ $cp['nama'] }}
+                                                </div>
+                                                <div class="d-flex align-items-center flex-wrap gap-1 mt-1">
+                                                    <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.7rem;">{{ $cp['kode_katalog'] }}</span>
+                                                    <span class="badge bg-light text-secondary border" style="font-size: 0.7rem;">{{ $cp['kategori'] }}</span>
+                                                    @if(!empty($cp['merek']) && $cp['merek'] !== '-')
+                                                        <span class="badge bg-white text-dark border" style="font-size: 0.7rem;">{{ $cp['merek'] }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top border-light-subtle">
+                                                    <span class="text-muted" style="font-size: 0.74rem;">Satuan: <strong>{{ $cp['satuan'] }}</strong></span>
+                                                    <span class="badge {{ $cp['stok'] <= 0 ? 'bg-danger-subtle text-danger border-danger-subtle' : 'bg-success-subtle text-success border-success-subtle' }} border font-monospace" style="font-size: 0.74rem;">
+                                                        Stok Asal: {{ number_format($cp['stok'], 2, ',', '.') }} {{ $cp['satuan'] }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-5 px-3 text-muted small">
+                                        <i class="bi bi-inbox d-block fs-3 mb-1"></i>
+                                        Tidak ada produk yang cocok dengan pencarian / kategori / merek.
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <!-- Desktop & Tablet Product List Table (>= 768px) -->
+                        <div class="table-responsive bg-white d-none d-md-block">
                             <table class="table table-hover table-sm align-middle mb-0">
                                 <thead class="table-light sticky-top">
                                     <tr>
@@ -736,15 +816,15 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between align-items-center">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" wire:click="closeCatalogModal">Batal</button>
+                    <div class="modal-footer bg-light py-2 px-3 flex-shrink-0 d-flex justify-content-between align-items-center gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm flex-fill flex-sm-grow-0" wire:click="closeCatalogModal">Batal</button>
                         <button
                             type="button"
-                            class="btn btn-primary btn-sm px-4 fw-semibold"
+                            class="btn btn-primary btn-sm px-3 px-sm-4 fw-semibold flex-fill flex-sm-grow-0"
                             wire:click="addSelectedCatalogProducts"
                             @disabled(count($catalogSelectedProductIds) === 0)
                         >
-                            <i class="bi bi-plus-circle me-1"></i>Tambahkan ({{ count($catalogSelectedProductIds) }}) Produk Terpilih ke Transfer
+                            <i class="bi bi-plus-circle me-1"></i>Tambahkan ({{ count($catalogSelectedProductIds) }}) Produk
                         </button>
                     </div>
                 </div>

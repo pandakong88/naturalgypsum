@@ -247,14 +247,18 @@
                                     <img src="{{ asset('storage/' . $logo_path) }}" alt="Logo Toko" class="img-fluid" style="max-height: 100px;">
                                     <div class="mt-2">
                                         <button type="button" wire:click="deleteLogo" class="btn btn-xs btn-outline-danger py-1 px-2" style="font-size: 0.75rem;">
-                                            <i class="bi bi-trash me-1"></i>Hapus Logo
+                                            <i class="bi bi-trash me-1"></i>Kembali ke Logo Default
                                         </button>
                                     </div>
                                 </div>
                             @else
-                                <div class="border border-dashed rounded p-4 bg-light text-muted w-100">
-                                    <i class="bi bi-card-image fs-1 d-block mb-1 text-secondary"></i>
-                                    <span class="small">Belum ada logo terpasang.<br>Format nota akan menggunakan judul teks standar.</span>
+                                <div class="border rounded p-3 w-100 text-center" style="background-color: #FAF8F5;">
+                                    <img src="{{ asset('images/logo-natural-modern-horizontal.svg') }}" alt="Logo Rebrand Natural Gypsum & PVC" class="img-fluid mb-2" style="max-height: 82px;">
+                                    <div>
+                                        <span class="badge bg-dark-subtle text-dark border small">
+                                            <i class="bi bi-patch-check-fill text-warning me-1"></i>Logo Rebrand Modern Aktif
+                                        </span>
+                                    </div>
                                 </div>
                             @endif
                         </div>
@@ -281,8 +285,17 @@
                     </div>
                     <div class="card-body p-3 bg-light border-bottom">
                         <div class="p-3 bg-white border rounded shadow-xs" style="font-size: 11px; line-height: 1.4;">
-                            <div class="fw-bold text-dark fs-6">{{ $nama_toko ?: 'NAMA TOKO ANDA' }}</div>
-                            <div class="text-muted small">{{ $slogan ?: 'Slogan / Keterangan Usaha' }}</div>
+                            <div class="d-flex align-items-start gap-2 mb-1">
+                                <img
+                                    src="{{ $logo ? $logo->temporaryUrl() : ($logo_path ? asset('storage/' . $logo_path) : asset('images/logo-natural-modern-kop.svg')) }}"
+                                    alt="Preview Logo Kop"
+                                    style="height: 40px; width: auto; object-fit: contain; flex-shrink: 0;"
+                                >
+                                <div>
+                                    <div class="fw-bold text-dark fs-6 lh-sm">{{ $nama_toko ?: 'NAMA TOKO ANDA' }}</div>
+                                    <div class="text-muted small">{{ $slogan ?: 'Slogan / Keterangan Usaha' }}</div>
+                                </div>
+                            </div>
                             <div class="text-secondary small mt-1">
                                 <i class="bi bi-geo-alt me-1"></i>{{ $alamat ?: 'Alamat toko belum diisi' }}
                             </div>

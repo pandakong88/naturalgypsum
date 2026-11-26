@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 440" width="100%" height="100%">
+  <!-- Flat Alabaster White Canvas -->
+  <rect width="1400" height="440" rx="18" fill="#FAF8F5"/>
+
+  <!-- Left Decorative Vertical Fluted PVC Strip Accent -->
+  <rect x="0" y="0" width="14" height="440" fill="#18181B"/>
+  <rect x="14" y="0" width="8" height="440" fill="#B87D4B"/>
+
+  <!-- ==================== FLAT ARCHITECTURAL 'N' MONOGRAM ==================== -->
+  <g transform="translate(80, 52)">
+    <!-- Matte Charcoal Square Badge -->
+    <rect x="0" y="0" width="236" height="236" rx="22" fill="#18181B"/>
+
+    <!-- Top Ceiling Line (Warm Bronze) -->
+    <rect x="38" y="28" width="160" height="5" fill="#C88D58"/>
+
+    <!-- Left Vertical Gypsum Plane (Clean Gypsum White #FAF8F5) -->
+    <rect x="38" y="42" width="42" height="162" fill="#FAF8F5"/>
+
+    <!-- Diagonal Ceiling Span forming 'N' (Clean Gypsum White #FAF8F5) -->
+    <polygon points="38,42 82,42 160,204 116,204" fill="#FAF8F5"/>
+
+    <!-- Right Pillar: 3 Vertical Fluted PVC / WPC Wood Slats (Warm Bronze #C88D58) -->
+    <polygon points="132,42 147,42 147,150 132,119" fill="#C88D58"/>
+    <polygon points="158,42 173,42 173,204 158,173" fill="#C88D58"/>
+    <rect x="183" y="42" width="15" height="162" fill="#C88D58"/>
+  </g>
+
+  <!-- ==================== HERO BRAND WORDMARK ==================== -->
+  <g transform="translate(360, 0)">
+    <!-- Hero Word: NATURAL -->
+    <text x="0" y="168"
+          font-family="'Montserrat', 'Plus Jakarta Sans', 'Arial Black', 'Segoe UI', sans-serif"
+          font-size="122"
+          font-weight="900"
+          fill="#18181B"
+          letter-spacing="10">
+      NATURAL
+    </text>
+
+    <!-- Sub-Brand Lockup: GYPSUM & PVC -->
+    <g transform="translate(4, 198)">
+      <!-- Warm Bronze Pill for GYPSUM & PVC -->
+      <rect x="0" y="0" width="330" height="52" rx="8" fill="#B87D4B"/>
+      <text x="165" y="35"
+            text-anchor="middle"
+            font-family="'Montserrat', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif"
+            font-size="28"
+            font-weight="800"
+            fill="#FFFFFF"
+            letter-spacing="5.5">
+        GYPSUM &amp; PVC
+      </text>
+
+      <!-- Tagline beside badge -->
+      <text x="355" y="34"
+            font-family="'Plus Jakarta Sans', 'Inter', 'Segoe UI', Arial, sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#44403C"
+            letter-spacing="2.5">
+        SOLUSI PLAFON &amp; INTERIOR MODERN
+      </text>
+    </g>
+  </g>
+
+  <!-- ==================== FULL-WIDTH FLAT FOOTER (SIGNBOARD / KOP NOTA) ==================== -->
+  <!-- Upper Bar: Aplikator & Penyedia Bahan Gypsum dan PVC -->
+  <g transform="translate(80, 315)">
+    <rect x="0" y="0" width="1250" height="48" rx="8" fill="#18181B"/>
+    <rect x="0" y="0" width="12" height="48" rx="4" fill="#B87D4B"/>
+    <rect x="1238" y="0" width="12" height="48" rx="4" fill="#B87D4B"/>
+    <text x="625" y="31"
+          text-anchor="middle"
+          font-family="'Montserrat', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif"
+          font-size="21"
+          font-weight="700"
+          fill="#FAF8F5"
+          letter-spacing="5.5">
+      APLIKATOR DAN PENYEDIA BAHAN GYPSUM DAN PVC
+    </text>
+  </g>
+
+  <!-- Lower Bar: Address & Phone -->
+  <g transform="translate(80, 378)">
+    <text x="625" y="30"
+          text-anchor="middle"
+          font-family="'Plus Jakarta Sans', 'Inter', 'Segoe UI', Arial, sans-serif"
+          font-size="23"
+          font-weight="700"
+          fill="#292524"
+          letter-spacing="1.2">
+      Jln. Piyungan Prambanan KM 2 Pucung   <tspan fill="#B87D4B" font-weight="900">•</tspan>   <tspan fill="#18181B" font-weight="800">HP / WA: 082136702637</tspan>
+    </text>
+  </g>
+</svg>

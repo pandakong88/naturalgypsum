@@ -18,19 +18,19 @@
         </div>
         <div class="col-12 col-sm-auto d-flex gap-2 flex-wrap">
             @can('update', $produk)
-                <a href="{{ route('master.produk.index', ['edit' => $produk->id]) }}" class="btn btn-primary shadow-sm">
+                <a href="{{ route('master.produk.index', ['edit' => $produk->id]) }}" class="btn btn-primary shadow-sm flex-fill flex-sm-grow-0">
                     <i class="bi bi-pencil-square me-1"></i> Edit Data Produk
                 </a>
             @endcan
-            <button type="button" wire:click="openBarcodeModal" class="btn btn-outline-dark">
+            <button type="button" wire:click="openBarcodeModal" class="btn btn-outline-dark flex-fill flex-sm-grow-0">
                 <i class="bi bi-upc-scan me-1"></i> Cetak Label Rak / Barcode
             </button>
             @if(request()->query('from') === 'stok')
-                <a href="{{ route('stok.index') }}" class="btn btn-outline-primary">
+                <a href="{{ route('stok.index') }}" class="btn btn-outline-primary flex-fill flex-sm-grow-0">
                     <i class="bi bi-arrow-left me-1"></i> Kembali ke Stok
                 </a>
             @else
-                <a href="{{ route('master.produk.index') }}" class="btn btn-outline-secondary">
+                <a href="{{ route('master.produk.index') }}" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">
                     <i class="bi bi-arrow-left me-1"></i> Kembali ke Katalog
                 </a>
             @endif
@@ -60,57 +60,57 @@
                         </div>
                     @endif
                     <div class="row g-3">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Kode Katalog / SKU</label>
                             <span class="fw-bold font-monospace fs-6">{{ $produk->kode_katalog }}</span>
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <label class="text-muted small mb-1 d-block">Nama Lengkap Produk</label>
-                            <span class="fw-semibold">{{ $produk->nama }}</span>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <label class="text-muted small mb-1 d-block">Kategori Induk</label>
-                            @if ($produk->kategori?->parent)
-                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 fs-6">
-                                    <i class="bi bi-folder-fill me-1"></i>{{ $produk->kategori->parent->nama_kategori }}
-                                </span>
-                            @else
-                                <span class="badge bg-light text-dark border px-2 py-1 fs-6">
-                                    <i class="bi bi-folder me-1"></i>{{ $produk->kategori->nama_kategori ?? '-' }}
-                                </span>
-                            @endif
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <label class="text-muted small mb-1 d-block">Sub-Kategori</label>
-                            @if ($produk->kategori?->parent)
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fs-6">
-                                    <i class="bi bi-arrow-return-right me-1"></i>{{ $produk->kategori->nama_kategori }}
-                                </span>
-                            @else
-                                <span class="badge bg-light text-muted border px-2 py-1 fs-6">- (Kategori Utama)</span>
-                            @endif
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <label class="text-muted small mb-1 d-block">Merek</label>
-                            <span class="badge bg-light text-dark border px-2 py-1">{{ $produk->merek->nama_merek ?? '-' }}</span>
-                        </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Satuan Dasar</label>
                             <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
                                 {{ $produk->satuan->label() }} ({{ $produk->satuan->value }})
                             </span>
                         </div>
                         <div class="col-12 col-sm-6">
+                            <label class="text-muted small mb-1 d-block">Nama Lengkap Produk</label>
+                            <span class="fw-semibold">{{ $produk->nama }}</span>
+                        </div>
+                        <div class="col-12 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Ukuran / Spesifikasi</label>
                             <span class="fw-medium">{{ $produk->ukuran ?: '-' }}</span>
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
+                            <label class="text-muted small mb-1 d-block">Kategori Induk</label>
+                            @if ($produk->kategori?->parent)
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                                    <i class="bi bi-folder-fill me-1"></i>{{ $produk->kategori->parent->nama_kategori }}
+                                </span>
+                            @else
+                                <span class="badge bg-light text-dark border px-2 py-1">
+                                    <i class="bi bi-folder me-1"></i>{{ $produk->kategori->nama_kategori ?? '-' }}
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label class="text-muted small mb-1 d-block">Sub-Kategori</label>
+                            @if ($produk->kategori?->parent)
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
+                                    <i class="bi bi-arrow-return-right me-1"></i>{{ $produk->kategori->nama_kategori }}
+                                </span>
+                            @else
+                                <span class="badge bg-light text-muted border px-2 py-1">- (Kategori Utama)</span>
+                            @endif
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label class="text-muted small mb-1 d-block">Merek</label>
+                            <span class="badge bg-light text-dark border px-2 py-1">{{ $produk->merek->nama_merek ?? '-' }}</span>
+                        </div>
+                        <div class="col-6 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Panjang Fisik per Lembar / Batang</label>
                             <span class="fw-semibold font-monospace">
                                 {{ $produk->panjang_meter ? number_format((float) $produk->panjang_meter, 2, ',', '.') . ' meter / lbr' : '-' }}
                             </span>
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Kemasan Pabrik (Truk Datang)</label>
                             @if ($produk->kemasan)
                                 <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle px-2 py-1">
@@ -120,7 +120,7 @@
                                 <span class="text-muted">-</span>
                             @endif
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-6 col-sm-6">
                             <label class="text-muted small mb-1 d-block">Isi Fisik per Kemasan</label>
                             <span class="fw-semibold">
                                 @if ($produk->isi_per_kemasan)
@@ -174,7 +174,7 @@
 
             <!-- Stok Fisik per Gudang (Real-time) -->
             <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <h5 class="card-title fw-bold mb-0 text-dark">
                         <i class="bi bi-building text-primary me-2"></i>Stok Fisik per Gudang
                     </h5>
@@ -189,7 +189,7 @@
                                 <tr>
                                     <th class="ps-3">Gudang</th>
                                     <th>Lokasi</th>
-                                    <th class="text-end">Jumlah Stok</th>
+                                    <th class="text-end text-nowrap">Jumlah Stok</th>
                                     <th class="text-center pe-3">Status</th>
                                 </tr>
                             </thead>
@@ -202,13 +202,15 @@
                                         $isKosong = $qty <= 0;
                                     @endphp
                                     <tr>
-                                        <td class="ps-3 fw-semibold text-dark">
+                                        <td class="ps-3 fw-semibold text-dark text-nowrap">
                                             <i class="bi bi-geo-alt text-primary me-1"></i>{{ $stokItem->gudang?->nama_gudang ?? '-' }}
                                         </td>
                                         <td class="text-muted small">
-                                            {{ $stokItem->gudang?->lokasi ?? '-' }}
+                                            <div class="text-truncate" style="max-width: 220px;" title="{{ $stokItem->gudang?->lokasi ?? '-' }}">
+                                                {{ $stokItem->gudang?->lokasi ?? '-' }}
+                                            </div>
                                         </td>
-                                        <td class="text-end fw-bold font-monospace">
+                                        <td class="text-end fw-bold font-monospace text-nowrap">
                                             {{ number_format($qty, 2, ',', '.') }} {{ $produk->satuan->value }}
                                         </td>
                                         <td class="text-center pe-3">
@@ -237,7 +239,7 @@
 
             <!-- Riwayat Mutasi Stok Terbaru (Kartu Stok Mini) -->
             <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <h5 class="card-title fw-bold mb-0 text-dark">
                         <i class="bi bi-clock-history text-secondary me-2"></i>Riwayat Mutasi Stok Terbaru
                     </h5>
@@ -252,12 +254,12 @@
                         <table class="table table-sm table-hover align-middle mb-0" style="font-size: 0.82rem;">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="ps-3">Tanggal</th>
-                                    <th>Gudang</th>
-                                    <th>Jenis Mutasi</th>
-                                    <th class="text-end">Jumlah</th>
-                                    <th>Referensi</th>
-                                    <th class="pe-3">Petugas</th>
+                                    <th class="ps-3 text-nowrap">Tanggal</th>
+                                    <th class="text-nowrap">Gudang</th>
+                                    <th class="text-nowrap">Jenis Mutasi</th>
+                                    <th class="text-end text-nowrap">Jumlah</th>
+                                    <th class="text-nowrap">Referensi</th>
+                                    <th class="pe-3 text-nowrap">Petugas</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -266,24 +268,24 @@
                                         $isPlus = (float)$mutasi->jumlah > 0;
                                     @endphp
                                     <tr>
-                                        <td class="ps-3 text-muted">
+                                        <td class="ps-3 text-muted text-nowrap">
                                             {{ $mutasi->tanggal ? $mutasi->tanggal->format('d/m/Y H:i') : '-' }}
                                         </td>
-                                        <td class="fw-semibold">
+                                        <td class="fw-semibold text-nowrap">
                                             {{ $mutasi->gudang?->nama_gudang ?? '-' }}
                                         </td>
-                                        <td>
+                                        <td class="text-nowrap">
                                             <span class="badge {{ $mutasi->jenis?->badgeClass() ?? 'bg-light text-dark border' }}">
                                                 {{ $mutasi->jenis?->label() ?? $mutasi->jenis }}
                                             </span>
                                         </td>
-                                        <td class="text-end font-monospace fw-bold {{ $isPlus ? 'text-success' : 'text-danger' }}">
+                                        <td class="text-end font-monospace fw-bold text-nowrap {{ $isPlus ? 'text-success' : 'text-danger' }}">
                                             {{ $isPlus ? '+' : '' }}{{ number_format((float)$mutasi->jumlah, 2, ',', '.') }}
                                         </td>
-                                        <td>
+                                        <td class="text-nowrap">
                                             <span class="font-monospace small text-muted">{{ $mutasi->referensi ?? '-' }}</span>
                                         </td>
-                                        <td class="pe-3 text-muted small">
+                                        <td class="pe-3 text-muted small text-nowrap">
                                             {{ $mutasi->user?->name ?? 'Sistem' }}
                                         </td>
                                     </tr>
@@ -474,7 +476,7 @@
                         <button type="button" wire:click="closeBarcodeModal" class="btn-close" aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body p-4 bg-light-subtle">
+                    <div class="modal-body p-2 p-sm-4 bg-light-subtle">
                         <div class="row g-3 mb-3 no-print">
                             <div class="col-sm-6">
                                 <label class="form-label fw-semibold small mb-1">Jumlah Label yang Dicetak</label>
@@ -496,7 +498,7 @@
                         </div>
 
                         <!-- Printable Area -->
-                        <div id="printable-barcode-area" class="p-3 bg-white border rounded shadow-xs">
+                        <div id="printable-barcode-area" class="p-2 p-sm-3 bg-white border rounded shadow-xs overflow-x-auto">
                             <div class="d-flex flex-wrap gap-3 justify-content-center">
                                 @for ($i = 0; $i < $barcodeQty; $i++)
                                     <div class="border border-dark rounded-2 bg-white text-dark d-flex flex-column justify-content-between position-relative shadow-xs"
@@ -545,11 +547,11 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer bg-light border-top py-2 px-4 d-flex justify-content-between align-items-center no-print">
+                    <div class="modal-footer bg-light border-top py-2 px-3 px-sm-4 d-flex justify-content-between align-items-center flex-wrap gap-2 no-print">
                         <button type="button" wire:click="closeBarcodeModal" class="btn btn-outline-secondary">
                             Tutup
                         </button>
-                        <button type="button" onclick="window.print()" class="btn btn-dark px-4 fw-semibold shadow-sm">
+                        <button type="button" onclick="window.print()" class="btn btn-dark px-3 px-sm-4 fw-semibold shadow-sm">
                             <i class="bi bi-printer me-1"></i>Cetak Sekarang (Print)
                         </button>
                     </div>

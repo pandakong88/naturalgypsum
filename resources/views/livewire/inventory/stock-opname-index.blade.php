@@ -42,17 +42,17 @@
     </div>
 
     <!-- Page Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 no-print">
+    <div class="d-flex justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 flex-column flex-md-row gap-2 no-print">
         <div>
             <h4 class="fw-bold mb-1 text-dark">Stok Opname</h4>
             <p class="text-muted mb-0 small">Pencatatan fisik stok, audit periodik, dan penyesuaian inventory sistem.</p>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-            <button type="button" onclick="window.print()" class="btn btn-outline-secondary">
+        <div class="d-flex gap-2 flex-wrap w-100 w-md-auto">
+            <button type="button" onclick="window.print()" class="btn btn-outline-secondary flex-fill flex-md-grow-0">
                 <i class="bi bi-printer me-1"></i> Cetak
             </button>
 
-            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white">
+            <button type="button" wire:click="exportExcel" wire:loading.attr="disabled" class="btn btn-success text-white flex-fill flex-md-grow-0">
                 <span wire:loading.remove wire:target="exportExcel"><i class="bi bi-file-earmark-excel me-1"></i> Ekspor Excel</span>
                 <span wire:loading wire:target="exportExcel">
                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
@@ -61,7 +61,7 @@
             </button>
 
             @can('create_stock_opnames')
-                <a href="{{ route('inventory.stock-opname.create') }}" class="btn btn-primary shadow-sm">
+                <a href="{{ route('inventory.stock-opname.create') }}" class="btn btn-primary shadow-sm flex-fill flex-md-grow-0">
                     <i class="bi bi-plus-lg me-1"></i> Mulai Stok Opname
                 </a>
             @endcan
@@ -83,86 +83,86 @@
     @endif
 
     <!-- Stock Opname KPI Metric Cards -->
-    <div class="row g-3 mb-4 no-print">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4 no-print">
         <!-- Total Dokumen -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Total Dokumen Opname</span>
-                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Total Dokumen</span>
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-2 d-none d-sm-flex">
                             <i class="bi bi-clipboard-check fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalDokumen'], 0, ',', '.') }}</h3>
-                    <small class="text-muted">Riwayat audit tercatat</small>
+                    <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalDokumen'], 0, ',', '.') }}</h4>
+                    <small class="text-muted d-block text-truncate">Riwayat audit tercatat</small>
                 </div>
             </div>
         </div>
 
         <!-- Selesai (Disesuaikan) -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Opname Selesai</span>
-                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Opname Selesai</span>
+                        <div class="p-2 bg-success bg-opacity-10 text-success rounded-2 d-none d-sm-flex">
                             <i class="bi bi-check-circle-fill fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalSelesai'], 0, ',', '.') }}</h3>
-                    <small class="text-success fw-medium">Penyesuaian stok diterapkan</small>
+                    <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalSelesai'], 0, ',', '.') }}</h4>
+                    <small class="text-success fw-medium d-block text-truncate">Penyesuaian diterapkan</small>
                 </div>
             </div>
         </div>
 
         <!-- Draft (Berjalan) -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Draft / Berjalan</span>
-                        <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Draft / Berjalan</span>
+                        <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-2 d-none d-sm-flex">
                             <i class="bi bi-hourglass-split fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalDraft'], 0, ',', '.') }}</h3>
-                    <small class="text-warning fw-medium">Belum difinalisasi</small>
+                    <h4 class="fw-bold mb-0 text-dark">{{ number_format($metrics['totalDraft'], 0, ',', '.') }}</h4>
+                    <small class="text-warning fw-medium d-block text-truncate">Belum difinalisasi</small>
                 </div>
             </div>
         </div>
 
         <!-- Net Selisih Kuantitas -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-3 kpi-card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="text-muted small fw-medium">Net Selisih Fisik</span>
-                        <div class="p-2 {{ $metrics['netSelisih'] < 0 ? 'bg-danger bg-opacity-10 text-danger' : 'bg-info bg-opacity-10 text-info' }} rounded-2">
+        <div class="col-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-3 kpi-card h-100">
+                <div class="card-body p-2 p-sm-3">
+                    <div class="d-flex align-items-center justify-content-between mb-1 mb-sm-2">
+                        <span class="text-muted small fw-medium text-truncate">Net Selisih Fisik</span>
+                        <div class="p-2 {{ $metrics['netSelisih'] < 0 ? 'bg-danger bg-opacity-10 text-danger' : 'bg-info bg-opacity-10 text-info' }} rounded-2 d-none d-sm-flex">
                             <i class="bi {{ $metrics['netSelisih'] < 0 ? 'bi-graph-down-arrow' : 'bi-graph-up-arrow' }} fs-5"></i>
                         </div>
                     </div>
-                    <h3 class="fw-bold mb-0 {{ $metrics['netSelisih'] < 0 ? 'text-danger' : ($metrics['netSelisih'] > 0 ? 'text-primary' : 'text-dark') }}">
+                    <h4 class="fw-bold mb-0 {{ $metrics['netSelisih'] < 0 ? 'text-danger' : ($metrics['netSelisih'] > 0 ? 'text-primary' : 'text-dark') }}">
                         {{ ($metrics['netSelisih'] > 0 ? '+' : '') . number_format($metrics['netSelisih'], 0, ',', '.') }}
-                    </h3>
-                    <small class="text-muted">{{ number_format($metrics['totalItemSelisih'], 0, ',', '.') }} baris item berbeda fisik</small>
+                    </h4>
+                    <small class="text-muted d-block text-truncate">{{ number_format($metrics['totalItemSelisih'], 0, ',', '.') }} item berbeda fisik</small>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Filters & Search Section -->
-    <div class="card border-0 shadow-sm mb-4 no-print">
+    <div class="card border-0 shadow-sm mb-3 mb-md-4 no-print">
         <div class="card-body p-3">
             <!-- Tier 1: Search & Dropdowns -->
             <div class="row g-2 mb-2">
-                <div class="col-md-5">
+                <div class="col-12 col-md-5">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control border-start-0" placeholder="Cari No. Opname, catatan, nama produk, gudang...">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-6 col-md-4">
                     <select wire:model.live="filterGudang" class="form-select form-select-sm">
                         <option value="">-- Semua Lokasi Gudang --</option>
                         @foreach($gudangs as $g)
@@ -170,7 +170,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <select wire:model.live="filterStatus" class="form-select form-select-sm">
                         <option value="">-- Semua Status --</option>
                         @foreach($statuses as $s)
@@ -182,19 +182,19 @@
 
             <!-- Tier 2: Date Range, PerPage & Reset -->
             <div class="row g-2 align-items-center">
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light">Dari</span>
                         <input type="date" wire:model.live="startDate" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light">Sampai</span>
                         <input type="date" wire:model.live="endDate" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-6 col-md-3">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light">Baris</span>
                         <select wire:model.live="perPage" class="form-select">
@@ -205,7 +205,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 text-end">
+                <div class="col-6 col-md-3 text-end">
                     <button wire:click="resetFilters" class="btn btn-outline-secondary btn-sm w-100" @if(!$this->hasActiveFilters) disabled @endif>
                         <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filter
                     </button>
@@ -245,10 +245,74 @@
         </div>
     </div>
 
-    <!-- Table -->
+    <!-- Table (Desktop & Tablet) & Card List (Mobile) -->
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none no-print">
+                <div class="list-group list-group-flush">
+                    @forelse($stockOpnames as $so)
+                        <div class="list-group-item p-3">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <div>
+                                    <a href="{{ route('inventory.stock-opname.detail', $so->id) }}" class="fw-bold text-primary font-monospace text-decoration-none d-block">
+                                        {{ $so->no_stock_opname }}
+                                    </a>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3 me-1"></i>{{ $so->tanggal->format('d/m/Y') }} ({{ $so->tanggal->diffForHumans() }})
+                                    </small>
+                                </div>
+                                <span class="badge bg-{{ $so->status->badgeColor() }} px-2 py-1 flex-shrink-0">
+                                    {{ $so->status->label() }}
+                                </span>
+                            </div>
+
+                            <div class="bg-light rounded-2 p-2 mb-2 border d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <div>
+                                    <span class="badge bg-white text-dark border">
+                                        <i class="bi bi-building me-1 text-secondary"></i>{{ $so->gudang->nama_gudang }}
+                                    </span>
+                                    @if($so->catatan)
+                                        <small class="d-block text-muted mt-1">{{ $so->catatan }}</small>
+                                    @endif
+                                </div>
+                                <span class="badge bg-secondary-subtle text-secondary border">
+                                    {{ $so->details_count ?? $so->details->count() }} Produk
+                                </span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                                <small class="text-muted" style="font-size: 0.72rem;">
+                                    <i class="bi bi-person me-1"></i>{{ $so->user->name ?? '-' }}
+                                </small>
+                                <div class="d-flex gap-1">
+                                    <button type="button" wire:click="openQuickModal({{ $so->id }})" class="btn btn-sm btn-outline-secondary" title="Pratinjau Cepat">
+                                        <i class="bi bi-search me-1"></i>Pratinjau
+                                    </button>
+                                    <a href="{{ route('inventory.stock-opname.detail', $so->id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i>Buka
+                                    </a>
+                                    @if($so->status === \App\Domains\Inventory\Enums\StatusStockOpname::Draft)
+                                        @can('delete', $so)
+                                            <button type="button" wire:click="promptDeleteDraft({{ $so->id }})" class="btn btn-sm btn-outline-danger" title="Hapus Draft">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        @endcan
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 px-3 text-muted">
+                            <i class="bi bi-clipboard-x display-6 d-block mb-2 text-secondary"></i>
+                            Tidak ada data Stok Opname yang sesuai dengan filter yang dipilih.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Desktop & Tablet Table View (>= 768px & Print) -->
+            <div class="table-responsive d-none d-md-block d-print-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light text-secondary small text-uppercase">
                         <tr>
