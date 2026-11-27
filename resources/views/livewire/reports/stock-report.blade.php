@@ -24,44 +24,44 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Item Tercatat</div>
-                    <div class="h4 fw-bold text-primary mb-1">{{ number_format($summary['total_items'] ?? 0, 0, ',', '.') }} Item</div>
-                    <div class="small text-muted">Akumulasi: {{ number_format($summary['total_stok'] ?? 0, 0, ',', '.') }} Unit</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Item Tercatat</div>
+                    <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_items'] ?? 0, 0, ',', '.') }} Item</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Akumulasi: {{ number_format($summary['total_stok'] ?? 0, 0, ',', '.') }} Unit</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl">
+        <div class="col-6 col-xl">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Stok Rendah (&le; Min)</div>
-                    <div class="h4 fw-bold text-warning mb-1">{{ number_format($summary['total_stok_rendah'] ?? 0, 0, ',', '.') }} Item</div>
-                    <div class="small text-muted">Habis / Nol: <strong class="text-danger">{{ number_format($summary['total_stok_habis'] ?? 0, 0, ',', '.') }} Item</strong></div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Stok Rendah (&le; Min)</div>
+                    <div class="h5 fw-bold text-warning mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_stok_rendah'] ?? 0, 0, ',', '.') }} Item</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Habis: <strong class="text-danger">{{ number_format($summary['total_stok_habis'] ?? 0, 0, ',', '.') }} Item</strong></div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl">
+        <div class="col-6 col-xl">
             <div class="card border-0 shadow-sm border-start border-secondary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Dead-Stock (30 Hari)</div>
-                    <div class="h4 fw-bold text-secondary mb-1">{{ number_format($summary['total_dead_stock'] ?? 0, 0, ',', '.') }} Item</div>
-                    <div class="small text-muted">Stok mengendap (0 terjual 30 hr)</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Dead-Stock (30 Hr)</div>
+                    <div class="h5 fw-bold text-secondary mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_dead_stock'] ?? 0, 0, ',', '.') }} Item</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">0 terjual dalam 30 hr</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl">
+        <div class="col-6 col-xl">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Valuasi Modal Stok</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Valuasi Modal Stok</div>
                     @if($canViewPurchasePrices)
-                        <div class="h4 fw-bold text-success mb-1">Rp {{ number_format($summary['total_nilai_stok'] ?? 0, 0, ',', '.') }}</div>
-                        <div class="small text-muted">Potensi Jual: Rp {{ number_format($summary['total_nilai_jual_stok'] ?? 0, 0, ',', '.') }}</div>
+                        <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_nilai_stok'] ?? 0, 0, ',', '.') }}</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Jual: Rp {{ number_format($summary['total_nilai_jual_stok'] ?? 0, 0, ',', '.') }}</div>
                     @else
-                        <div class="h5 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
-                        <div class="small text-muted">Akses harga dilindungi</div>
+                        <div class="h6 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Akses dilindungi</div>
                     @endif
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
     <!-- Warehouse Distribution Strip -->
     @if($warehouseBreakdown->count() > 0)
-        <div class="row g-3 mb-4">
+        <div class="row g-2 g-md-3 mb-3 mb-md-4">
             @foreach($warehouseBreakdown as $wh)
                 <div class="col-md-6 col-xl-4">
                     <div class="card border-0 shadow-sm h-100 {{ (string) $gudang_id === (string) $wh['gudang_id'] ? 'border border-primary bg-primary-subtle bg-opacity-10' : '' }}">
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             @if($canViewPurchasePrices)
-                                <div class="d-flex justify-content-between small text-muted mt-1">
+                                <div class="d-flex justify-content-between small text-muted mt-1 flex-wrap gap-1" style="font-size: 0.74rem;">
                                     <span>Modal: <strong class="text-success">Rp {{ number_format($wh['nilai_modal'], 0, ',', '.') }}</strong></span>
                                     <span>Potensi Jual: <strong class="text-dark">Rp {{ number_format($wh['nilai_jual'], 0, ',', '.') }}</strong></span>
                                 </div>
@@ -100,18 +100,18 @@
     @endif
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari Kode / Nama Produk</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari Kode / Nama Produk</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nama / kode...">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Gudang</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Gudang</label>
                     <select wire:model.live="gudang_id" class="form-select form-select-sm">
                         <option value="">Semua Gudang</option>
                         @foreach($gudangList as $g)
@@ -119,8 +119,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Kategori</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Kategori</label>
                     <select wire:model.live="kategori_id" class="form-select form-select-sm">
                         <option value="">Semua Kategori</option>
                         @foreach ($rootKategoris as $root)
@@ -137,8 +137,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Pergerakan 30 Hari</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Pergerakan 30 Hari</label>
                     <select wire:model.live="pergerakan" class="form-select form-select-sm">
                         <option value="">Semua Pergerakan</option>
                         <option value="fast_moving">Aktif Terjual (Fast-Moving)</option>
@@ -146,13 +146,13 @@
                         <option value="habis">Stok Habis (0)</option>
                     </select>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
+                <div class="col-4 col-md-2 d-flex align-items-end">
                     <div class="form-check form-switch mb-1">
                         <input class="form-check-input" type="checkbox" role="switch" id="stokRendahSwitch" wire:model.live="stok_rendah">
-                        <label class="form-check-label small fw-semibold" for="stokRendahSwitch">Hanya Stok Rendah</label>
+                        <label class="form-check-label small fw-semibold" for="stokRendahSwitch" style="font-size: 0.75rem;">Stok Rendah</label>
                     </div>
                 </div>
-                <div class="col-md-1 d-flex align-items-end">
+                <div class="col-2 col-md-1 d-flex align-items-end">
                     <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100" title="Reset Filter">
                         <i class="bi bi-arrow-counterclockwise"></i>
                     </button>
@@ -162,14 +162,14 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-table me-2"></i>Daftar Posisi Stok &amp; Analisis Perputaran
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -177,7 +177,73 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($stocks as $row)
+                @php
+                    $isLow = $row->jumlah <= $row->produk->stok_minimum && $row->jumlah > 0;
+                    $isOut = $row->jumlah <= 0;
+                    $lineValue = $row->jumlah * $row->produk->harga_beli;
+                    $qtySold30d = (float) ($sales30DaysMap[$row->produk_id] ?? 0);
+                    $konversi = $row->produk->getKonversiFisik((float) $row->jumlah);
+                @endphp
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <div class="min-w-0">
+                            <div class="fw-bold text-dark" style="font-size: 0.92rem;">{{ $row->produk->nama ?? '-' }}</div>
+                            <div class="d-flex align-items-center flex-wrap gap-1 mt-0.5" style="font-size: 0.72rem;">
+                                <span class="badge bg-light text-primary border font-monospace">{{ $row->produk->kode_katalog ?? '-' }}</span>
+                                <span class="badge bg-light text-dark border">{{ $row->produk->kategori->nama_kategori ?? '-' }}</span>
+                                <span class="badge bg-secondary-subtle text-secondary"><i class="bi bi-building me-1"></i>{{ $row->gudang->nama_gudang ?? '-' }}</span>
+                            </div>
+                        </div>
+                        @if($isOut)
+                            <span class="badge bg-danger flex-shrink-0">Habis</span>
+                        @elseif($isLow)
+                            <span class="badge bg-warning text-dark flex-shrink-0">Rendah</span>
+                        @else
+                            <span class="badge bg-success flex-shrink-0">Aman</span>
+                        @endif
+                    </div>
+
+                    <div class="p-2 rounded-3 bg-light border my-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <div class="text-muted" style="font-size: 0.7rem;">Stok Fisik (Min: {{ number_format($row->produk->stok_minimum, 0, ',', '.') }})</div>
+                            <div class="fw-bold fs-6 font-monospace {{ $isOut ? 'text-danger' : ($isLow ? 'text-warning-emphasis' : 'text-dark') }}">
+                                {{ number_format($row->jumlah, 0, ',', '.') }} {{ $row->produk->satuan->label() ?? '' }}
+                            </div>
+                            @if($konversi && $konversi['has_conversion'] && $row->jumlah > 0)
+                                <span class="badge bg-info-subtle text-info-emphasis border mt-0.5" style="font-size: 0.65rem;">
+                                    📦 {{ $konversi['badge_text'] }}
+                                </span>
+                            @endif
+                        </div>
+                        <div class="text-end ms-auto" style="font-size: 0.74rem;">
+                            <div class="text-muted">
+                                Terjual 30 Hr:
+                                <strong class="{{ $qtySold30d > 0 ? 'text-success' : 'text-secondary' }}">
+                                    {{ $qtySold30d > 0 ? number_format($qtySold30d, 0, ',', '.') : '0 (Mengendap)' }}
+                                </strong>
+                            </div>
+                            @if($canViewPurchasePrices)
+                                <div class="text-muted mt-0.5">
+                                    Modal: <strong class="text-success font-monospace">Rp {{ number_format($lineValue, 0, ',', '.') }}</strong>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Tidak ada data stok yang sesuai dengan filter pencarian.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

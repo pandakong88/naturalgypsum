@@ -20,17 +20,17 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Total Batch Produksi</span>
-                            <h5 class="fw-bold text-primary mb-1">{{ number_format($totalBatch) }} Batch</h5>
-                            <small class="text-muted">Produksi selesai & aktif</small>
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Total Batch</span>
+                            <h5 class="fw-bold text-primary mb-1 fs-6 fs-sm-5">{{ number_format($totalBatch) }} Batch</h5>
+                            <small class="text-muted d-none d-sm-inline">Produksi selesai & aktif</small>
                         </div>
-                        <div class="p-2 bg-primary-subtle text-primary rounded">
+                        <div class="p-2 bg-primary-subtle text-primary rounded d-none d-sm-inline-flex">
                             <i class="bi bi-gear-wide-connected fs-4"></i>
                         </div>
                     </div>
@@ -38,20 +38,20 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Total Output Barang Jadi</span>
-                            <h5 class="fw-bold text-dark mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Output Barang Jadi</span>
+                            <h5 class="fw-bold text-dark mb-1 fs-6 fs-sm-5">
                                 {{ number_format($totalOutputQty, 0, ',', '.') }} Unit
                             </h5>
-                            <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle">
-                                {{ number_format($totalJenisProduk) }} Varian Produk
+                            <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle" style="font-size: 0.68rem;">
+                                {{ number_format($totalJenisProduk) }} Varian
                             </span>
                         </div>
-                        <div class="p-2 bg-info-subtle text-info-emphasis rounded">
+                        <div class="p-2 bg-info-subtle text-info-emphasis rounded d-none d-sm-inline-flex">
                             <i class="bi bi-box-seam fs-4"></i>
                         </div>
                     </div>
@@ -59,18 +59,18 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Estimasi Nilai Produksi (HPP)</span>
-                            <h5 class="fw-bold text-success mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Estimasi Nilai (HPP)</span>
+                            <h5 class="fw-bold text-success mb-1 fs-6 fs-sm-5">
                                 Rp {{ number_format($estimasiNilaiOutput, 0, ',', '.') }}
                             </h5>
-                            <small class="text-muted">Nilai aset barang jadi masuk</small>
+                            <small class="text-muted d-none d-sm-inline">Nilai aset barang jadi masuk</small>
                         </div>
-                        <div class="p-2 bg-success-subtle text-success rounded">
+                        <div class="p-2 bg-success-subtle text-success rounded d-none d-sm-inline-flex">
                             <i class="bi bi-graph-up-arrow fs-4"></i>
                         </div>
                     </div>
@@ -78,18 +78,18 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Status & Audit Produksi</span>
-                            <h5 class="fw-bold {{ $totalDibatalkan > 0 ? 'text-danger' : 'text-secondary' }} mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Status & Audit</span>
+                            <h5 class="fw-bold {{ $totalDibatalkan > 0 ? 'text-danger' : 'text-secondary' }} mb-1 fs-6 fs-sm-5">
                                 {{ number_format($totalDibatalkan) }} Dibatalkan
                             </h5>
-                            <small class="text-muted">Tanpa menimbulkan hutang supplier</small>
+                            <small class="text-muted d-none d-sm-inline">Tanpa hutang supplier</small>
                         </div>
-                        <div class="p-2 bg-secondary-subtle text-secondary rounded">
+                        <div class="p-2 bg-secondary-subtle text-secondary rounded d-none d-sm-inline-flex">
                             <i class="bi bi-shield-check fs-4"></i>
                         </div>
                     </div>
@@ -113,38 +113,38 @@
     @endif
 
     <!-- Filters & Search -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
             <!-- Quick Date Presets -->
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
-                <div class="d-flex flex-wrap align-items-center gap-1">
-                    <span class="small text-muted me-2"><i class="bi bi-calendar3 me-1"></i>Periode Cepat:</span>
-                    <button type="button" wire:click="setDatePreset('today')" class="btn btn-sm {{ $datePreset === 'today' ? 'btn-primary' : 'btn-outline-secondary' }}">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2.5 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-1 nav-pills-scrollable flex-nowrap pb-1 pb-md-0">
+                    <span class="small text-muted me-1 text-nowrap"><i class="bi bi-calendar3 me-1"></i>Periode:</span>
+                    <button type="button" wire:click="setDatePreset('today')" class="btn btn-sm text-nowrap {{ $datePreset === 'today' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Hari Ini
                     </button>
-                    <button type="button" wire:click="setDatePreset('yesterday')" class="btn btn-sm {{ $datePreset === 'yesterday' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('yesterday')" class="btn btn-sm text-nowrap {{ $datePreset === 'yesterday' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Kemarin
                     </button>
-                    <button type="button" wire:click="setDatePreset('7days')" class="btn btn-sm {{ $datePreset === '7days' ? 'btn-primary' : 'btn-outline-secondary' }}">
-                        7 Hari Terakhir
+                    <button type="button" wire:click="setDatePreset('7days')" class="btn btn-sm text-nowrap {{ $datePreset === '7days' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        7 Hari
                     </button>
-                    <button type="button" wire:click="setDatePreset('month')" class="btn btn-sm {{ $datePreset === 'month' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('month')" class="btn btn-sm text-nowrap {{ $datePreset === 'month' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Bulan Ini
                     </button>
-                    <button type="button" wire:click="setDatePreset('all')" class="btn btn-sm {{ $datePreset === '' && $startDate === '' && $endDate === '' ? 'btn-dark' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('all')" class="btn btn-sm text-nowrap {{ $datePreset === '' && $startDate === '' && $endDate === '' ? 'btn-dark' : 'btn-outline-secondary' }}">
                         Semua Waktu
                     </button>
                 </div>
 
                 @if ($search !== '' || $gudangFilter !== '' || $statusFilter !== 'aktif' || $startDate !== '' || $endDate !== '')
                     <button type="button" wire:click="resetFilters" class="btn btn-sm btn-link text-danger text-decoration-none p-0">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Semua Filter
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Filter
                     </button>
                 @endif
             </div>
 
-            <div class="row g-3">
-                <div class="col-md-4 col-lg-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-4 col-lg-3">
                     <label class="form-label small text-muted mb-1">Cari No. Produksi / Produk / Catatan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
@@ -194,10 +194,97 @@
         </div>
     </div>
 
-    <!-- Data Table -->
-    <div class="card border-0 shadow-sm">
+    <!-- Data Card (Mobile Card List + Desktop Table) -->
+    <div class="card border-0 shadow-sm overflow-hidden">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @forelse ($produksis as $p)
+                    @php
+                        $isCancelled = $p->trashed();
+                        $nilaiOutput = $p->estimasi_nilai_output;
+                        $bahanCount = $p->bahanMutations->count();
+                    @endphp
+                    <div class="p-3 border-bottom {{ $isCancelled ? 'bg-danger bg-opacity-10' : '' }}" wire:key="prod-mob-{{ $p->id }}">
+                        <!-- Top Row: No. Produksi + Date & Gudang -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                            <div>
+                                <a href="{{ route('produksi.show', $p->id) }}" class="fw-bold font-monospace text-decoration-none {{ $isCancelled ? 'text-danger text-decoration-line-through' : 'text-primary' }}">
+                                    {{ $p->no_produksi }}
+                                </a>
+                                @if ($isCancelled)
+                                    <span class="badge bg-danger ms-1" style="font-size: 0.68rem;">DIBATALKAN</span>
+                                @endif
+                                <div class="text-muted mt-0.5" style="font-size: 0.72rem;">
+                                    <i class="bi bi-calendar3 me-1"></i>{{ $p->tanggal->format('d/m/Y') }} &bull; {{ $p->created_at?->format('H:i') }}
+                                </div>
+                            </div>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle flex-shrink-0" style="font-size: 0.7rem;">
+                                <i class="bi bi-building me-1"></i>{{ $p->gudang->nama_gudang ?? '-' }}
+                            </span>
+                        </div>
+
+                        <!-- Finished Goods & Output Value Box -->
+                        <div class="p-2.5 rounded-3 bg-light border my-2">
+                            <div class="d-flex flex-wrap gap-1 mb-1.5">
+                                @foreach ($p->details->take(3) as $detail)
+                                    @php
+                                        $qty = (float) $detail->jumlah;
+                                        $qtyStr = floor($qty) == $qty ? number_format($qty, 0, ',', '.') : number_format($qty, 2, ',', '.');
+                                    @endphp
+                                    <span class="badge bg-white text-dark border fw-normal" style="font-size: 0.72rem;">
+                                        <strong>{{ $detail->produk->nama ?? 'Produk' }}</strong>:
+                                        <span class="text-success fw-bold">+{{ $qtyStr }} {{ $detail->produk?->satuan?->value ?? '' }}</span>
+                                    </span>
+                                @endforeach
+                                @if ($p->details->count() > 3)
+                                    <span class="badge bg-secondary-subtle text-secondary border" style="font-size: 0.7rem;">
+                                        +{{ $p->details->count() - 3 }} item
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-1.5 border-top flex-wrap gap-2">
+                                <div style="font-size: 0.73rem;" class="text-muted">
+                                    Total: <strong>{{ $p->details->count() }} jenis</strong> ({{ number_format((float) $p->details->sum('jumlah'), 0, ',', '.') }} unit)
+                                    @if ($bahanCount > 0)
+                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle ms-1" style="font-size: 0.65rem;">
+                                            {{ $bahanCount }} bahan
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="text-end ms-auto">
+                                    <span class="text-muted" style="font-size: 0.7rem;">Nilai Output:</span>
+                                    <span class="fw-bold font-monospace {{ $isCancelled ? 'text-muted text-decoration-line-through' : 'text-success' }}">
+                                        Rp {{ number_format($nilaiOutput, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Note & Action -->
+                        <div class="d-flex justify-content-between align-items-center gap-2">
+                            <div class="text-muted text-truncate" style="font-size: 0.72rem;">
+                                <i class="bi bi-person me-1"></i>{{ $p->user->name ?? ($p->creator->name ?? '-') }}
+                                @if (filled($p->catatan))
+                                    &bull; <span class="text-dark">{{ $p->catatan }}</span>
+                                @endif
+                            </div>
+                            <a href="{{ route('produksi.show', $p->id) }}" class="btn btn-sm btn-outline-primary flex-shrink-0">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5 px-3 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary"></i>
+                        Belum ada catatan produksi yang ditemukan.
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

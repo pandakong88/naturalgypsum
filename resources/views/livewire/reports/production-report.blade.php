@@ -24,40 +24,40 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Batch Produksi</div>
-                    <div class="h4 fw-bold text-primary mb-1">{{ number_format($summary['total_batch'] ?? 0, 0, ',', '.') }} Batch</div>
-                    <div class="small text-muted">Dokumen produksi yang tercatat</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Batch Produksi</div>
+                    <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_batch'] ?? 0, 0, ',', '.') }} Batch</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Dokumen produksi tercatat</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Unit Dihasilkan (Output)</div>
-                    <div class="h4 fw-bold text-success mb-1">{{ number_format($summary['total_qty_dihasilkan'] ?? 0, 3, ',', '.') }} Unit</div>
-                    <div class="small text-muted">Akumulasi output barang jadi</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Unit Output</div>
+                    <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_qty_dihasilkan'] ?? 0, 2, ',', '.') }} Unit</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Output barang jadi</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari No Produksi / Catatan</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari No Produksi / Catatan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nomor / catatan...">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Gudang Penerima</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Gudang Penerima</label>
                     <select wire:model.live="gudang_id" class="form-select form-select-sm">
                         <option value="">Semua Gudang</option>
                         @foreach($gudangList as $g)
@@ -65,8 +65,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Produk Jadi</label>
+                <div class="col-6 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Produk Jadi</label>
                     <select wire:model.live="produk_id" class="form-select form-select-sm">
                         <option value="">Semua Produk</option>
                         @foreach($produkList as $p)
@@ -74,8 +74,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Periode Cepat</label>
+                <div class="col-8 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Periode Cepat</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
                         <option value="today">Hari Ini</option>
                         <option value="last_7_days">7 Hari Terakhir</option>
@@ -85,8 +85,8 @@
                     </select>
                 </div>
                 @if($period === 'custom')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Rentang Tanggal</label>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Rentang Tanggal</label>
                         <div class="input-group input-group-sm">
                             <input type="date" wire:model.live="startDate" class="form-control">
                             <span class="input-group-text">s/d</span>
@@ -94,8 +94,8 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-auto d-flex align-items-end">
-                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary">
+                <div class="col-4 col-md-auto d-flex align-items-end">
+                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100">
                         <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
                     </button>
                 </div>
@@ -104,14 +104,14 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-list-check me-2"></i>Daftar Batch Produksi
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -119,7 +119,53 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($productions as $row)
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                        <div>
+                            <a href="{{ route('produksi.show', $row->id) }}" class="fw-bold text-primary font-monospace text-decoration-none">
+                                {{ $row->no_produksi }}
+                            </a>
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                {{ \Carbon\Carbon::parse($row->tanggal)->format('d/m/Y') }} &bull; {{ $row->creator->name ?? '-' }}
+                            </div>
+                        </div>
+                        <span class="badge bg-primary-subtle text-primary border" style="font-size: 0.7rem;">
+                            <i class="bi bi-building me-1"></i>{{ $row->gudang->nama_gudang ?? '-' }}
+                        </span>
+                    </div>
+
+                    <div class="p-2 rounded-3 bg-light border my-2">
+                        @foreach($row->details as $d)
+                            <div class="d-flex justify-content-between align-items-center py-0.5 small" style="font-size: 0.76rem;">
+                                <span class="fw-semibold text-dark text-truncate pe-2">{{ $d->produk->nama ?? '-' }}</span>
+                                <span class="badge bg-success-subtle text-success border flex-shrink-0 font-monospace">
+                                    +{{ number_format($d->jumlah, 2, ',', '.') }} {{ $d->produk->satuan->label() ?? '' }}
+                                </span>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted text-truncate small" style="font-size: 0.72rem;">{{ $row->keterangan ?? '-' }}</span>
+                        <a href="{{ route('produksi.show', $row->id) }}" class="btn btn-sm btn-outline-primary py-0.5 px-2 flex-shrink-0">
+                            <i class="bi bi-eye me-1"></i>Detail
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Tidak ada data produksi yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

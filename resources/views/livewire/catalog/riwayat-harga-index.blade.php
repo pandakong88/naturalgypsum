@@ -151,10 +151,42 @@
             </div>
         </div>
 
-        <div class="card-body p-2.5 p-md-3">
-            <div class="row g-2">
-                <!-- Search -->
-                <div class="col-12 col-md-4 col-lg-3">
+        <div class="card-body p-2.5 p-md-3" x-data="{ showFilters: false }">
+            <!-- Search + Mobile Filter Toggle -->
+            <div class="d-flex gap-2 mb-2 mb-md-0">
+                <div class="input-group input-group-sm flex-grow-1 d-md-none">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input
+                        type="text"
+                        wire:model.live.debounce.300ms="search"
+                        class="form-control border-start-0"
+                        placeholder="Cari produk, SKU, faktur, supplier..."
+                    >
+                    @if ($search)
+                        <button type="button" wire:click="$set('search', '')" class="btn btn-outline-secondary">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    @endif
+                </div>
+                @php
+                    $hasActiveSubFilters = filled($filterKategori) || filled($filterMerek) || filled($filterSumber) || filled($filterArah) || filled($startDate) || filled($endDate);
+                @endphp
+                <button
+                    type="button"
+                    @click="showFilters = !showFilters"
+                    class="btn btn-sm d-md-none flex-shrink-0 d-inline-flex align-items-center gap-1 {{ $hasActiveSubFilters ? 'btn-primary' : 'btn-outline-secondary' }}"
+                >
+                    <i class="bi bi-sliders"></i>
+                    <span>Filter</span>
+                    @if ($hasActiveSubFilters)
+                        <span class="badge bg-white text-primary rounded-pill" style="font-size: 0.65rem;">!</span>
+                    @endif
+                </button>
+            </div>
+
+            <div class="row g-2 d-md-flex" :class="showFilters ? 'd-flex' : 'd-none'">
+                <!-- Search (Desktop) -->
+                <div class="col-12 col-md-4 col-lg-3 d-none d-md-block">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
                         <input

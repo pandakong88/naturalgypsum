@@ -24,55 +24,55 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-danger border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Nilai Pembelian</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Pembelian</div>
                     @if($canViewPurchasePrices)
-                        <div class="h4 fw-bold text-danger mb-1">Rp {{ number_format($summary['total_pembelian'] ?? 0, 0, ',', '.') }}</div>
-                        <div class="small text-muted">Akumulasi belanja pengadaan</div>
+                        <div class="h5 fw-bold text-danger mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_pembelian'] ?? 0, 0, ',', '.') }}</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Belanja pengadaan</div>
                     @else
-                        <div class="h5 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
-                        <div class="small text-muted">Akses harga dilindungi</div>
+                        <div class="h6 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Akses dilindungi</div>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Telah Dibayar ke Supplier</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Telah Dibayar</div>
                     @if($canViewPurchasePrices)
-                        <div class="h4 fw-bold text-success mb-1">Rp {{ number_format($summary['total_dibayar_supplier'] ?? 0, 0, ',', '.') }}</div>
-                        <div class="small text-muted">Pelunasan &amp; DP pembelian</div>
+                        <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_dibayar_supplier'] ?? 0, 0, ',', '.') }}</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Pelunasan &amp; DP PO</div>
                     @else
-                        <div class="h5 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
-                        <div class="small text-muted">Akses harga dilindungi</div>
+                        <div class="h6 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Akses dilindungi</div>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Sisa Hutang Supplier</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Hutang Supplier</div>
                     @if($canViewPurchasePrices)
-                        <div class="h4 fw-bold text-warning-emphasis mb-1">Rp {{ number_format($summary['total_hutang_supplier'] ?? 0, 0, ',', '.') }}</div>
-                        <div class="small text-muted">{{ $summary['total_po_hutang'] ?? 0 }} PO belum lunas</div>
+                        <div class="h5 fw-bold text-warning-emphasis mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_hutang_supplier'] ?? 0, 0, ',', '.') }}</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">{{ $summary['total_po_hutang'] ?? 0 }} PO belum lunas</div>
                     @else
-                        <div class="h5 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
-                        <div class="small text-muted">Akses harga dilindungi</div>
+                        <div class="h6 fw-bold text-muted mb-1"><i class="bi bi-shield-lock me-1"></i> Restricted</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Akses dilindungi</div>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Transaksi Pengadaan</div>
-                    <div class="h4 fw-bold text-primary mb-1">{{ number_format($summary['total_transaksi'] ?? 0, 0, ',', '.') }} Transaksi</div>
-                    <div class="small text-muted">Dokumen PO aktif tercatat</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Transaksi PO</div>
+                    <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_transaksi'] ?? 0, 0, ',', '.') }} PO</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Dokumen PO aktif</div>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
 
     <!-- Top Suppliers Breakdown -->
     @if($canViewPurchasePrices && $topSuppliers->isNotEmpty())
-        <div class="card border-0 shadow-sm mb-4">
+        <div class="card border-0 shadow-sm mb-3 mb-md-4">
             <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold text-dark">
                     <i class="bi bi-building-check text-danger me-2"></i>Top 5 Supplier / Pabrik Berdasarkan Volume Pengadaan
@@ -119,18 +119,18 @@
     @endif
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari No PO / Supplier</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari No PO / Supplier</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik no PO / supplier...">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Supplier</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Supplier</label>
                     <select wire:model.live="supplier_id" class="form-select form-select-sm">
                         <option value="">Semua Supplier</option>
                         @foreach($supplierList as $s)
@@ -138,8 +138,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Gudang Penerima</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Gudang Penerima</label>
                     <select wire:model.live="gudang_id" class="form-select form-select-sm">
                         <option value="">Semua Gudang</option>
                         @foreach($gudangList as $g)
@@ -147,8 +147,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Status Bayar</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Status Bayar</label>
                     <select wire:model.live="status_pembayaran" class="form-select form-select-sm">
                         <option value="">Semua Status</option>
                         <option value="lunas">Lunas</option>
@@ -156,8 +156,8 @@
                         <option value="tempo">Tempo (Hutang)</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Periode Cepat</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Periode Cepat</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
                         <option value="all">Semua Waktu</option>
                         <option value="today">Hari Ini</option>
@@ -168,8 +168,8 @@
                     </select>
                 </div>
                 @if($period === 'custom')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Rentang Tanggal</label>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Rentang Tanggal</label>
                         <div class="input-group input-group-sm">
                             <input type="date" wire:model.live="startDate" class="form-control">
                             <span class="input-group-text">s/d</span>
@@ -177,7 +177,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-1 d-flex align-items-end">
+                <div class="col-12 col-md-1 d-flex align-items-end">
                     <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100" title="Reset Filter">
                         <i class="bi bi-arrow-counterclockwise"></i>
                     </button>
@@ -187,14 +187,14 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-receipt me-2"></i>Daftar Dokumen Pembelian
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -202,7 +202,64 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($purchases as $row)
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <div>
+                            <a href="{{ route('pembelian.show', $row->id) }}" class="fw-bold text-danger text-decoration-none font-monospace">
+                                {{ $row->no_pembelian }}
+                            </a>
+                            <div class="fw-semibold text-dark mt-0.5">{{ $row->supplier->nama_supplier ?? '-' }}</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                {{ \Carbon\Carbon::parse($row->tanggal)->format('d/m/Y') }}
+                                &bull; {{ $row->details->pluck('gudang.nama_gudang')->filter()->unique()->join(', ') ?: '-' }}
+                            </div>
+                        </div>
+                        <div class="text-end flex-shrink-0">
+                            @if($row->status_pembayaran)
+                                <span class="badge {{ $row->status_pembayaran->badgeClass() }}">{{ $row->status_pembayaran->label() }}</span>
+                            @endif
+                            @if($row->status)
+                                <div class="mt-0.5"><span class="badge {{ $row->status->badgeClass() }}" style="font-size: 0.65rem;">{{ $row->status->label() }}</span></div>
+                            @endif
+                        </div>
+                    </div>
+
+                    @if($canViewPurchasePrices)
+                        <div class="p-2 rounded-3 bg-light border my-2 d-flex justify-content-between align-items-center flex-wrap gap-2" style="font-size: 0.76rem;">
+                            <div>
+                                <span class="text-muted">Total PO:</span>
+                                <span class="fw-bold text-dark font-monospace">Rp {{ number_format($row->total, 0, ',', '.') }}</span>
+                            </div>
+                            <div>
+                                <span class="text-muted">Sisa Hutang:</span>
+                                <span class="fw-bold font-monospace {{ (float) $row->sisa_hutang > 0 ? 'text-danger' : 'text-success' }}">
+                                    {{ (float) $row->sisa_hutang > 0 ? 'Rp ' . number_format($row->sisa_hutang, 0, ',', '.') : 'Lunas' }}
+                                </span>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        <span class="text-muted" style="font-size: 0.72rem;"><i class="bi bi-person me-1"></i>{{ $row->creator->name ?? '-' }}</span>
+                        <a href="{{ route('pembelian.show', $row->id) }}" class="btn btn-sm btn-outline-primary py-0.5 px-2">
+                            <i class="bi bi-eye me-1"></i>Detail
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Tidak ada data pembelian yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

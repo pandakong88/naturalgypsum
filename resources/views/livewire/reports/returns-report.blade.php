@@ -24,72 +24,72 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Dokumen Retur Supplier</div>
-                    <div class="h4 fw-bold text-warning mb-1">{{ number_format($summary['dokumen_supplier'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Transaksi retur ke supplier</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Dok. Retur Supplier</div>
+                    <div class="h5 fw-bold text-warning mb-1 fs-6 fs-sm-4">{{ number_format($summary['dokumen_supplier'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Retur ke supplier</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Qty Retur Supplier</div>
-                    <div class="h4 fw-bold text-warning mb-1">{{ number_format($summary['total_qty_supplier'] ?? 0, 3, ',', '.') }}</div>
-                    <div class="small text-muted">Unit barang keluar retur</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Qty Retur Supplier</div>
+                    <div class="h5 fw-bold text-warning mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_qty_supplier'] ?? 0, 2, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Unit keluar retur</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-info border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Dokumen Retur Pelanggan</div>
-                    <div class="h4 fw-bold text-info mb-1">{{ number_format($summary['dokumen_pelanggan'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Transaksi retur dari pelanggan</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Dok. Retur Pelanggan</div>
+                    <div class="h5 fw-bold text-info mb-1 fs-6 fs-sm-4">{{ number_format($summary['dokumen_pelanggan'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Retur dari pelanggan</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-info border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Qty Retur Pelanggan</div>
-                    <div class="h4 fw-bold text-info mb-1">{{ number_format($summary['total_qty_pelanggan'] ?? 0, 3, ',', '.') }}</div>
-                    <div class="small text-muted">Unit barang masuk retur</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Qty Retur Pelanggan</div>
+                    <div class="h5 fw-bold text-info mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_qty_pelanggan'] ?? 0, 2, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Unit masuk retur</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Navigation Tabs -->
-    <ul class="nav nav-tabs mb-4">
+    <ul class="nav nav-tabs nav-pills-scrollable flex-nowrap mb-3 mb-md-4">
         <li class="nav-item">
-            <button class="nav-link fw-semibold {{ $type === 'supplier' ? 'active' : '' }}" wire:click="$set('type', 'supplier')">
+            <button class="nav-link fw-semibold text-nowrap {{ $type === 'supplier' ? 'active' : '' }}" wire:click="$set('type', 'supplier')">
                 <i class="bi bi-truck me-1"></i> Retur Supplier (Pembelian)
             </button>
         </li>
         <li class="nav-item">
-            <button class="nav-link fw-semibold {{ $type === 'pelanggan' ? 'active' : '' }}" wire:click="$set('type', 'pelanggan')">
+            <button class="nav-link fw-semibold text-nowrap {{ $type === 'pelanggan' ? 'active' : '' }}" wire:click="$set('type', 'pelanggan')">
                 <i class="bi bi-person-badge me-1"></i> Retur Pelanggan (Penjualan)
             </button>
         </li>
     </ul>
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari No Retur / Nomor Referensi</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari No Retur / Referensi</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nomor...">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Gudang</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Gudang</label>
                     <select wire:model.live="gudang_id" class="form-select form-select-sm">
                         <option value="">Semua Gudang</option>
                         @foreach($gudangList as $g)
@@ -98,8 +98,8 @@
                     </select>
                 </div>
                 @if($type === 'supplier')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Supplier</label>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Supplier</label>
                         <select wire:model.live="supplier_id" class="form-select form-select-sm">
                             <option value="">Semua Supplier</option>
                             @foreach($supplierList as $s)
@@ -108,8 +108,8 @@
                         </select>
                     </div>
                 @else
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Pelanggan</label>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Pelanggan</label>
                         <select wire:model.live="pelanggan_id" class="form-select form-select-sm">
                             <option value="">Semua Pelanggan</option>
                             @foreach($pelangganList as $p)
@@ -118,8 +118,8 @@
                         </select>
                     </div>
                 @endif
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Periode Cepat</label>
+                <div class="col-8 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Periode Cepat</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
                         <option value="today">Hari Ini</option>
                         <option value="last_7_days">7 Hari Terakhir</option>
@@ -129,8 +129,8 @@
                     </select>
                 </div>
                 @if($period === 'custom')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Rentang Tanggal</label>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Rentang Tanggal</label>
                         <div class="input-group input-group-sm">
                             <input type="date" wire:model.live="startDate" class="form-control">
                             <span class="input-group-text">s/d</span>
@@ -138,8 +138,8 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-auto d-flex align-items-end">
-                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary">
+                <div class="col-4 col-md-auto d-flex align-items-end">
+                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100">
                         <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
                     </button>
                 </div>
@@ -148,15 +148,15 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-list-check me-2"></i>
                 Daftar Retur - {{ $type === 'supplier' ? 'Retur ke Supplier' : 'Retur dari Pelanggan' }}
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -164,7 +164,58 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($returns as $row)
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <div>
+                            <div class="fw-bold font-monospace {{ $type === 'supplier' ? 'text-warning-emphasis' : 'text-info-emphasis' }}">
+                                {{ $row->no_retur }}
+                            </div>
+                            <div class="fw-semibold text-dark mt-0.5">
+                                {{ $type === 'supplier' ? ($row->supplier->nama_supplier ?? '-') : ($row->pelanggan->nama ?? '-') }}
+                            </div>
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                {{ \Carbon\Carbon::parse($row->tanggal)->format('d/m/Y') }} &bull; {{ $row->gudang->nama_gudang ?? '-' }}
+                            </div>
+                        </div>
+                        <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.7rem;">
+                            Ref: {{ $type === 'supplier' ? ($row->pembelian->no_pembelian ?? '-') : ($row->penjualan->no_penjualan ?? '-') }}
+                        </span>
+                    </div>
+
+                    <div class="p-2 rounded-3 bg-light border my-2 d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold text-dark small">{{ $row->produk->nama ?? '-' }}</span>
+                        <span class="badge bg-warning-subtle text-warning-emphasis border font-monospace">
+                            {{ number_format($row->jumlah, 2, ',', '.') }} {{ $row->produk->satuan->label() ?? '' }}
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted text-truncate small" style="font-size: 0.72rem;">{{ $row->alasan ?? $row->keterangan ?? '-' }}</span>
+                        @if($type === 'supplier')
+                            <a href="{{ route('retur-supplier.show', $row->id) }}" class="btn btn-sm btn-outline-secondary py-0.5 px-2">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </a>
+                        @else
+                            <a href="{{ route('retur-pelanggan.show', $row->id) }}" class="btn btn-sm btn-outline-secondary py-0.5 px-2">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Tidak ada data retur yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

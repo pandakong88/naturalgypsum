@@ -464,7 +464,7 @@
                     </div>
 
                     <div class="table-responsive" style="overflow: visible;">
-                        <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle mb-0 table-mobile-cards">
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 40px;" class="text-center">#</th>
@@ -488,8 +488,8 @@
                                         $isInsufficient = $mId > 0 && $mQty > $mStok;
                                     @endphp
                                     <tr wire:key="prod-mat-row-{{ $mIdx }}-{{ $mId }}">
-                                        <td class="text-center text-muted fw-semibold">{{ $mIdx + 1 }}</td>
-                                        <td>
+                                        <td class="text-center text-muted fw-semibold d-none d-md-table-cell">{{ $mIdx + 1 }}</td>
+                                        <td data-label="Bahan #{{ $mIdx + 1 }}">
                                             @if ($mModel)
                                                 <div class="d-flex align-items-start gap-2">
                                                     <div class="position-relative d-inline-block flex-shrink-0" x-data="{ showPreview: false }">
@@ -549,7 +549,7 @@
                                                 </button>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td data-label="Jumlah Terpakai">
                                             <div class="input-group input-group-sm" style="max-width: 190px;">
                                                 <input
                                                     type="number"
@@ -569,10 +569,10 @@
                                                 </small>
                                             @endif
                                         </td>
-                                        <td class="text-end text-muted font-monospace">
+                                        <td class="text-end text-muted font-monospace" data-label="HPP Satuan">
                                             Rp {{ number_format($mHpp, 0, ',', '.') }}
                                         </td>
-                                        <td class="text-end fw-bold text-danger font-monospace">
+                                        <td class="text-end fw-bold text-danger font-monospace" data-label="Biaya Bahan (HPP)">
                                             Rp {{ number_format($mCost, 0, ',', '.') }}
                                         </td>
                                         <td class="text-center">

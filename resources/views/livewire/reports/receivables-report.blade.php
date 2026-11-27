@@ -27,40 +27,40 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-danger border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Saldo Piutang</div>
-                    <div class="h4 fw-bold text-danger mb-1">Rp {{ number_format($summary['total_piutang'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">{{ number_format($summary['total_faktur_belum_lunas'] ?? 0, 0, ',', '.') }} Faktur Belum Lunas</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Saldo Piutang</div>
+                    <div class="h5 fw-bold text-danger mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_piutang'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">{{ number_format($summary['total_faktur_belum_lunas'] ?? 0, 0, ',', '.') }} Faktur Belum Lunas</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Lancar (0–{{ $tempoStandarHari }} Hari)</div>
-                    <div class="h4 fw-bold text-success mb-1">Rp {{ number_format($summary['piutang_lancar'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Dalam masa tempo standar</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Lancar (0–{{ $tempoStandarHari }} Hr)</div>
+                    <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['piutang_lancar'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Dalam masa tempo</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Lewat Tempo (&gt; {{ $tempoStandarHari }} Hr)</div>
-                    <div class="h4 fw-bold text-warning-emphasis mb-1">Rp {{ number_format($summary['piutang_lewat_tempo'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Macet (&gt;60 hr): <strong class="text-danger">Rp {{ number_format($summary['piutang_macet'] ?? 0, 0, ',', '.') }}</strong></div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Lewat Tempo (&gt;{{ $tempoStandarHari }} Hr)</div>
+                    <div class="h5 fw-bold text-warning-emphasis mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['piutang_lewat_tempo'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Macet: <strong class="text-danger">Rp {{ number_format($summary['piutang_macet'] ?? 0, 0, ',', '.') }}</strong></div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Pelanggan Berhutang</div>
-                    <div class="h4 fw-bold text-primary mb-1">{{ number_format($summary['total_pelanggan_berhutang'] ?? 0, 0, ',', '.') }} Pelanggan</div>
-                    <div class="small text-muted">Debitur aktif saat ini</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Pelanggan Berhutang</div>
+                    <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-4">{{ number_format($summary['total_pelanggan_berhutang'] ?? 0, 0, ',', '.') }} Orang</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Debitur aktif saat ini</div>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
 
     <!-- Top Debtors Card -->
     @if(count($topDebtors) > 0)
-        <div class="card border-0 shadow-sm mb-4">
+        <div class="card border-0 shadow-sm mb-3 mb-md-4">
             <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold text-gray-800">
                     <i class="bi bi-trophy text-warning me-2"></i>Top 5 Debitur dengan Saldo Piutang Terbesar
@@ -118,18 +118,18 @@
     @endif
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari No Faktur / Pelanggan</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari No Faktur / Pelanggan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik no faktur / nama...">
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Pelanggan</label>
+                <div class="col-6 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Pelanggan</label>
                     <select wire:model.live="pelanggan_id" class="form-select form-select-sm">
                         <option value="">Semua Pelanggan</option>
                         @foreach($pelangganList as $p)
@@ -137,8 +137,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Kategori Aging ({{ $tempoStandarHari }} Hr)</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Aging ({{ $tempoStandarHari }} Hr)</label>
                     <select wire:model.live="aging" class="form-select form-select-sm">
                         <option value="">Semua Umur</option>
                         <option value="lewat_tempo">Semua Lewat Tempo (&gt;14 Hr)</option>
@@ -148,8 +148,8 @@
                         <option value="macet">Macet (&gt;60 Hr)</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Periode Nota</label>
+                <div class="col-8 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Periode Nota</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
                         <option value="all">Semua Waktu</option>
                         <option value="today">Hari Ini</option>
@@ -160,8 +160,8 @@
                     </select>
                 </div>
                 @if($period === 'custom')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Rentang Tanggal</label>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Rentang Tanggal</label>
                         <div class="input-group input-group-sm">
                             <input type="date" wire:model.live="startDate" class="form-control">
                             <span class="input-group-text">s/d</span>
@@ -169,8 +169,8 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-auto d-flex align-items-end">
-                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary">
+                <div class="col-4 col-md-auto d-flex align-items-end">
+                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100">
                         <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
                     </button>
                 </div>
@@ -179,14 +179,14 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-list-task me-2"></i>Daftar Faktur Piutang Belum Lunas
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -194,7 +194,70 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($invoices as $row)
+                @php
+                    $tglNota = \Carbon\Carbon::parse($row->tanggal);
+                    $jthTempo = $tglNota->copy()->addDays($tempoStandarHari);
+                    $daysAge = (int) $tglNota->diffInDays(now());
+                    $ageBadge = $daysAge > 60 ? 'bg-danger text-white' : ($daysAge > 30 ? 'bg-danger-subtle text-danger border' : ($daysAge > $tempoStandarHari ? 'bg-warning-subtle text-warning-emphasis border' : 'bg-success-subtle text-success border'));
+                @endphp
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <div>
+                            <a href="{{ route('penjualan.show', $row->id) }}" class="fw-bold text-primary font-monospace text-decoration-none">
+                                {{ $row->no_penjualan }}
+                            </a>
+                            <div class="fw-semibold text-dark mt-0.5">{{ $row->pelanggan->nama ?? '-' }}</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                Nota: {{ $tglNota->format('d/m/Y') }} &bull;
+                                <span class="{{ $daysAge > $tempoStandarHari ? 'text-danger fw-semibold' : '' }}">Tempo: {{ $jthTempo->format('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                        <span class="badge {{ $ageBadge }}">{{ $daysAge }} Hari</span>
+                    </div>
+
+                    <div class="p-2 rounded-3 bg-light border my-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div style="font-size: 0.74rem;">
+                            <div class="text-muted">Total: <span class="text-dark fw-semibold font-monospace">Rp {{ number_format($row->total_akhir, 0, ',', '.') }}</span></div>
+                            <div class="text-muted">Dibayar: <span class="text-success fw-semibold font-monospace">Rp {{ number_format($row->total_dibayar, 0, ',', '.') }}</span></div>
+                        </div>
+                        <div class="text-end ms-auto">
+                            <div class="text-muted" style="font-size: 0.68rem;">Sisa Piutang</div>
+                            <div class="fw-bold text-danger font-monospace fs-6">Rp {{ number_format($row->sisa_piutang, 0, ',', '.') }}</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                        @if($row->status_pembayaran->value === 'sebagian')
+                            <span class="badge bg-warning text-dark">Sebagian</span>
+                        @else
+                            <span class="badge bg-danger">Belum Bayar</span>
+                        @endif
+                        <div class="btn-group btn-group-sm">
+                            <a href="{{ route('penjualan.show', $row->id) }}" class="btn btn-outline-primary">
+                                <i class="bi bi-eye me-1"></i>Detail
+                            </a>
+                            @if($row->pelanggan_id)
+                                <a href="{{ route('piutang.print.tagihan', $row->pelanggan_id) }}" target="_blank" class="btn btn-outline-dark" title="Cetak SOA">
+                                    <i class="bi bi-printer"></i>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-check-circle fs-1 text-success d-block mb-2"></i>
+                    Tidak ada piutang outstanding yang sesuai dengan filter pencarian.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

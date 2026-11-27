@@ -117,8 +117,8 @@
     </div>
 
     <!-- Output Finished Goods Table -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="card-title fw-bold mb-0 text-primary">
                 <i class="bi bi-box-seam me-1"></i> Rincian Barang Jadi yang Masuk (`Produksi Masuk`)
             </h6>
@@ -127,7 +127,53 @@
             </span>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @foreach ($produksi->details as $index => $detail)
+                    @php
+                        $p = $detail->produk;
+                        $qty = (float) $detail->jumlah;
+                        $hpp = (float) ($p?->harga_beli ?: $p?->harga_jual ?: 0);
+                        $subtotal = $qty * $hpp;
+                        $konv = ($p && $qty > 0) ? $p->getKonversiFisik($qty) : null;
+                    @endphp
+                    <div class="p-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                            <div>
+                                <div class="fw-bold text-dark">{{ $p->nama ?? '-' }}</div>
+                                <div class="d-flex align-items-center flex-wrap gap-1 mt-0.5" style="font-size: 0.72rem;">
+                                    <span class="badge bg-light text-secondary border font-monospace">{{ $p->kode_katalog ?? 'Tanpa SKU' }}</span>
+                                    <span class="badge bg-light text-dark border">{{ $p->kategori->nama_kategori ?? '-' }}</span>
+                                    @if ($p?->merek)
+                                        <span class="badge bg-secondary-subtle text-secondary">{{ $p->merek->nama_merek }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle font-monospace">
+                                +{{ number_format($qty, 2, ',', '.') }} {{ $p?->satuan?->label() ?? '' }}
+                            </span>
+                        </div>
+                        @if ($konv && !empty($konv['has_conversion']))
+                            <div class="mb-1.5">
+                                <span class="badge bg-info-subtle text-info-emphasis border" style="font-size: 0.68rem;">
+                                    {{ $konv['badge_text'] }}
+                                </span>
+                            </div>
+                        @endif
+                        <div class="d-flex justify-content-between align-items-center pt-1.5 mt-1.5 border-top small">
+                            <span class="text-muted">HPP: Rp {{ number_format($hpp, 0, ',', '.') }}</span>
+                            <span class="fw-bold text-dark font-monospace">Subtotal: Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="p-3 bg-success-subtle d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-dark small">Total Output ({{ number_format($totalQtyOutput, 2, ',', '.') }} Unit):</span>
+                    <span class="fw-bold text-success font-monospace fs-6">Rp {{ number_format($nilaiOutput, 0, ',', '.') }}</span>
+                </div>
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -197,8 +243,8 @@
 
     <!-- Raw Materials Consumed Table (if any) -->
     @if ($produksi->bahanMutations->isNotEmpty())
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <h6 class="card-title fw-bold mb-0 text-warning-emphasis">
                     <i class="bi bi-layers-half me-1"></i> Rincian Bahan Baku Gudang yang Terpakai (`Pemakaian Internal`)
                 </h6>
@@ -207,7 +253,42 @@
                 </span>
             </div>
             <div class="card-body p-0">
-                <div class="table-responsive">
+                <!-- Mobile Card List View (< 768px) -->
+                <div class="d-md-none">
+                    @foreach ($produksi->bahanMutations as $mIndex => $mutasi)
+                        @php
+                            $mp = $mutasi->produk;
+                            $mQty = abs((float) $mutasi->jumlah);
+                            $mHpp = (float) ($mp?->harga_beli ?: 0);
+                            $mSub = $mQty * $mHpp;
+                        @endphp
+                        <div class="p-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                                <div>
+                                    <div class="fw-bold text-dark">{{ $mp->nama ?? '-' }}</div>
+                                    <div class="d-flex align-items-center flex-wrap gap-1 mt-0.5" style="font-size: 0.72rem;">
+                                        <span class="badge bg-light text-secondary border font-monospace">{{ $mp->kode_katalog ?? '-' }}</span>
+                                        <span class="badge bg-light text-dark border">{{ $mp->kategori->nama_kategori ?? '-' }}</span>
+                                    </div>
+                                </div>
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle font-monospace">
+                                    -{{ number_format($mQty, 2, ',', '.') }} {{ $mp?->satuan?->label() ?? '' }}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center pt-1.5 mt-1.5 border-top small">
+                                <span class="text-muted">HPP: Rp {{ number_format($mHpp, 0, ',', '.') }}</span>
+                                <span class="fw-bold text-danger font-monospace">Biaya: Rp {{ number_format($mSub, 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                    <div class="p-3 bg-warning-subtle d-flex justify-content-between align-items-center">
+                        <span class="fw-bold text-dark small">Total Biaya Bahan Baku Terpakai:</span>
+                        <span class="fw-bold text-danger font-monospace fs-6">Rp {{ number_format($biayaBahan, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Table View (>= 768px) -->
+                <div class="table-responsive d-none d-md-block">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>

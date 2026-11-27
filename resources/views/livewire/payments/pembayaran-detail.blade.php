@@ -15,19 +15,19 @@
                 Dicatat pada {{ $pembayaran->created_at->format('d/m/Y H:i') }} oleh {{ $pembayaran->user->name ?? ($pembayaran->creator->name ?? 'Sistem') }}
             </p>
         </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('pembayaran.index') }}" class="btn btn-outline-secondary">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ route('pembayaran.index') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-arrow-left me-1"></i>Kembali
             </a>
-            <a href="{{ route('pembayaran.print.kuitansi', $pembayaran->id) }}" target="_blank" class="btn btn-outline-primary" title="Cetak Kuitansi Resmi A4 / A5">
+            <a href="{{ route('pembayaran.print.kuitansi', $pembayaran->id) }}" target="_blank" class="btn btn-sm btn-outline-primary" title="Cetak Kuitansi Resmi A4 / A5">
                 <i class="bi bi-printer me-1"></i>Cetak Kuitansi (A4/A5)
             </a>
-            <a href="{{ route('pembayaran.print.thermal', $pembayaran->id) }}" target="_blank" class="btn btn-outline-dark" title="Cetak Struk Kasir Thermal POS">
+            <a href="{{ route('pembayaran.print.thermal', $pembayaran->id) }}" target="_blank" class="btn btn-sm btn-outline-dark" title="Cetak Struk Kasir Thermal POS">
                 <i class="bi bi-receipt me-1"></i>Struk Thermal
             </a>
             @if (!$pembayaran->trashed())
                 @can('cancel', $pembayaran)
-                    <button type="button" wire:click="openCancelModal" class="btn btn-outline-danger">
+                    <button type="button" wire:click="openCancelModal" class="btn btn-sm btn-outline-danger">
                         <i class="bi bi-x-circle me-1"></i>Batalkan Pembayaran
                     </button>
                 @endcan
@@ -118,7 +118,56 @@
             </h6>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @forelse ($pembayaran->alokasi as $index => $alokasi)
+                    <div class="p-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                            <div>
+                                @if ($alokasi->penjualan)
+                                    <a href="{{ route('penjualan.show', $alokasi->penjualan->id) }}" class="fw-bold text-decoration-none font-monospace text-primary">
+                                        {{ $alokasi->penjualan->no_penjualan }}
+                                    </a>
+                                @else
+                                    <span class="text-muted font-monospace">Faktur Terhapus</span>
+                                @endif
+                                <div class="text-muted small" style="font-size: 0.74rem;">
+                                    Tanggal Faktur: {{ $alokasi->penjualan?->tanggal?->format('d/m/Y') ?? '-' }}
+                                </div>
+                            </div>
+                            @if ($alokasi->penjualan)
+                                <span class="badge {{ $alokasi->penjualan->status_pembayaran->badgeClass() }}">
+                                    {{ $alokasi->penjualan->status_pembayaran->label() }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="p-2.5 rounded-3 bg-light border mt-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div style="font-size: 0.74rem;">
+                                <div class="text-muted">Nilai Faktur: <span class="text-dark fw-semibold font-monospace">Rp {{ number_format((float) ($alokasi->penjualan?->total_akhir ?? 0), 0, ',', '.') }}</span></div>
+                                <div class="text-muted">Sisa Piutang: <span class="text-danger fw-semibold font-monospace">Rp {{ number_format((float) ($alokasi->penjualan?->sisa_piutang ?? 0), 0, ',', '.') }}</span></div>
+                            </div>
+                            <div class="text-end ms-auto">
+                                <div class="text-muted" style="font-size: 0.7rem;">Dialokasikan</div>
+                                <div class="fw-bold text-success font-monospace fs-6">
+                                    Rp {{ number_format((float) $alokasi->jumlah_dialokasikan, 0, ',', '.') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-4 px-3 text-muted small">
+                        Pembayaran ini tidak dialokasikan ke faktur manapun (seluruh dana berstatus deposit/titipan).
+                    </div>
+                @endforelse
+                <div class="p-3 bg-primary-subtle d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-dark small">Total Dialokasikan:</span>
+                    <span class="fw-bold text-primary font-monospace fs-6">Rp {{ number_format((float) $pembayaran->total_dialokasikan, 2, ',', '.') }}</span>
+                </div>
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

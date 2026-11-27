@@ -359,13 +359,61 @@
             color: #0f172a;
         }
 
-        @media (max-width: 480px) {
+        @media screen and (max-width: 640px) {
             body { padding: 8px; }
             .page-container { padding: 14px; }
             .info-grid, .summary-wrapper { grid-template-columns: 1fr; }
             .title-block { text-align: left; width: 100%; }
             .meta-table { margin-left: 0; }
             .meta-table td { padding: 1px 8px 1px 0; }
+            .action-bar .btn-group { width: 100%; }
+            .action-bar .btn { flex: 1; justify-content: center; }
+
+            /* Mobile Card Layout for Invoices Table */
+            .items-table, .items-table tbody { display: block; width: 100%; }
+            .items-table thead { display: none; }
+            .items-table tbody tr {
+                display: block;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                padding: 10px 12px;
+                margin-bottom: 10px;
+                background: #ffffff !important;
+                box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+            }
+            .items-table tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 8px;
+                border: none;
+                border-bottom: 1px dashed #e2e8f0;
+                padding: 6px 0;
+                width: 100% !important;
+                white-space: normal !important;
+                text-align: right;
+            }
+            .items-table tbody td:first-child {
+                display: none;
+            }
+            .items-table tbody td:nth-child(3) {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .items-table tbody td:last-child {
+                border-bottom: none;
+                padding-bottom: 2px;
+            }
+            .items-table tbody td::before {
+                content: attr(data-label);
+                font-size: 9.5px;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: #64748b;
+                text-align: left;
+                flex-shrink: 0;
+            }
         }
 
         @media print {
@@ -543,8 +591,8 @@
                         $groupedDetails = $inv->getGroupedDetailsForInvoice();
                     @endphp
                     <tr>
-                        <td class="text-center font-mono col-tight" style="color: #64748b;">{{ $idx + 1 }}</td>
-                        <td class="col-tight">
+                        <td class="text-center font-mono col-tight" style="color: #64748b;" data-label="No">{{ $idx + 1 }}</td>
+                        <td class="col-tight" data-label="No. Faktur & Tempo">
                             <div class="font-mono" style="font-weight: 800; color: #0f172a; font-size: 11px;">{{ $inv->no_penjualan }}</div>
                             <div style="font-size: 9.5px; color: #64748b;">Nota: {{ $tgl->format('d/m/Y') }}</div>
                             <div style="font-size: 9.5px; font-weight: 600; color: {{ $umur > $tempoStandarHari ? '#dc2626' : '#334155' }}; margin-top: 1px;">
@@ -552,7 +600,7 @@
                                 <span class="age-tag {{ $ageClass }}" style="margin-left: 2px;">{{ $umur }} Hr</span>
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Rincian Material & Cicilan">
                             <div class="material-list">
                                 @foreach ($groupedDetails as $d)
                                     <span class="material-pill">
@@ -572,7 +620,7 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="text-end font-mono col-tight">
+                        <td class="text-end font-mono col-tight" data-label="Nilai & Cicilan">
                             <div style="font-weight: 600; color: #0f172a;">Rp {{ number_format((float) $inv->total_akhir, 0, ',', '.') }}</div>
                             @if ((float) $inv->total_dibayar > 0)
                                 <div style="font-size: 9.5px; color: #059669; font-weight: 600;">
@@ -582,7 +630,7 @@
                                 <div style="font-size: 9px; color: #94a3b8;">Belum dicicil</div>
                             @endif
                         </td>
-                        <td class="text-end font-mono col-tight" style="font-weight: 800; font-size: 11.5px; color: #dc2626;">
+                        <td class="text-end font-mono col-tight" style="font-weight: 800; font-size: 11.5px; color: #dc2626;" data-label="Sisa Tagihan">
                             Rp {{ number_format((float) $inv->sisa_piutang, 0, ',', '.') }}
                         </td>
                     </tr>

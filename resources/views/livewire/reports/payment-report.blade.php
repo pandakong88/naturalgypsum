@@ -24,58 +24,58 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Pembayaran Masuk</div>
-                    <div class="h4 fw-bold text-success mb-1">Rp {{ number_format($summary['total_pembayaran'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">{{ $summary['total_transaksi'] ?? 0 }} transaksi tercatat</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Pembayaran</div>
+                    <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_pembayaran'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">{{ $summary['total_transaksi'] ?? 0 }} transaksi tercatat</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Tunai</div>
-                    <div class="h4 fw-bold text-primary mb-1">Rp {{ number_format($summary['total_tunai'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Metode Kas / Tunai</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Total Tunai</div>
+                    <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_tunai'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Metode Kas / Tunai</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-info border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Transfer Bank</div>
-                    <div class="h4 fw-bold text-info mb-1">Rp {{ number_format($summary['total_transfer'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Lainnya: Rp {{ number_format($summary['total_lainnya'] ?? 0, 0, ',', '.') }}</div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Transfer Bank</div>
+                    <div class="h5 fw-bold text-info mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_transfer'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Lainnya: Rp {{ number_format($summary['total_lainnya'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
-                <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Alokasi Faktur vs Deposit</div>
-                    <div class="h4 fw-bold text-dark mb-1">Rp {{ number_format($summary['total_dialokasikan'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Titipan/Deposit: <strong class="text-primary">Rp {{ number_format($summary['total_deposit'] ?? 0, 0, ',', '.') }}</strong></div>
+                <div class="card-body p-2.5 p-sm-3">
+                    <div class="text-muted small text-uppercase fw-semibold" style="font-size: 0.72rem;">Alokasi vs Deposit</div>
+                    <div class="h5 fw-bold text-dark mb-1 fs-6 fs-sm-4">Rp {{ number_format($summary['total_dialokasikan'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted" style="font-size: 0.72rem;">Titipan: <strong class="text-primary">Rp {{ number_format($summary['total_deposit'] ?? 0, 0, ',', '.') }}</strong></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Filter Card -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-semibold">Cari No Pembayaran / Pelanggan</label>
+    <div class="card border-0 shadow-sm mb-3 mb-md-4">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-3">
+                    <label class="form-label small fw-semibold mb-1">Cari No Pembayaran / Pelanggan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                         <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nomor / nama / bank...">
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Metode Pembayaran</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Metode</label>
                     <select wire:model.live="metode" class="form-select form-select-sm">
                         <option value="">Semua Metode</option>
                         <option value="tunai">Tunai</option>
@@ -84,8 +84,8 @@
                         <option value="lainnya">Lainnya</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Pelanggan</label>
+                <div class="col-6 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Pelanggan</label>
                     <select wire:model.live="pelanggan_id" class="form-select form-select-sm">
                         <option value="">Semua Pelanggan</option>
                         @foreach($pelangganList as $p)
@@ -93,8 +93,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label small fw-semibold">Periode Cepat</label>
+                <div class="col-8 col-md-2">
+                    <label class="form-label small fw-semibold mb-1">Periode Cepat</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
                         <option value="all">Semua Waktu</option>
                         <option value="today">Hari Ini</option>
@@ -105,8 +105,8 @@
                     </select>
                 </div>
                 @if($period === 'custom')
-                    <div class="col-md-3">
-                        <label class="form-label small fw-semibold">Rentang Tanggal</label>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label small fw-semibold mb-1">Rentang Tanggal</label>
                         <div class="input-group input-group-sm">
                             <input type="date" wire:model.live="startDate" class="form-control">
                             <span class="input-group-text">s/d</span>
@@ -114,8 +114,8 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-auto d-flex align-items-end">
-                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary">
+                <div class="col-4 col-md-auto d-flex align-items-end">
+                    <button wire:click="resetFilter" class="btn btn-sm btn-outline-secondary w-100">
                         <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
                     </button>
                 </div>
@@ -124,14 +124,14 @@
     </div>
 
     <!-- Data Table Card -->
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="card-header bg-white py-2.5 py-md-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h6 class="mb-0 fw-bold text-gray-800">
                 <i class="bi bi-receipt-cutoff me-2"></i>Daftar Penerimaan Pembayaran
             </h6>
             <div class="d-flex align-items-center gap-2">
-                <span class="small text-muted">Per halaman:</span>
-                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 80px;">
+                <span class="small text-muted">Baris:</span>
+                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: 75px;">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -139,7 +139,62 @@
                 </select>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <!-- Mobile Card List View (< 768px) -->
+        <div class="d-md-none">
+            @forelse($payments as $row)
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1">
+                        <div>
+                            <a href="{{ route('pembayaran.show', $row->id) }}" class="fw-bold font-monospace text-primary text-decoration-none">
+                                {{ $row->no_pembayaran }}
+                            </a>
+                            <div class="fw-semibold text-dark mt-0.5">{{ $row->pelanggan->nama ?? '-' }}</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">
+                                {{ \Carbon\Carbon::parse($row->tanggal)->format('d/m/Y') }}
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            @if($row->metode->value === 'tunai')
+                                <span class="badge bg-success-subtle text-success border border-success-subtle">Tunai</span>
+                            @elseif($row->metode->value === 'transfer')
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Transfer</span>
+                            @else
+                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">{{ ucfirst($row->metode->value) }}</span>
+                            @endif
+                            <div class="fw-bold text-success font-monospace fs-6 mt-1">
+                                Rp {{ number_format($row->jumlah_bayar, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center pt-1.5 mt-1.5 border-top flex-wrap gap-2">
+                        <div class="d-flex flex-wrap gap-1">
+                            @if($row->alokasi->isNotEmpty())
+                                @foreach($row->alokasi->take(3) as $alok)
+                                    <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.68rem;">
+                                        {{ $alok->penjualan->no_penjualan ?? 'Faktur' }}
+                                    </span>
+                                @endforeach
+                            @else
+                                <span class="badge bg-warning-subtle text-warning-emphasis border" style="font-size: 0.68rem;">Titipan / Deposit</span>
+                            @endif
+                        </div>
+                        <a href="{{ route('pembayaran.show', $row->id) }}" class="btn btn-sm btn-outline-primary py-0.5 px-2">
+                            <i class="bi bi-eye me-1"></i>Detail
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5 px-3 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                    Tidak ada data pembayaran yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table View (>= 768px) -->
+        <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-striped align-middle mb-0">
                 <thead class="table-light">
                     <tr>

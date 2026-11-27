@@ -346,7 +346,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-bordered align-middle mb-0">
+                        <table class="table table-bordered align-middle mb-0 table-mobile-cards">
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 40px;" class="text-center">#</th>
@@ -380,10 +380,10 @@
                                         $isRowFull = $dialokasikan >= $sisaAwal && $sisaAwal > 0;
                                         $isRowPartial = $dialokasikan > 0 && $dialokasikan < $sisaAwal;
                                     @endphp
-                                    <tr class="{{ $isRowFull ? 'table-success bg-opacity-10' : ($isRowPartial ? 'table-warning bg-opacity-10' : '') }}">
-                                        <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
+                                    <tr class="{{ $isRowFull ? 'table-success bg-opacity-10' : ($isRowPartial ? 'table-warning bg-opacity-10' : '') }}" wire:key="alloc-row-{{ $index }}-{{ $alloc['penjualan_id'] }}">
+                                        <td class="text-center text-muted fw-semibold d-none d-md-table-cell">{{ $index + 1 }}</td>
+                                        <td data-label="Faktur #{{ $index + 1 }}">
+                                            <div class="d-flex align-items-center gap-2 flex-wrap">
                                                 <a
                                                     href="{{ route('penjualan.show', $alloc['penjualan_id']) }}"
                                                     target="_blank"
@@ -410,19 +410,19 @@
                                                 </small>
                                             @endif
                                         </td>
-                                        <td>{{ $alloc['tanggal'] }}</td>
-                                        <td class="text-center">
+                                        <td data-label="Tanggal Nota">{{ $alloc['tanggal'] }}</td>
+                                        <td class="text-center" data-label="Umur Piutang">
                                             <span class="badge {{ $agingBadge }} border px-2 py-1">
                                                 <i class="bi bi-clock me-1"></i>{{ $agingLabel }}
                                             </span>
                                         </td>
-                                        <td class="text-end text-muted">
+                                        <td class="text-end text-muted font-monospace" data-label="Total Faktur">
                                             Rp {{ number_format($alloc['total_akhir'], 2, ',', '.') }}
                                         </td>
-                                        <td class="text-end fw-bold text-danger">
+                                        <td class="text-end fw-bold text-danger font-monospace" data-label="Sisa Piutang">
                                             Rp {{ number_format($alloc['sisa_piutang'], 2, ',', '.') }}
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center" data-label="Status Akhir">
                                             @if ($isRowFull)
                                                 <span class="badge bg-success text-white">
                                                     <i class="bi bi-check-circle-fill me-1"></i>AKAN LUNAS
@@ -439,7 +439,7 @@
                                                 <span class="badge bg-light text-muted border">Belum Dialokasi</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td data-label="Alokasi Bayar (Rp)">
                                             <div class="input-group input-group-sm">
                                                 <input
                                                     type="number"
@@ -476,44 +476,36 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot class="table-light">
-                                <tr>
-                                    <td colspan="7" class="text-end fw-bold">Total Pembayaran Diterima:</td>
-                                    <td class="text-end fw-bold text-success fs-6">
-                                        Rp {{ number_format((float) ($jumlah_bayar ?: 0), 2, ',', '.') }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" class="text-end fw-bold">Total Dialokasikan ke Faktur:</td>
-                                    <td class="text-end fw-bold text-primary fs-6">
-                                        Rp {{ number_format($this->totalDialokasikan, 2, ',', '.') }}
-                                    </td>
-                                </tr>
-                                <tr class="{{ $this->sisaBelumDialokasikan > 0 ? ($this->hasUnallocatedWithRemainingDebt ? 'table-warning' : 'table-light') : 'table-light' }}">
-                                    <td colspan="7" class="text-end fw-bold">
-                                        Sisa Belum Dialokasikan:
-                                        @if ($this->hasUnallocatedWithRemainingDebt)
-                                            <span class="badge bg-danger ms-1">Wajib Dialokasikan ke Faktur</span>
-                                        @elseif ($this->sisaBelumDialokasikan > 0)
-                                            <span class="badge bg-info text-dark ms-1">Kelebihan Bayar / Titipan</span>
-                                            @if ($this->totalDialokasikan > 0)
-                                                <button
-                                                    type="button"
-                                                    wire:click="syncJumlahBayarWithAllocations"
-                                                    class="btn btn-sm btn-outline-dark ms-2 py-0 px-2"
-                                                    style="font-size: 0.75rem;"
-                                                >
-                                                    Sesuaikan Jumlah Bayar = Rp {{ number_format($this->totalDialokasikan, 0, ',', '.') }}
-                                                </button>
-                                            @endif
-                                        @endif
-                                    </td>
-                                    <td class="text-end fw-bold {{ $this->hasUnallocatedWithRemainingDebt ? 'text-danger' : ($this->sisaBelumDialokasikan > 0 ? 'text-info-emphasis' : 'text-muted') }} fs-6">
-                                        Rp {{ number_format($this->sisaBelumDialokasikan, 2, ',', '.') }}
-                                    </td>
-                                </tr>
-                            </tfoot>
                         </table>
+                    </div>
+
+                    <!-- Responsive Allocation Summary Footer -->
+                    <div class="p-3 bg-light border-top">
+                        <div class="row g-2 justify-content-end">
+                            <div class="col-12 col-md-6 col-lg-5">
+                                <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
+                                    <span class="small fw-semibold text-secondary">Total Pembayaran Diterima:</span>
+                                    <span class="fw-bold text-success font-monospace">Rp {{ number_format((float) ($jumlah_bayar ?: 0), 2, ',', '.') }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center py-1 border-bottom">
+                                    <span class="small fw-semibold text-secondary">Total Dialokasikan ke Faktur:</span>
+                                    <span class="fw-bold text-primary font-monospace">Rp {{ number_format($this->totalDialokasikan, 2, ',', '.') }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center pt-1.5 flex-wrap gap-1">
+                                    <div>
+                                        <span class="small fw-bold text-dark">Sisa Belum Dialokasikan:</span>
+                                        @if ($this->hasUnallocatedWithRemainingDebt)
+                                            <span class="badge bg-danger ms-1" style="font-size: 0.68rem;">Wajib Dialokasikan</span>
+                                        @elseif ($this->sisaBelumDialokasikan > 0)
+                                            <span class="badge bg-info text-dark ms-1" style="font-size: 0.68rem;">Titipan / Deposit</span>
+                                        @endif
+                                    </div>
+                                    <span class="fw-bold font-monospace {{ $this->hasUnallocatedWithRemainingDebt ? 'text-danger' : ($this->sisaBelumDialokasikan > 0 ? 'text-info-emphasis' : 'text-muted') }}">
+                                        Rp {{ number_format($this->sisaBelumDialokasikan, 2, ',', '.') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endif
             </div>

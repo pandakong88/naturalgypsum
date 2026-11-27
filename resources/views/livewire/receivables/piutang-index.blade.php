@@ -25,66 +25,66 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-3">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100 border-start border-danger border-4">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex align-items-center">
-                        <div class="p-3 bg-danger-subtle text-danger rounded-3 me-3">
+                        <div class="p-3 bg-danger-subtle text-danger rounded-3 me-3 d-none d-sm-inline-flex">
                             <i class="bi bi-wallet2 fs-4"></i>
                         </div>
                         <div>
-                            <span class="text-muted small d-block">Total Piutang Aktif</span>
-                            <h5 class="fw-bold mb-0 text-danger">Rp {{ number_format($totalPiutangAktif, 2, ',', '.') }}</h5>
-                            <small class="text-muted" style="font-size: 0.75rem;">{{ number_format($totalFakturBelumLunas) }} Faktur Belum Lunas</small>
+                            <span class="text-muted small d-block" style="font-size: 0.74rem;">Total Piutang Aktif</span>
+                            <h5 class="fw-bold mb-0 text-danger fs-6 fs-sm-5">Rp {{ number_format($totalPiutangAktif, 0, ',', '.') }}</h5>
+                            <small class="text-muted" style="font-size: 0.72rem;">{{ number_format($totalFakturBelumLunas) }} Faktur Belum Lunas</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100 border-start border-warning border-4">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex align-items-center">
-                        <div class="p-3 bg-warning-subtle text-warning-emphasis rounded-3 me-3">
+                        <div class="p-3 bg-warning-subtle text-warning-emphasis rounded-3 me-3 d-none d-sm-inline-flex">
                             <i class="bi bi-exclamation-octagon fs-4"></i>
                         </div>
                         <div>
-                            <span class="text-muted small d-block">Lewat Tempo (&gt; {{ $tempoStandarHari }} Hari)</span>
-                            <h5 class="fw-bold mb-0 text-warning-emphasis">Rp {{ number_format($totalPiutangLewatTempo, 2, ',', '.') }}</h5>
-                            <small class="text-muted" style="font-size: 0.75rem;">{{ number_format($totalFakturLewatTempo) }} Faktur Perlu Ditagih</small>
+                            <span class="text-muted small d-block" style="font-size: 0.74rem;">Lewat Tempo (&gt;{{ $tempoStandarHari }} Hr)</span>
+                            <h5 class="fw-bold mb-0 text-warning-emphasis fs-6 fs-sm-5">Rp {{ number_format($totalPiutangLewatTempo, 0, ',', '.') }}</h5>
+                            <small class="text-muted" style="font-size: 0.72rem;">{{ number_format($totalFakturLewatTempo) }} Faktur Perlu Ditagih</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100 border-start border-info border-4">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex align-items-center">
-                        <div class="p-3 bg-info-subtle text-info rounded-3 me-3">
+                        <div class="p-3 bg-info-subtle text-info rounded-3 me-3 d-none d-sm-inline-flex">
                             <i class="bi bi-people fs-4"></i>
                         </div>
                         <div>
-                            <span class="text-muted small d-block">Pelanggan Berpiutang</span>
-                            <h5 class="fw-bold mb-0 text-info">{{ number_format($totalPelangganBerpiutang) }} Orang</h5>
-                            <small class="text-muted" style="font-size: 0.75rem;">Pemborong / Toko / Proyek Aktif</small>
+                            <span class="text-muted small d-block" style="font-size: 0.74rem;">Pelanggan Berpiutang</span>
+                            <h5 class="fw-bold mb-0 text-info fs-6 fs-sm-5">{{ number_format($totalPelangganBerpiutang) }} Orang</h5>
+                            <small class="text-muted" style="font-size: 0.72rem;">Pemborong / Toko / Proyek</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100 border-start border-success border-4">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex align-items-center">
-                        <div class="p-3 bg-success-subtle text-success rounded-3 me-3">
+                        <div class="p-3 bg-success-subtle text-success rounded-3 me-3 d-none d-sm-inline-flex">
                             <i class="bi bi-cash-coin fs-4"></i>
                         </div>
                         <div>
-                            <span class="text-muted small d-block">Penerimaan Bulan Ini</span>
-                            <h5 class="fw-bold mb-0 text-success">Rp {{ number_format($totalBayarBulanIni, 2, ',', '.') }}</h5>
-                            <small class="text-muted" style="font-size: 0.75rem;">Total Cicilan &amp; Pelunasan Masuk</small>
+                            <span class="text-muted small d-block" style="font-size: 0.74rem;">Penerimaan Bulan Ini</span>
+                            <h5 class="fw-bold mb-0 text-success fs-6 fs-sm-5">Rp {{ number_format($totalBayarBulanIni, 0, ',', '.') }}</h5>
+                            <small class="text-muted" style="font-size: 0.72rem;">Cicilan &amp; Pelunasan Masuk</small>
                         </div>
                     </div>
                 </div>
@@ -93,80 +93,80 @@
     </div>
 
     <!-- Interactive 14-Day Aging Bucket Strip -->
-    <div class="row g-2 mb-4">
+    <div class="row g-2 mb-3 mb-md-4">
         <div class="col-6 col-lg-3">
             <button
                 type="button"
                 wire:click="setAgingBucket('lancar')"
-                class="btn w-100 text-start p-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'lancar' ? 'bg-success-subtle border-success' : 'bg-white border-light-subtle' }}"
+                class="btn w-100 text-start p-2.5 p-sm-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'lancar' ? 'bg-success-subtle border-success' : 'bg-white border-light-subtle' }}"
             >
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-success-subtle text-success border border-success-subtle">
-                        <i class="bi bi-check-circle me-1"></i>Lancar (0–14 Hari)
+                <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-1">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.68rem;">
+                        <i class="bi bi-check-circle me-1"></i>Lancar (0–14 Hr)
                     </span>
-                    <span class="small fw-bold text-muted">{{ $agingBuckets['lancar']['count'] }} Nota</span>
+                    <span class="small fw-bold text-muted" style="font-size: 0.72rem;">{{ $agingBuckets['lancar']['count'] }} Nota</span>
                 </div>
                 <div class="fw-bold text-dark fs-6">Rp {{ number_format($agingBuckets['lancar']['nominal'], 0, ',', '.') }}</div>
-                <small class="text-muted" style="font-size: 0.72rem;">Dalam masa tempo standar 14 hari</small>
+                <small class="text-muted d-none d-sm-inline" style="font-size: 0.72rem;">Dalam masa tempo standar 14 hari</small>
             </button>
         </div>
         <div class="col-6 col-lg-3">
             <button
                 type="button"
                 wire:click="setAgingBucket('jatuh_tempo')"
-                class="btn w-100 text-start p-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'jatuh_tempo' ? 'bg-warning-subtle border-warning' : 'bg-white border-light-subtle' }}"
+                class="btn w-100 text-start p-2.5 p-sm-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'jatuh_tempo' ? 'bg-warning-subtle border-warning' : 'bg-white border-light-subtle' }}"
             >
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">
-                        <i class="bi bi-clock-history me-1"></i>Jatuh Tempo (15–30 Hr)
+                <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-1">
+                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle" style="font-size: 0.68rem;">
+                        <i class="bi bi-clock-history me-1"></i>Tempo (15–30 Hr)
                     </span>
-                    <span class="small fw-bold text-muted">{{ $agingBuckets['jatuh_tempo']['count'] }} Nota</span>
+                    <span class="small fw-bold text-muted" style="font-size: 0.72rem;">{{ $agingBuckets['jatuh_tempo']['count'] }} Nota</span>
                 </div>
                 <div class="fw-bold text-dark fs-6">Rp {{ number_format($agingBuckets['jatuh_tempo']['nominal'], 0, ',', '.') }}</div>
-                <small class="text-muted" style="font-size: 0.72rem;">Lewat tempo 14 hari (waktunya follow-up)</small>
+                <small class="text-muted d-none d-sm-inline" style="font-size: 0.72rem;">Lewat tempo 14 hari (waktunya follow-up)</small>
             </button>
         </div>
         <div class="col-6 col-lg-3">
             <button
                 type="button"
                 wire:click="setAgingBucket('menunggak')"
-                class="btn w-100 text-start p-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'menunggak' ? 'bg-danger-subtle border-danger' : 'bg-white border-light-subtle' }}"
+                class="btn w-100 text-start p-2.5 p-sm-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'menunggak' ? 'bg-danger-subtle border-danger' : 'bg-white border-light-subtle' }}"
             >
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
-                        <i class="bi bi-exclamation-triangle me-1"></i>Menunggak (31–60 Hr)
+                <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-1">
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle" style="font-size: 0.68rem;">
+                        <i class="bi bi-exclamation-triangle me-1"></i>Tunggak (31–60)
                     </span>
-                    <span class="small fw-bold text-muted">{{ $agingBuckets['menunggak']['count'] }} Nota</span>
+                    <span class="small fw-bold text-muted" style="font-size: 0.72rem;">{{ $agingBuckets['menunggak']['count'] }} Nota</span>
                 </div>
                 <div class="fw-bold text-danger fs-6">Rp {{ number_format($agingBuckets['menunggak']['nominal'], 0, ',', '.') }}</div>
-                <small class="text-muted" style="font-size: 0.72rem;">Tunggakan lebih dari 1 bulan</small>
+                <small class="text-muted d-none d-sm-inline" style="font-size: 0.72rem;">Tunggakan lebih dari 1 bulan</small>
             </button>
         </div>
         <div class="col-6 col-lg-3">
             <button
                 type="button"
                 wire:click="setAgingBucket('macet')"
-                class="btn w-100 text-start p-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'macet' ? 'bg-dark text-white border-dark' : 'bg-white border-light-subtle' }}"
+                class="btn w-100 text-start p-2.5 p-sm-3 rounded-3 border shadow-xs transition-all {{ $agingFilter === 'macet' ? 'bg-dark text-white border-dark' : 'bg-white border-light-subtle' }}"
             >
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-danger text-white">
-                        <i class="bi bi-fire me-1"></i>Macet / Kritis (&gt; 60 Hr)
+                <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-1">
+                    <span class="badge bg-danger text-white" style="font-size: 0.68rem;">
+                        <i class="bi bi-fire me-1"></i>Macet (&gt; 60 Hr)
                     </span>
-                    <span class="small fw-bold {{ $agingFilter === 'macet' ? 'text-light' : 'text-muted' }}">{{ $agingBuckets['macet']['count'] }} Nota</span>
+                    <span class="small fw-bold {{ $agingFilter === 'macet' ? 'text-light' : 'text-muted' }}" style="font-size: 0.72rem;">{{ $agingBuckets['macet']['count'] }} Nota</span>
                 </div>
                 <div class="fw-bold {{ $agingFilter === 'macet' ? 'text-white' : 'text-danger' }} fs-6">Rp {{ number_format($agingBuckets['macet']['nominal'], 0, ',', '.') }}</div>
-                <small class="{{ $agingFilter === 'macet' ? 'text-light opacity-75' : 'text-muted' }}" style="font-size: 0.72rem;">Prioritas penagihan khusus</small>
+                <small class="{{ $agingFilter === 'macet' ? 'text-light opacity-75' : 'text-muted' }} d-none d-sm-inline" style="font-size: 0.72rem;">Prioritas penagihan khusus</small>
             </button>
         </div>
     </div>
 
     <!-- Filters & Search -->
-    <div class="card mb-4 border-0 shadow-sm">
-        <div class="card-body">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-4 col-lg-4">
+    <div class="card mb-3 mb-md-4 border-0 shadow-sm">
+        <div class="card-body p-2.5 p-md-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-12 col-md-4 col-lg-4">
                     <label class="form-label small text-muted mb-1">Pencarian Nama / Kontak</label>
-                    <div class="input-group">
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
                         <input
                             type="text"
@@ -176,26 +176,26 @@
                         >
                     </div>
                 </div>
-                <div class="col-md-3 col-lg-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label small text-muted mb-1">Tipe Pelanggan</label>
-                    <select wire:model.live="tipeFilter" class="form-select">
+                    <select wire:model.live="tipeFilter" class="form-select form-select-sm">
                         <option value="">Semua Tipe</option>
                         @foreach ($tipeOptions as $tipe)
                             <option value="{{ $tipe->value }}">{{ $tipe->label() }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 col-lg-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label small text-muted mb-1">Status Kredit</label>
-                    <select wire:model.live="piutangFilter" class="form-select">
+                    <select wire:model.live="piutangFilter" class="form-select form-select-sm">
                         <option value="berpiutang">Hanya Pelanggan Berpiutang</option>
                         <option value="overlimit">Melebihi Limit Kredit</option>
                         <option value="semua">Semua Pelanggan</option>
                     </select>
                 </div>
-                <div class="col-md-3 col-lg-3">
+                <div class="col-9 col-md-3 col-lg-3">
                     <label class="form-label small text-muted mb-1">Umur Piutang (Tempo {{ $tempoStandarHari }} Hr)</label>
-                    <select wire:model.live="agingFilter" class="form-select">
+                    <select wire:model.live="agingFilter" class="form-select form-select-sm">
                         <option value="">Semua Umur Piutang</option>
                         <option value="lewat_tempo">Semua Lewat Tempo (&gt; 14 Hari)</option>
                         <option value="lancar">Lancar (0–14 Hari)</option>
@@ -204,8 +204,8 @@
                         <option value="macet">Macet / Kritis (&gt; 60 Hari)</option>
                     </select>
                 </div>
-                <div class="col-md-2 col-lg-1 d-grid">
-                    <button type="button" wire:click="resetFilters" class="btn btn-outline-secondary" title="Reset Filter">
+                <div class="col-3 col-md-2 col-lg-1 d-grid">
+                    <button type="button" wire:click="resetFilters" class="btn btn-sm btn-outline-secondary" title="Reset Filter">
                         <i class="bi bi-arrow-counterclockwise"></i>
                     </button>
                 </div>
@@ -213,10 +213,146 @@
         </div>
     </div>
 
-    <!-- Data Table -->
-    <div class="card border-0 shadow-sm">
+    <!-- Data Card (Mobile Card List + Desktop Table) -->
+    <div class="card border-0 shadow-sm overflow-hidden">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @forelse ($pelanggans as $pelanggan)
+                    @php
+                        $sisaPiutang = (float) ($pelanggan->total_sisa_piutang ?? 0);
+                        $limit = (float) ($pelanggan->limit_piutang ?? 0);
+                        $isOverLimit = $limit > 0 && $sisaPiutang > $limit;
+                        $percentUsed = $limit > 0 ? min(100, round(($sisaPiutang / $limit) * 100)) : 0;
+                        $barColor = $isOverLimit ? 'bg-danger' : ($percentUsed >= 80 ? 'bg-warning' : 'bg-success');
+
+                        $unpaidCount = (int) ($pelanggan->unpaid_penjualan_count ?? 0);
+                        $unpaidNominal = (float) ($pelanggan->unpaid_penjualan_nominal ?? 0);
+                        $unpaidDibayar = (float) ($pelanggan->unpaid_dibayar_nominal ?? 0);
+
+                        $oldestDate = $pelanggan->oldest_unpaid_date ? \Carbon\Carbon::parse($pelanggan->oldest_unpaid_date) : null;
+                        $oldestDays = $oldestDate ? (int) $oldestDate->diffInDays(now()) : 0;
+
+                        if (! $oldestDate || $sisaPiutang <= 0) {
+                            $ageBadgeClass = 'bg-success-subtle text-success border-success-subtle';
+                            $ageStatusText = 'Lunas';
+                        } elseif ($oldestDays > 60) {
+                            $ageBadgeClass = 'bg-danger text-white';
+                            $ageStatusText = $oldestDays . ' Hr (Macet)';
+                        } elseif ($oldestDays > 30) {
+                            $ageBadgeClass = 'bg-danger-subtle text-danger border-danger-subtle';
+                            $ageStatusText = $oldestDays . ' Hr (Menunggak)';
+                        } elseif ($oldestDays > $tempoStandarHari) {
+                            $ageBadgeClass = 'bg-warning-subtle text-warning-emphasis border-warning-subtle';
+                            $ageStatusText = $oldestDays . ' Hr (Lewat Tempo)';
+                        } else {
+                            $ageBadgeClass = 'bg-success-subtle text-success border-success-subtle';
+                            $ageStatusText = $oldestDays . ' Hr (Lancar)';
+                        }
+
+                        $lastPayDate = $pelanggan->last_payment_date ? \Carbon\Carbon::parse($pelanggan->last_payment_date) : null;
+                    @endphp
+                    <div class="p-3 border-bottom" wire:key="piutang-mob-{{ $pelanggan->id }}">
+                        <!-- Top Row: Customer Name & Aging Status -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                            <div>
+                                <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                                    <span class="fw-bold text-dark" style="font-size: 0.95rem;">{{ $pelanggan->nama }}</span>
+                                    <span class="badge bg-light text-dark border" style="font-size: 0.68rem;">
+                                        {{ $pelanggan->tipe->label() ?? 'Umum' }}
+                                    </span>
+                                </div>
+                                <div class="text-muted mt-0.5" style="font-size: 0.74rem;">
+                                    <i class="bi bi-telephone me-1"></i>{{ $pelanggan->kontak ?: 'Tanpa kontak' }}
+                                    @if ($lastPayDate)
+                                        <span class="text-success ms-1">&bull; Bayar: {{ $lastPayDate->format('d/m/y') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <span class="badge {{ $ageBadgeClass }} border flex-shrink-0" style="font-size: 0.7rem;">
+                                <i class="bi bi-clock me-1"></i>{{ $ageStatusText }}
+                            </span>
+                        </div>
+
+                        <!-- Debt Summary Box -->
+                        <div class="p-2.5 rounded-3 bg-light border my-2">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <div>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle" style="font-size: 0.7rem;">
+                                        {{ number_format($unpaidCount) }} Faktur Belum Lunas
+                                    </span>
+                                    @if ($unpaidDibayar > 0)
+                                        <div class="text-success mt-1" style="font-size: 0.72rem;">
+                                            Sudah dicicil: Rp {{ number_format($unpaidDibayar, 0, ',', '.') }}
+                                        </div>
+                                    @elseif ($oldestDate)
+                                        <div class="text-muted mt-1" style="font-size: 0.72rem;">
+                                            Nota tertua: {{ $oldestDate->format('d/m/Y') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="text-end ms-auto">
+                                    <div class="text-muted" style="font-size: 0.7rem;">Total Sisa Piutang</div>
+                                    <div class="fw-bold fs-6 font-monospace {{ $sisaPiutang > 0 ? 'text-danger' : 'text-success' }}">
+                                        Rp {{ number_format($sisaPiutang, 0, ',', '.') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if ($limit > 0)
+                                <div class="mt-2 pt-1.5 border-top">
+                                    <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.72rem;">
+                                        <span class="text-muted">Limit Kredit: Rp {{ number_format($limit, 0, ',', '.') }}</span>
+                                        <span class="fw-semibold {{ $isOverLimit ? 'text-danger' : 'text-secondary' }}">
+                                            {{ $isOverLimit ? 'Over +Rp ' . number_format($sisaPiutang - $limit, 0, ',', '.') : $percentUsed . '% terpakai' }}
+                                        </span>
+                                    </div>
+                                    <div class="progress" style="height: 4px;">
+                                        <div class="progress-bar {{ $barColor }}" role="progressbar" style="width: {{ $percentUsed }}%"></div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-1.5 pt-1">
+                            <button
+                                type="button"
+                                wire:click="showCustomerInvoices({{ $pelanggan->id }})"
+                                class="btn btn-sm btn-outline-secondary flex-fill"
+                            >
+                                <i class="bi bi-receipt me-1"></i>Rincian Faktur ({{ $unpaidCount }})
+                            </button>
+                            @if ($sisaPiutang > 0)
+                                <a
+                                    href="{{ route('piutang.print.tagihan', $pelanggan->id) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-dark"
+                                    title="Cetak Surat Tagihan Resmi"
+                                >
+                                    <i class="bi bi-printer"></i>
+                                </a>
+                                @can('record_payments')
+                                    <a
+                                        href="{{ route('pembayaran.create', ['pelanggan_id' => $pelanggan->id]) }}"
+                                        class="btn btn-sm btn-primary"
+                                    >
+                                        <i class="bi bi-cash-coin me-1"></i>Bayar
+                                    </a>
+                                @endcan
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5 px-3 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary"></i>
+                        Tidak ada data piutang pelanggan yang ditemukan.
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -447,64 +583,64 @@
     <!-- Customer Unpaid Invoices, Project Items & Installment History Modal -->
     @if ($isDetailModalOpen && $selectedCustomer)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.55);" aria-modal="true" role="dialog">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
                 <div class="modal-content border-0 shadow-lg rounded-3 overflow-hidden">
                     <!-- Modal Header -->
-                    <div class="modal-header bg-white border-bottom py-3 px-4">
-                        <div class="d-flex align-items-center">
-                            <div class="p-2 bg-primary-subtle text-primary rounded-3 me-3">
+                    <div class="modal-header bg-white border-bottom py-2.5 py-sm-3 px-3 px-sm-4">
+                        <div class="d-flex align-items-center min-w-0">
+                            <div class="p-2 bg-primary-subtle text-primary rounded-3 me-2.5 d-none d-sm-inline-flex">
                                 <i class="bi bi-receipt-cutoff fs-4"></i>
                             </div>
-                            <div>
-                                <h5 class="modal-title fw-bold text-dark mb-0">Rincian Faktur Tertunggak &amp; Riwayat Cicilan</h5>
-                                <div class="text-muted small mt-1">
+                            <div class="min-w-0">
+                                <h6 class="modal-title fw-bold text-dark mb-0 text-truncate">Rincian Faktur Tertunggak &amp; Cicilan</h6>
+                                <div class="text-muted small mt-0.5 d-none d-sm-block">
                                     Daftar nota belum lunas, rincian pengambilan material proyek, dan histori pembayaran (Standar Tempo {{ $tempoStandarHari }} Hari).
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="d-flex align-items-center gap-1.5 flex-wrap ms-auto">
                             @if ($selectedInvoices->isNotEmpty())
                                 <button
                                     type="button"
                                     wire:click="toggleAllInvoiceDetails"
-                                    class="btn btn-sm btn-outline-primary px-2.5"
+                                    class="btn btn-sm btn-outline-primary px-2"
                                     title="Buka atau tutup seluruh rincian barang dan histori cicilan"
                                 >
                                     <i class="bi bi-layers me-1"></i>
-                                    {{ count($expandedInvoiceIds) === $selectedInvoices->count() ? 'Tutup Rincian Barang' : 'Lihat Semua Barang & Cicilan' }}
+                                    <span class="d-none d-sm-inline">{{ count($expandedInvoiceIds) === $selectedInvoices->count() ? 'Tutup Rincian' : 'Lihat Semua Barang' }}</span>
+                                    <span class="d-sm-none">{{ count($expandedInvoiceIds) === $selectedInvoices->count() ? 'Tutup' : 'Rincian' }}</span>
                                 </button>
                                 <a
                                     href="{{ route('piutang.print.tagihan', $selectedCustomer->id) }}"
                                     target="_blank"
-                                    class="btn btn-sm btn-outline-dark px-3 shadow-xs"
+                                    class="btn btn-sm btn-outline-dark px-2.5 shadow-xs"
                                     title="Cetak Surat Tagihan Resmi A4"
                                 >
-                                    <i class="bi bi-printer me-1"></i>Cetak Surat Tagihan
+                                    <i class="bi bi-printer me-1"></i><span class="d-none d-sm-inline">Cetak Tagihan</span>
                                 </a>
                             @endif
                             @if ($whatsAppUrl)
-                                <a href="{{ $whatsAppUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success text-white px-3 shadow-sm" title="Kirim Pengingat Tagihan + Nomor Rekening via WhatsApp">
-                                    <i class="bi bi-whatsapp me-1"></i>Kirim WA Tagihan
+                                <a href="{{ $whatsAppUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success text-white px-2.5 shadow-sm" title="Kirim Pengingat Tagihan + Nomor Rekening via WhatsApp">
+                                    <i class="bi bi-whatsapp me-1"></i><span class="d-none d-sm-inline">Kirim WA</span><span class="d-sm-none">WA</span>
                                 </a>
                             @endif
-                            <button type="button" class="btn-close ms-2" wire:click="closeDetailModal" aria-label="Close"></button>
+                            <button type="button" class="btn-close ms-1" wire:click="closeDetailModal" aria-label="Close"></button>
                         </div>
                     </div>
 
                     <!-- Customer Info Strip -->
-                    <div class="bg-light px-4 py-3 border-bottom">
+                    <div class="bg-light px-3 px-sm-4 py-2.5 border-bottom">
                         <div class="row g-2 align-items-center">
                             <div class="col-md-7">
                                 <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
-                                    <h6 class="fw-bold text-dark mb-0 fs-5">{{ $selectedCustomer->nama }}</h6>
-                                    <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
+                                    <h6 class="fw-bold text-dark mb-0 fs-6 fs-sm-5">{{ $selectedCustomer->nama }}</h6>
+                                    <span class="badge bg-secondary-subtle text-secondary border px-2 py-1" style="font-size: 0.7rem;">
                                         {{ $selectedCustomer->tipe->label() ?? 'Umum' }}
                                     </span>
                                 </div>
-                                <div class="text-muted small d-flex align-items-center flex-wrap gap-3">
-                                    <span><i class="bi bi-person-badge text-secondary me-1"></i>ID: #{{ $selectedCustomer->id }}</span>
+                                <div class="text-muted small d-flex align-items-center flex-wrap gap-2 gap-sm-3" style="font-size: 0.75rem;">
                                     <span><i class="bi bi-telephone text-secondary me-1"></i>{{ $selectedCustomer->kontak ?? 'Tidak ada kontak' }}</span>
-                                    <span><i class="bi bi-wallet text-secondary me-1"></i>Plafon Kredit: {{ (float) $selectedCustomer->limit_piutang > 0 ? 'Rp ' . number_format((float) $selectedCustomer->limit_piutang, 0, ',', '.') : 'Tanpa Limit' }}</span>
+                                    <span><i class="bi bi-wallet text-secondary me-1"></i>Plafon: {{ (float) $selectedCustomer->limit_piutang > 0 ? 'Rp ' . number_format((float) $selectedCustomer->limit_piutang, 0, ',', '.') : 'Tanpa Limit' }}</span>
                                     @if ($selectedCustomer->last_payment_date)
                                         <span class="text-success fw-semibold">
                                             <i class="bi bi-check2-circle me-1"></i>Terakhir Bayar: {{ \Carbon\Carbon::parse($selectedCustomer->last_payment_date)->format('d/m/Y') }}
@@ -513,17 +649,145 @@
                                 </div>
                             </div>
                             <div class="col-md-5 text-md-end">
-                                <div class="d-inline-flex flex-column align-items-md-end bg-white border border-danger-subtle rounded-3 p-2 px-3 shadow-sm">
-                                    <span class="text-muted small" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600;">Total Sisa Piutang ({{ $selectedInvoices->count() }} Faktur)</span>
-                                    <span class="h5 fw-bold text-danger mb-0">Rp {{ number_format($selectedTotalSisa, 2, ',', '.') }}</span>
+                                <div class="d-flex d-md-inline-flex justify-content-between align-items-center flex-md-column align-items-md-end bg-white border border-danger-subtle rounded-3 p-2 px-3 shadow-sm">
+                                    <span class="text-muted small" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 600;">Total Sisa Piutang ({{ $selectedInvoices->count() }} Faktur)</span>
+                                    <span class="h6 fw-bold text-danger mb-0 font-monospace">Rp {{ number_format($selectedTotalSisa, 0, ',', '.') }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Modal Body / Table -->
+                    <!-- Modal Body / Mobile Cards + Desktop Table -->
                     <div class="modal-body p-0">
-                        <div class="table-responsive">
+                        <!-- Mobile Invoice Card List (< 768px) -->
+                        <div class="d-md-none">
+                            @forelse ($selectedInvoices as $inv)
+                                @php
+                                    $tglNota = \Carbon\Carbon::parse($inv->tanggal);
+                                    $tglJatuhTempo = $tglNota->copy()->addDays($tempoStandarHari);
+                                    $daysOverdue = (int) $tglNota->diffInDays(now());
+                                    $isExpanded = in_array($inv->id, $expandedInvoiceIds, true);
+
+                                    if ($daysOverdue > 60) {
+                                        $agingBadge = 'bg-danger text-white';
+                                        $agingLabel = $daysOverdue . ' hr (Macet)';
+                                    } elseif ($daysOverdue > 30) {
+                                        $agingBadge = 'bg-danger-subtle text-danger border-danger-subtle';
+                                        $agingLabel = $daysOverdue . ' hr (31–60)';
+                                    } elseif ($daysOverdue > $tempoStandarHari) {
+                                        $agingBadge = 'bg-warning-subtle text-warning-emphasis border-warning-subtle';
+                                        $agingLabel = $daysOverdue . ' hr (Lewat Tempo)';
+                                    } else {
+                                        $agingBadge = 'bg-success-subtle text-success border-success-subtle';
+                                        $agingLabel = $daysOverdue . ' hr (Lancar)';
+                                    }
+                                @endphp
+                                <div class="p-3 border-bottom {{ $isExpanded ? 'bg-light' : '' }}">
+                                    <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                                        <div>
+                                            <a href="{{ route('penjualan.show', $inv->id) }}" class="fw-bold text-primary text-decoration-none font-monospace">
+                                                {{ $inv->no_penjualan }}
+                                            </a>
+                                            <div class="text-muted" style="font-size: 0.73rem;">
+                                                Nota: {{ $tglNota->format('d/m/Y') }} &bull;
+                                                <span class="{{ $daysOverdue > $tempoStandarHari ? 'text-danger fw-semibold' : '' }}">Tempo: {{ $tglJatuhTempo->format('d/m/Y') }}</span>
+                                            </div>
+                                        </div>
+                                        <span class="badge {{ $agingBadge }} border" style="font-size: 0.68rem;">
+                                            <i class="bi bi-clock me-1"></i>{{ $agingLabel }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Financial Box -->
+                                    <div class="p-2 rounded-3 bg-white border my-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div style="font-size: 0.73rem;">
+                                            <div class="text-muted">Total Nota: <span class="text-dark fw-semibold font-monospace">Rp {{ number_format((float) $inv->total_akhir, 0, ',', '.') }}</span></div>
+                                            <div class="text-muted">Dicicil: <span class="text-success fw-semibold font-monospace">Rp {{ number_format((float) $inv->total_dibayar, 0, ',', '.') }}</span></div>
+                                        </div>
+                                        <div class="text-end ms-auto">
+                                            <div class="text-muted" style="font-size: 0.68rem;">Sisa Tagihan</div>
+                                            <div class="fw-bold text-danger font-monospace fs-6">
+                                                Rp {{ number_format((float) $inv->sisa_piutang, 0, ',', '.') }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons & Expand Drawer Trigger -->
+                                    <div class="d-flex justify-content-between align-items-center gap-2">
+                                        <button
+                                            type="button"
+                                            wire:click="toggleInvoiceDetail({{ $inv->id }})"
+                                            class="btn btn-sm {{ $isExpanded ? 'btn-secondary' : 'btn-outline-secondary' }} py-1 px-2"
+                                            style="font-size: 0.74rem;"
+                                        >
+                                            <i class="bi bi-{{ $isExpanded ? 'chevron-up' : 'chevron-down' }} me-1"></i>
+                                            {{ $isExpanded ? 'Tutup Rincian' : 'Barang & Cicilan (' . $inv->alokasiPembayarans->count() . 'x)' }}
+                                        </button>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ route('penjualan.show', $inv->id) }}" class="btn btn-outline-secondary">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            @can('record_payments')
+                                                <a href="{{ route('pembayaran.create', ['penjualan_id' => $inv->id]) }}" class="btn btn-primary">
+                                                    <i class="bi bi-cash-stack me-1"></i>Bayar
+                                                </a>
+                                            @endcan
+                                        </div>
+                                    </div>
+
+                                    @if ($isExpanded)
+                                        <div class="mt-2.5 pt-2.5 border-top">
+                                            <div class="bg-white border rounded-3 p-2.5 mb-2">
+                                                <div class="fw-bold small text-primary mb-1.5" style="font-size: 0.74rem;">
+                                                    <i class="bi bi-box-seam me-1"></i>Rincian Barang ({{ $inv->details->count() }} Item)
+                                                </div>
+                                                @foreach ($inv->details as $det)
+                                                    <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-light small" style="font-size: 0.75rem;">
+                                                        <div class="min-w-0 pe-2">
+                                                            <div class="fw-semibold text-dark text-truncate">{{ $det->produk->nama ?? '-' }}</div>
+                                                            <span class="text-muted font-monospace">{{ number_format((float) $det->jumlah, 0, ',', '.') }} &times; Rp {{ number_format((float) $det->harga_satuan, 0, ',', '.') }}</span>
+                                                        </div>
+                                                        <span class="fw-bold font-monospace text-dark flex-shrink-0">
+                                                            Rp {{ number_format((float) $det->subtotal, 0, ',', '.') }}
+                                                        </span>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+
+                                            <div class="bg-white border rounded-3 p-2.5">
+                                                <div class="fw-bold small text-success mb-1.5" style="font-size: 0.74rem;">
+                                                    <i class="bi bi-clock-history me-1"></i>Riwayat Cicilan ({{ $inv->alokasiPembayarans->count() }}x)
+                                                </div>
+                                                @forelse ($inv->alokasiPembayarans as $alok)
+                                                    <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-light small" style="font-size: 0.75rem;">
+                                                        <div>
+                                                            @if ($alok->pembayaran)
+                                                                <a href="{{ route('pembayaran.show', $alok->pembayaran->id) }}" class="fw-bold font-monospace text-decoration-none">
+                                                                    {{ $alok->pembayaran->no_pembayaran }}
+                                                                </a>
+                                                            @endif
+                                                            <span class="text-muted ms-1">({{ $alok->pembayaran?->tanggal?->format('d/m/y') ?? '-' }})</span>
+                                                        </div>
+                                                        <span class="fw-bold text-success font-monospace">
+                                                            Rp {{ number_format((float) $alok->jumlah_dialokasikan, 0, ',', '.') }}
+                                                        </span>
+                                                    </div>
+                                                @empty
+                                                    <div class="text-muted small" style="font-size: 0.74rem;">Belum ada pembayaran masuk.</div>
+                                                @endforelse
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @empty
+                                <div class="text-center py-5 px-3 text-muted">
+                                    Tidak ada faktur tertunggak untuk pelanggan ini.
+                                </div>
+                            @endforelse
+                        </div>
+
+                        <!-- Desktop Table View (>= 768px) -->
+                        <div class="table-responsive d-none d-md-block">
                             <table class="table align-middle mb-0">
                                 <thead class="table-light text-muted small text-uppercase fw-semibold border-bottom">
                                     <tr>

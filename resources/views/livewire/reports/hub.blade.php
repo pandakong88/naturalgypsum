@@ -1,8 +1,8 @@
-<div class="container-fluid py-4">
+<div class="container-fluid py-2 py-md-4 px-2 px-md-3">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-center mb-3 mb-md-4 flex-wrap gap-2">
         <div>
-            <h1 class="h3 mb-1 text-gray-800 fw-bold">
+            <h1 class="h4 mb-1 text-gray-800 fw-bold">
                 <i class="bi bi-file-earmark-bar-graph text-primary me-2"></i>Hub Laporan &amp; Analisis Bisnis
             </h1>
             <p class="text-muted small mb-0">Pusat kendali analitik, profitabilitas, perputaran stok, dan kesehatan arus kas Natural Gypsum &amp; PVC (Read-Only).</p>
@@ -18,98 +18,98 @@
     </div>
 
     <!-- Executive Business Snapshot (Ringkasan Eksekutif Pemilik Toko Bulan Ini) -->
-    <div class="card border-0 shadow-sm mb-4 overflow-hidden">
-        <div class="card-header bg-dark text-white py-2.5 px-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="card border-0 shadow-sm mb-3 mb-md-4 overflow-hidden">
+        <div class="card-header bg-dark text-white py-2.5 px-3 px-md-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-stars text-warning"></i>
-                <span class="fw-bold small text-uppercase" style="letter-spacing: 0.06em;">Ringkasan Eksekutif &amp; Kesehatan Bisnis — {{ now()->translatedFormat('F Y') }}</span>
+                <span class="fw-bold small text-uppercase" style="letter-spacing: 0.06em;">Ringkasan Eksekutif — {{ now()->translatedFormat('F Y') }}</span>
             </div>
             <span class="badge bg-secondary-subtle text-light border border-secondary small">
-                Pembaruan Real-Time
+                Real-Time
             </span>
         </div>
-        <div class="card-body p-3 bg-white">
-            <div class="row g-3">
+        <div class="card-body p-2.5 p-md-3 bg-white">
+            <div class="row g-2 g-md-3">
                 <!-- 1. Omset Penjualan Bulan Ini -->
-                <div class="col-sm-6 col-xl-3">
-                    <div class="p-3 rounded-3 border bg-light h-100">
-                        <div class="d-flex justify-content-between align-items-start mb-1">
-                            <span class="text-muted small fw-semibold text-uppercase">Omset Bulan Ini</span>
-                            <span class="badge {{ $pertumbuhanOmset >= 0 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }} border">
+                <div class="col-6 col-xl-3">
+                    <div class="p-2.5 p-sm-3 rounded-3 border bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-1 flex-wrap gap-1">
+                            <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Omset Bulan Ini</span>
+                            <span class="badge {{ $pertumbuhanOmset >= 0 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }} border" style="font-size: 0.68rem;">
                                 <i class="bi bi-graph-{{ $pertumbuhanOmset >= 0 ? 'up' : 'down' }}-arrow me-1"></i>{{ $pertumbuhanOmset >= 0 ? '+' : '' }}{{ $pertumbuhanOmset }}%
                             </span>
                         </div>
-                        <div class="h5 fw-bold text-dark mb-1">Rp {{ number_format($omsetBulanIni, 0, ',', '.') }}</div>
-                        <div class="small text-muted">
-                            {{ number_format($transaksiBulanIni) }} faktur aktif &bull; Bln lalu: Rp {{ number_format($omsetBulanLalu, 0, ',', '.') }}
+                        <div class="h5 fw-bold text-dark mb-1 fs-6 fs-sm-5">Rp {{ number_format($omsetBulanIni, 0, ',', '.') }}</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">
+                            {{ number_format($transaksiBulanIni) }} faktur &bull; <span class="d-none d-sm-inline">Bln lalu: Rp {{ number_format($omsetBulanLalu, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. Estimasi Laba Kotor / Kas Masuk -->
-                <div class="col-sm-6 col-xl-3">
-                    <div class="p-3 rounded-3 border bg-light h-100">
+                <div class="col-6 col-xl-3">
+                    <div class="p-2.5 p-sm-3 rounded-3 border bg-light h-100">
                         @if ($canViewPurchasePrices)
-                            <div class="d-flex justify-content-between align-items-start mb-1">
-                                <span class="text-muted small fw-semibold text-uppercase">Est. Laba Kotor (Margin)</span>
-                                <span class="badge bg-primary-subtle text-primary border">
-                                    Margin {{ $marginBulanIni }}%
+                            <div class="d-flex justify-content-between align-items-start mb-1 flex-wrap gap-1">
+                                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Est. Laba Kotor</span>
+                                <span class="badge bg-primary-subtle text-primary border" style="font-size: 0.68rem;">
+                                    {{ $marginBulanIni }}%
                                 </span>
                             </div>
-                            <div class="h5 fw-bold text-success mb-1">Rp {{ number_format($labaKotorBulanIni, 0, ',', '.') }}</div>
-                            <div class="small text-muted">
-                                Kas diterima bln ini: <strong>Rp {{ number_format($kasMasukBulanIni, 0, ',', '.') }}</strong>
+                            <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-5">Rp {{ number_format($labaKotorBulanIni, 0, ',', '.') }}</div>
+                            <div class="small text-muted" style="font-size: 0.72rem;">
+                                Kas masuk: <strong>Rp {{ number_format($kasMasukBulanIni, 0, ',', '.') }}</strong>
                             </div>
                         @else
-                            <div class="d-flex justify-content-between align-items-start mb-1">
-                                <span class="text-muted small fw-semibold text-uppercase">Penerimaan Kas Masuk</span>
-                                <span class="badge bg-success-subtle text-success border">Bulan Ini</span>
+                            <div class="d-flex justify-content-between align-items-start mb-1 flex-wrap gap-1">
+                                <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Kas Masuk</span>
+                                <span class="badge bg-success-subtle text-success border" style="font-size: 0.68rem;">Bulan Ini</span>
                             </div>
-                            <div class="h5 fw-bold text-success mb-1">Rp {{ number_format($kasMasukBulanIni, 0, ',', '.') }}</div>
-                            <div class="small text-muted">Tunai &amp; Transfer masuk bulan ini</div>
+                            <div class="h5 fw-bold text-success mb-1 fs-6 fs-sm-5">Rp {{ number_format($kasMasukBulanIni, 0, ',', '.') }}</div>
+                            <div class="small text-muted" style="font-size: 0.72rem;">Tunai &amp; Transfer masuk</div>
                         @endif
                     </div>
                 </div>
 
                 <!-- 3. Eksposur Piutang & Jatuh Tempo 14 Hari -->
-                <div class="col-sm-6 col-xl-3">
-                    <div class="p-3 rounded-3 border bg-light h-100">
-                        <div class="d-flex justify-content-between align-items-start mb-1">
-                            <span class="text-muted small fw-semibold text-uppercase">Saldo Piutang Tertunggak</span>
-                            <span class="badge bg-danger-subtle text-danger border">{{ $fakturBelumLunas }} Nota</span>
+                <div class="col-6 col-xl-3">
+                    <div class="p-2.5 p-sm-3 rounded-3 border bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-1 flex-wrap gap-1">
+                            <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Piutang Aktif</span>
+                            <span class="badge bg-danger-subtle text-danger border" style="font-size: 0.68rem;">{{ $fakturBelumLunas }} Nota</span>
                         </div>
-                        <div class="h5 fw-bold text-danger mb-1">Rp {{ number_format($totalPiutang, 0, ',', '.') }}</div>
-                        <div class="small {{ $fakturLewatTempo > 0 ? 'text-danger fw-semibold' : 'text-success' }}">
+                        <div class="h5 fw-bold text-danger mb-1 fs-6 fs-sm-5">Rp {{ number_format($totalPiutang, 0, ',', '.') }}</div>
+                        <div class="small {{ $fakturLewatTempo > 0 ? 'text-danger fw-semibold' : 'text-success' }}" style="font-size: 0.72rem;">
                             @if ($fakturLewatTempo > 0)
-                                <i class="bi bi-exclamation-triangle-fill me-1"></i>Lewat tempo (&gt;14 hr): Rp {{ number_format($piutangLewatTempo, 0, ',', '.') }} ({{ $fakturLewatTempo }} nota)
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i>Lewat tempo: {{ $fakturLewatTempo }} nota
                             @else
-                                <i class="bi bi-check-circle-fill me-1"></i>Seluruh piutang dalam tempo 14 hari
+                                <i class="bi bi-check-circle-fill me-1"></i>Dalam tempo 14 hari
                             @endif
                         </div>
                     </div>
                 </div>
 
                 <!-- 4. Modal Persediaan Gudang & Hutang Supplier -->
-                <div class="col-sm-6 col-xl-3">
-                    <div class="p-3 rounded-3 border bg-light h-100">
-                        <div class="d-flex justify-content-between align-items-start mb-1">
-                            <span class="text-muted small fw-semibold text-uppercase">Valuasi Modal Stok</span>
+                <div class="col-6 col-xl-3">
+                    <div class="p-2.5 p-sm-3 rounded-3 border bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-1 flex-wrap gap-1">
+                            <span class="text-muted small fw-semibold text-uppercase" style="font-size: 0.72rem;">Valuasi Stok</span>
                             @if ($stokKritisCount > 0)
-                                <span class="badge bg-warning-subtle text-warning-emphasis border">
-                                    {{ $stokKritisCount }} Stok Kritis
+                                <span class="badge bg-warning-subtle text-warning-emphasis border" style="font-size: 0.68rem;">
+                                    {{ $stokKritisCount }} Kritis
                                 </span>
                             @else
-                                <span class="badge bg-success-subtle text-success border">Stok Aman</span>
+                                <span class="badge bg-success-subtle text-success border" style="font-size: 0.68rem;">Aman</span>
                             @endif
                         </div>
                         @if ($canViewPurchasePrices)
-                            <div class="h5 fw-bold text-primary mb-1">Rp {{ number_format($nilaiModalStok, 0, ',', '.') }}</div>
-                            <div class="small text-muted">
-                                Hutang Supplier: <strong class="{{ $hutangSupplier > 0 ? 'text-danger' : 'text-dark' }}">Rp {{ number_format($hutangSupplier, 0, ',', '.') }}</strong>
+                            <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-5">Rp {{ number_format($nilaiModalStok, 0, ',', '.') }}</div>
+                            <div class="small text-muted" style="font-size: 0.72rem;">
+                                Hutang PO: <strong class="{{ $hutangSupplier > 0 ? 'text-danger' : 'text-dark' }}">Rp {{ number_format($hutangSupplier, 0, ',', '.') }}</strong>
                             </div>
                         @else
-                            <div class="h5 fw-bold text-primary mb-1">{{ number_format($totalSkuStok) }} Posisi SKU</div>
-                            <div class="small text-muted">{{ $stokKritisCount }} item perlu restock segera</div>
+                            <div class="h5 fw-bold text-primary mb-1 fs-6 fs-sm-5">{{ number_format($totalSkuStok) }} SKU</div>
+                            <div class="small text-muted" style="font-size: 0.72rem;">{{ $stokKritisCount }} item perlu restock</div>
                         @endif
                     </div>
                 </div>
@@ -118,7 +118,7 @@
     </div>
 
     <!-- Reports Grid -->
-    <div class="row g-4">
+    <div class="row g-2.5 g-md-4">
         <!-- Laporan Penjualan -->
         @can('view_sales_reports')
             <div class="col-md-6 col-lg-4">

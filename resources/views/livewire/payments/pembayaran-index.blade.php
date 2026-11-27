@@ -20,21 +20,21 @@
     </div>
 
     <!-- Summary KPI Cards -->
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+    <div class="row g-2 g-md-3 mb-3 mb-md-4">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Total Uang Masuk (Aktif)</span>
-                            <h5 class="fw-bold text-success mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Total Uang Masuk</span>
+                            <h5 class="fw-bold text-success mb-1 fs-6 fs-sm-5">
                                 Rp {{ number_format($totalNominal, 0, ',', '.') }}
                             </h5>
-                            <span class="badge bg-success-subtle text-success border border-success-subtle">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle" style="font-size: 0.7rem;">
                                 {{ number_format($totalTransaksi) }} Transaksi
                             </span>
                         </div>
-                        <div class="p-2 bg-success-subtle text-success rounded">
+                        <div class="p-2 bg-success-subtle text-success rounded d-none d-sm-inline-flex">
                             <i class="bi bi-wallet2 fs-4"></i>
                         </div>
                     </div>
@@ -42,18 +42,18 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Penerimaan Tunai (Cash)</span>
-                            <h5 class="fw-bold text-dark mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Tunai (Cash)</span>
+                            <h5 class="fw-bold text-dark mb-1 fs-6 fs-sm-5">
                                 Rp {{ number_format($totalTunai, 0, ',', '.') }}
                             </h5>
-                            <small class="text-muted">Uang fisik masuk laci kasir</small>
+                            <small class="text-muted d-none d-sm-inline">Uang fisik masuk laci kasir</small>
                         </div>
-                        <div class="p-2 bg-primary-subtle text-primary rounded">
+                        <div class="p-2 bg-primary-subtle text-primary rounded d-none d-sm-inline-flex">
                             <i class="bi bi-cash-coin fs-4"></i>
                         </div>
                     </div>
@@ -61,18 +61,18 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="text-muted small d-block mb-1">Penerimaan Transfer Bank</span>
-                            <h5 class="fw-bold text-info-emphasis mb-1">
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Transfer Bank</span>
+                            <h5 class="fw-bold text-info-emphasis mb-1 fs-6 fs-sm-5">
                                 Rp {{ number_format($totalTransfer, 0, ',', '.') }}
                             </h5>
-                            <small class="text-muted">Mutasi masuk rekening bank</small>
+                            <small class="text-muted d-none d-sm-inline">Mutasi masuk rekening bank</small>
                         </div>
-                        <div class="p-2 bg-info-subtle text-info-emphasis rounded">
+                        <div class="p-2 bg-info-subtle text-info-emphasis rounded d-none d-sm-inline-flex">
                             <i class="bi bi-bank fs-4"></i>
                         </div>
                     </div>
@@ -80,22 +80,22 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body p-2.5 p-sm-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div class="w-100">
-                            <span class="text-muted small d-block mb-1">Komposisi Sumber Kas</span>
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span class="text-muted">Cicilan/Piutang:</span>
+                            <span class="text-muted small d-block mb-1" style="font-size: 0.74rem;">Sumber Kas</span>
+                            <div class="d-flex justify-content-between small mb-0.5" style="font-size: 0.74rem;">
+                                <span class="text-muted">Piutang:</span>
                                 <span class="fw-bold text-primary">Rp {{ number_format($totalPelunasanPiutang, 0, ',', '.') }}</span>
                             </div>
-                            <div class="d-flex justify-content-between small">
-                                <span class="text-muted">Kasir POS:</span>
+                            <div class="d-flex justify-content-between small" style="font-size: 0.74rem;">
+                                <span class="text-muted">POS:</span>
                                 <span class="fw-semibold text-secondary">Rp {{ number_format($totalKasirLangsung, 0, ',', '.') }}</span>
                             </div>
                         </div>
-                        <div class="p-2 bg-warning-subtle text-warning-emphasis rounded ms-2">
+                        <div class="p-2 bg-warning-subtle text-warning-emphasis rounded ms-2 d-none d-sm-inline-flex">
                             <i class="bi bi-pie-chart fs-4"></i>
                         </div>
                     </div>
@@ -105,38 +105,38 @@
     </div>
 
     <!-- Filters & Search -->
-    <div class="card mb-4 border-0 shadow-sm">
-        <div class="card-body">
+    <div class="card mb-3 mb-md-4 border-0 shadow-sm">
+        <div class="card-body p-2.5 p-md-3">
             <!-- Quick Date Presets -->
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">
-                <div class="d-flex flex-wrap align-items-center gap-1">
-                    <span class="small text-muted me-2"><i class="bi bi-calendar3 me-1"></i>Periode Cepat:</span>
-                    <button type="button" wire:click="setDatePreset('today')" class="btn btn-sm {{ $datePreset === 'today' ? 'btn-primary' : 'btn-outline-secondary' }}">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2.5 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-1 nav-pills-scrollable flex-nowrap pb-1 pb-md-0">
+                    <span class="small text-muted me-1 text-nowrap"><i class="bi bi-calendar3 me-1"></i>Periode:</span>
+                    <button type="button" wire:click="setDatePreset('today')" class="btn btn-sm text-nowrap {{ $datePreset === 'today' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Hari Ini
                     </button>
-                    <button type="button" wire:click="setDatePreset('yesterday')" class="btn btn-sm {{ $datePreset === 'yesterday' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('yesterday')" class="btn btn-sm text-nowrap {{ $datePreset === 'yesterday' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Kemarin
                     </button>
-                    <button type="button" wire:click="setDatePreset('7days')" class="btn btn-sm {{ $datePreset === '7days' ? 'btn-primary' : 'btn-outline-secondary' }}">
-                        7 Hari Terakhir
+                    <button type="button" wire:click="setDatePreset('7days')" class="btn btn-sm text-nowrap {{ $datePreset === '7days' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                        7 Hari
                     </button>
-                    <button type="button" wire:click="setDatePreset('month')" class="btn btn-sm {{ $datePreset === 'month' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('month')" class="btn btn-sm text-nowrap {{ $datePreset === 'month' ? 'btn-primary' : 'btn-outline-secondary' }}">
                         Bulan Ini
                     </button>
-                    <button type="button" wire:click="setDatePreset('all')" class="btn btn-sm {{ $datePreset === '' && $startDate === '' && $endDate === '' ? 'btn-dark' : 'btn-outline-secondary' }}">
+                    <button type="button" wire:click="setDatePreset('all')" class="btn btn-sm text-nowrap {{ $datePreset === '' && $startDate === '' && $endDate === '' ? 'btn-dark' : 'btn-outline-secondary' }}">
                         Semua Waktu
                     </button>
                 </div>
 
                 @if ($search !== '' || $metodeFilter !== '' || $sumberFilter !== '' || $statusFilter !== 'aktif' || $startDate !== '' || $endDate !== '')
                     <button type="button" wire:click="resetFilters" class="btn btn-sm btn-link text-danger text-decoration-none p-0">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Semua Filter
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset Filter
                     </button>
                 @endif
             </div>
 
-            <div class="row g-3">
-                <div class="col-md-4 col-lg-3">
+            <div class="row g-2">
+                <div class="col-12 col-md-4 col-lg-3">
                     <label class="form-label small text-muted mb-1">Pencarian No. Bukti / Faktur / Pelanggan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
@@ -154,7 +154,7 @@
                     </div>
                 </div>
 
-                <div class="col-6 col-md-4 col-lg-2">
+                <div class="col-4 col-md-4 col-lg-2">
                     <label class="form-label small text-muted mb-1">Metode</label>
                     <select wire:model.live="metodeFilter" class="form-select form-select-sm">
                         <option value="">Semua Metode</option>
@@ -164,8 +164,8 @@
                     </select>
                 </div>
 
-                <div class="col-6 col-md-4 col-lg-2">
-                    <label class="form-label small text-muted mb-1">Sumber Pembayaran</label>
+                <div class="col-4 col-md-4 col-lg-2">
+                    <label class="form-label small text-muted mb-1">Sumber</label>
                     <select wire:model.live="sumberFilter" class="form-select form-select-sm">
                         <option value="">Semua Sumber</option>
                         <option value="piutang">Pelunasan Piutang</option>
@@ -173,7 +173,7 @@
                     </select>
                 </div>
 
-                <div class="col-6 col-md-4 col-lg-1">
+                <div class="col-4 col-md-4 col-lg-1">
                     <label class="form-label small text-muted mb-1">Status</label>
                     <select wire:model.live="statusFilter" class="form-select form-select-sm">
                         <option value="aktif">Aktif</option>
@@ -203,10 +203,111 @@
         </div>
     @endif
 
-    <!-- Data Table -->
-    <div class="card border-0 shadow-sm">
+    <!-- Data Card (Mobile Card List + Desktop Table) -->
+    <div class="card border-0 shadow-sm overflow-hidden">
         <div class="card-body p-0">
-            <div class="table-responsive">
+            <!-- Mobile Card List View (< 768px) -->
+            <div class="d-md-none">
+                @forelse ($pembayarans as $pembayaran)
+                    @php
+                        $isCancelled = $pembayaran->trashed();
+                        $isKasir = $pembayaran->is_kasir_langsung;
+                        $sisaUnallocated = $pembayaran->sisa_belum_dialokasikan;
+                    @endphp
+                    <div class="p-3 border-bottom {{ $isCancelled ? 'bg-danger bg-opacity-10' : '' }}" wire:key="pay-mob-{{ $pembayaran->id }}">
+                        <!-- Top Row: No. Pembayaran + Date & Time -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-1.5">
+                            <div>
+                                <a href="{{ route('pembayaran.show', $pembayaran->id) }}" class="fw-bold text-decoration-none font-monospace {{ $isCancelled ? 'text-decoration-line-through text-danger' : 'text-primary' }}">
+                                    {{ $pembayaran->no_pembayaran }}
+                                </a>
+                                @if ($isCancelled)
+                                    <span class="badge bg-danger ms-1" style="font-size: 0.68rem;">DIBATALKAN</span>
+                                @endif
+                                <div class="fw-semibold text-dark mt-0.5">{{ $pembayaran->pelanggan->nama ?? '-' }}</div>
+                            </div>
+                            <div class="text-end flex-shrink-0">
+                                <span class="badge {{ $pembayaran->metode->badgeClass() }}">
+                                    {{ $pembayaran->metode->label() }}
+                                </span>
+                                <div class="text-muted mt-0.5" style="font-size: 0.72rem;">
+                                    {{ $pembayaran->tanggal->format('d/m/Y') }} &bull; {{ $pembayaran->created_at?->format('H:i') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amount & Invoice Badges Box -->
+                        <div class="p-2.5 rounded-3 bg-light border my-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div>
+                                <div class="d-flex flex-wrap align-items-center gap-1 mb-1">
+                                    @forelse ($pembayaran->alokasi->take(3) as $alok)
+                                        @if ($alok->penjualan)
+                                            <a href="{{ route('penjualan.show', $alok->penjualan->id) }}" class="badge bg-primary-subtle text-primary border border-primary-subtle text-decoration-none font-monospace">
+                                                {{ $alok->penjualan->no_penjualan }}
+                                            </a>
+                                        @endif
+                                    @empty
+                                        <span class="badge bg-secondary-subtle text-secondary">Tanpa Alokasi</span>
+                                    @endforelse
+                                    @if ($pembayaran->alokasi->count() > 3)
+                                        <span class="badge bg-white text-dark border">+{{ $pembayaran->alokasi->count() - 3 }}</span>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if ($isKasir)
+                                        <span class="badge bg-white text-secondary border" style="font-size: 0.68rem;">
+                                            <i class="bi bi-shop me-1"></i>Kasir POS
+                                        </span>
+                                    @else
+                                        <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle" style="font-size: 0.68rem;">
+                                            <i class="bi bi-journal-check me-1"></i>Pelunasan Piutang
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="text-end ms-auto">
+                                <div class="text-muted" style="font-size: 0.7rem;">Jumlah Bayar</div>
+                                <div class="fw-bold fs-6 font-monospace {{ $isCancelled ? 'text-muted text-decoration-line-through' : 'text-success' }}">
+                                    Rp {{ number_format((float) $pembayaran->jumlah_bayar, 0, ',', '.') }}
+                                </div>
+                                @if (!$isCancelled && $sisaUnallocated > 0)
+                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle" style="font-size: 0.65rem;">
+                                        Titipan: Rp {{ number_format($sisaUnallocated, 0, ',', '.') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="d-flex justify-content-between align-items-center gap-2 pt-1">
+                            <span class="text-muted" style="font-size: 0.72rem;">
+                                <i class="bi bi-person me-1"></i>{{ $pembayaran->user->name ?? ($pembayaran->creator->name ?? '-') }}
+                            </span>
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ route('pembayaran.show', $pembayaran->id) }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i>Detail
+                                </a>
+                                @if (!$isCancelled)
+                                    <a href="{{ route('pembayaran.print.kuitansi', $pembayaran->id) }}" target="_blank" class="btn btn-outline-secondary" title="Kuitansi A4/A5">
+                                        <i class="bi bi-printer"></i>
+                                    </a>
+                                    <a href="{{ route('pembayaran.print.thermal', $pembayaran->id) }}" target="_blank" class="btn btn-outline-dark" title="Struk Thermal">
+                                        <i class="bi bi-receipt"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5 px-3 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary"></i>
+                        Tidak ada data pembayaran yang ditemukan.
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Desktop Table View (>= 768px) -->
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>
