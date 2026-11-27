@@ -25,7 +25,11 @@ class PurchaseReport extends Component
 
     public string $gudang_id = '';
 
-    public string $period = 'this_month'; // today, last_7_days, this_month, last_month, custom
+    public string $status = '';
+
+    public string $status_pembayaran = '';
+
+    public string $period = 'this_month'; // all, today, last_7_days, this_month, last_month, custom
 
     public ?string $startDate = null;
 
@@ -53,6 +57,16 @@ class PurchaseReport extends Component
         $this->resetPage();
     }
 
+    public function updatingStatus(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusPembayaran(): void
+    {
+        $this->resetPage();
+    }
+
     public function updatingPeriod(): void
     {
         if ($this->period !== 'custom') {
@@ -64,7 +78,7 @@ class PurchaseReport extends Component
 
     public function resetFilter(): void
     {
-        $this->reset(['search', 'supplier_id', 'gudang_id', 'startDate', 'endDate']);
+        $this->reset(['search', 'supplier_id', 'gudang_id', 'status', 'status_pembayaran', 'startDate', 'endDate']);
         $this->period = 'this_month';
         $this->resetPage();
     }
@@ -75,6 +89,8 @@ class PurchaseReport extends Component
             'search' => $this->search,
             'supplier_id' => $this->supplier_id,
             'gudang_id' => $this->gudang_id,
+            'status' => $this->status,
+            'status_pembayaran' => $this->status_pembayaran,
             'period' => $this->period,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
@@ -83,6 +99,7 @@ class PurchaseReport extends Component
         return view('livewire.reports.purchase-report', [
             'purchases' => $service->getFilteredQuery($filters)->paginate($this->perPage),
             'summary' => $service->getSummary($filters),
+            'topSuppliers' => $service->getTopSuppliers($filters, 5),
             'supplierList' => Supplier::orderBy('nama_supplier')->get(),
             'gudangList' => Gudang::orderBy('nama_gudang')->get(),
             'canViewPurchasePrices' => auth()->user()->can('view_purchase_prices'),

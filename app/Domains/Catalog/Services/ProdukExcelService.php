@@ -811,7 +811,21 @@ class ProdukExcelService
                             $productPayload['harga_beli'] = (float) $existing->harga_beli;
                         }
 
+                        $oldPrices = $existing->only(PriceHistoryService::PRICE_FIELDS);
                         $existing->update($productPayload);
+
+                        app(PriceHistoryService::class)->recordProductPriceChanges(
+                            produk: $existing,
+                            oldValues: $oldPrices,
+                            newValues: $existing->only(PriceHistoryService::PRICE_FIELDS),
+                            sumber: 'import_excel',
+                            referensi: $originalName ?: 'Import Excel/CSV',
+                            referensiType: 'produk',
+                            referensiId: $existing->id,
+                            keterangan: 'Pembaruan harga massal via Import Excel/CSV',
+                            userId: $userId
+                        );
+
                         $targetProduct = $existing;
                         $updatedCount++;
                     } else {

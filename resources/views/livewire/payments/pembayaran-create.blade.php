@@ -3,9 +3,14 @@
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
             <h4 class="fw-bold mb-1">Catat Pembayaran Pelanggan</h4>
-            <p class="text-muted small mb-0">Input penerimaan pembayaran dan alokasikan manual ke faktur piutang pelanggan.</p>
+            <p class="text-muted small mb-0">Input penerimaan pembayaran piutang dan alokasikan ke faktur pelanggan (otomatis FIFO atau pilih per faktur).</p>
         </div>
-        <div>
+        <div class="d-flex gap-2">
+            @can('view_receivables')
+                <a href="{{ route('piutang.index') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-journal-bookmark me-1"></i>Daftar Piutang
+                </a>
+            @endcan
             <a href="{{ route('pembayaran.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-1"></i>Kembali
             </a>
@@ -58,9 +63,16 @@
                                         <i class="bi bi-arrow-repeat me-1"></i>Ganti
                                     </button>
                                 </div>
-                                <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center">
-                                    <span class="small text-muted">Total Piutang Berjalan:</span>
-                                    <span class="fw-bold text-danger">Rp {{ number_format((float) ($selectedPelanggan->total_sisa_piutang ?? 0), 2, ',', '.') }}</span>
+                                <div class="mt-2 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <div>
+                                        <span class="small text-muted d-block">Total Piutang Berjalan ({{ $selectedPelanggan->total_faktur_piutang ?? count($allocations) }} faktur):</span>
+                                        <span class="fw-bold text-danger fs-6">Rp {{ number_format((float) ($selectedPelanggan->total_sisa_piutang ?? 0), 2, ',', '.') }}</span>
+                                    </div>
+                                    @if (count($allocations) > 0)
+                                        <button type="button" wire:click="payAllInvoices" class="btn btn-sm btn-success">
+                                            <i class="bi bi-check-all me-1"></i>Lunasi Seluruh Piutang
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                             <input type="hidden" wire:model="pelanggan_id" value="{{ $selectedPelanggan->id }}">
@@ -130,9 +142,46 @@
                                         </div>
                                     </div>
                                 @endif
-                                <small class="text-muted mt-1 d-block" style="font-size: 0.78rem;">
-                                    Ketik nama pelanggan untuk mencari, lalu klik salah satu untuk memuat faktur.
-                                </small>
+
+                                <!-- Quick Select Customers with Active Debt -->
+                                @if (!filled($pelangganSearchQuery) && count($quickDebtCustomers) > 0)
+                                    <div class="mt-2 border rounded bg-light p-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-1 px-1">
+                                            <span class="small fw-semibold text-secondary" style="font-size: 0.75rem;">
+                                                <i class="bi bi-lightning-charge-fill text-warning me-1"></i>Pilih Cepat Pelanggan Berpiutang:
+                                            </span>
+                                            <span class="small text-muted" style="font-size: 0.72rem;">Klik untuk memuat faktur</span>
+                                        </div>
+                                        <div class="list-group list-group-flush rounded border overflow-hidden" style="max-height: 175px; overflow-y: auto;">
+                                            @foreach ($quickDebtCustomers as $qp)
+                                                <button
+                                                    type="button"
+                                                    wire:click="selectPelanggan({{ $qp->id }})"
+                                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1 px-2 small"
+                                                >
+                                                    <div class="text-truncate me-2">
+                                                        <span class="fw-semibold text-dark">{{ $qp->nama }}</span>
+                                                        <span class="badge bg-light text-secondary border ms-1" style="font-size: 0.68rem;">
+                                                            {{ $qp->tipe->label() ?? 'Umum' }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="text-end text-nowrap">
+                                                        <span class="fw-bold text-danger">
+                                                            Rp {{ number_format((float) $qp->total_sisa_piutang, 0, ',', '.') }}
+                                                        </span>
+                                                        <span class="badge bg-secondary-subtle text-secondary ms-1" style="font-size: 0.68rem;">
+                                                            {{ $qp->total_faktur_piutang }} nota
+                                                        </span>
+                                                    </div>
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @else
+                                    <small class="text-muted mt-1 d-block" style="font-size: 0.78rem;">
+                                        Ketik nama pelanggan untuk mencari, lalu klik salah satu untuk memuat faktur.
+                                    </small>
+                                @endif
                             </div>
                         @endif
                     </div>
@@ -180,21 +229,50 @@
 
                     <!-- Jumlah Bayar & Catatan -->
                     <div class="col-md-5">
-                        <label class="form-label fw-semibold">Jumlah Bayar Diterima (Rp) <span class="text-danger">*</span></label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            min="0.01"
-                            wire:model.live.debounce.300ms="jumlah_bayar"
-                            class="form-control form-control-lg fw-bold text-success @error('jumlah_bayar') is-invalid @enderror"
-                            placeholder="0.00"
-                        >
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label fw-semibold mb-0">Jumlah Bayar Diterima (Rp) <span class="text-danger">*</span></label>
+                            @if ($this->totalDialokasikan > 0 && abs((float) ($jumlah_bayar ?: 0) - $this->totalDialokasikan) > 0.01)
+                                <button
+                                    type="button"
+                                    wire:click="syncJumlahBayarWithAllocations"
+                                    class="btn btn-link btn-sm p-0 text-primary text-decoration-none fw-semibold"
+                                    style="font-size: 0.76rem;"
+                                >
+                                    <i class="bi bi-arrows-collapse me-1"></i>Samakan dgn Alokasi (Rp {{ number_format($this->totalDialokasikan, 0, ',', '.') }})
+                                </button>
+                            @endif
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text bg-success-subtle text-success fw-bold">Rp</span>
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0.01"
+                                wire:model.live.debounce.300ms="jumlah_bayar"
+                                class="form-control form-control-lg fw-bold text-success @error('jumlah_bayar') is-invalid @enderror"
+                                placeholder="0.00"
+                            >
+                            @if (!empty($allocations) && (float) ($jumlah_bayar ?: 0) > 0)
+                                <button
+                                    type="button"
+                                    wire:click="autoAllocateFifo"
+                                    class="btn btn-outline-primary"
+                                    title="Bagikan nominal ini secara otomatis mulai dari faktur terlama (FIFO)"
+                                >
+                                    <i class="bi bi-magic me-1"></i>Bagi FIFO
+                                </button>
+                            @endif
+                        </div>
                         @error('jumlah_bayar')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                         @if ((float) ($jumlah_bayar ?: 0) > 0)
                             <small class="text-muted d-block mt-1">
-                                <i class="bi bi-info-circle me-1"></i>Format: <strong>Rp {{ number_format((float) $jumlah_bayar, 2, ',', '.') }}</strong>
+                                <i class="bi bi-info-circle me-1"></i>Nominal: <strong>Rp {{ number_format((float) $jumlah_bayar, 2, ',', '.') }}</strong>
+                            </small>
+                        @else
+                            <small class="text-muted d-block mt-1" style="font-size: 0.76rem;">
+                                Tips: Klik tombol <strong>Penuh</strong> pada faktur di bawah untuk menghitung otomatis, atau ketik nominal cicilan lalu klik <strong>Bagi FIFO</strong>.
                             </small>
                         @endif
                     </div>
@@ -213,16 +291,18 @@
         <!-- Invoice Allocation Card -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white py-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
-                <h6 class="card-title fw-bold mb-0 text-primary">
-                    <i class="bi bi-receipt-cutoff me-1"></i> Alokasi Pembayaran ke Faktur Penjualan
-                </h6>
+                <div>
+                    <h6 class="card-title fw-bold mb-0 text-primary">
+                        <i class="bi bi-receipt-cutoff me-1"></i> Alokasi Pembayaran ke Faktur Penjualan
+                    </h6>
+                </div>
                 @if (!empty($allocations))
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <button type="button" wire:click="autoAllocateFifo" class="btn btn-outline-primary btn-sm" title="Alokasikan jumlah bayar ke faktur terlama lebih dulu">
                             <i class="bi bi-magic me-1"></i> Alokasi Otomatis (FIFO)
                         </button>
                         <button type="button" wire:click="payAllInvoices" class="btn btn-outline-success btn-sm" title="Isi pembayaran dan lunasi semua faktur sekaligus">
-                            <i class="bi bi-check-all me-1"></i> Lunasi Semua
+                            <i class="bi bi-check-all me-1"></i> Lunasi Semua ({{ count($allocations) }} Faktur)
                         </button>
                         <button type="button" wire:click="resetAllocations" class="btn btn-outline-secondary btn-sm" title="Kosongkan semua alokasi">
                             <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
@@ -252,9 +332,16 @@
                                     <small class="text-muted">Masih ada dana <strong>Rp {{ number_format($this->sisaBelumDialokasikan, 2, ',', '.') }}</strong> yang belum dialokasikan ke faktur tertunggak di bawah ini.</small>
                                 </div>
                             </div>
-                            <button type="button" wire:click="autoAllocateFifo" class="btn btn-warning btn-sm fw-bold">
-                                <i class="bi bi-magic me-1"></i> Habiskan ke Faktur (FIFO)
-                            </button>
+                            <div class="d-flex gap-2">
+                                @if ($this->totalDialokasikan > 0)
+                                    <button type="button" wire:click="syncJumlahBayarWithAllocations" class="btn btn-outline-dark btn-sm fw-semibold">
+                                        Sesuaikan Jumlah Bayar (Rp {{ number_format($this->totalDialokasikan, 0, ',', '.') }})
+                                    </button>
+                                @endif
+                                <button type="button" wire:click="autoAllocateFifo" class="btn btn-warning btn-sm fw-bold">
+                                    <i class="bi bi-magic me-1"></i> Habiskan ke Faktur (FIFO)
+                                </button>
+                            </div>
                         </div>
                     @endif
 
@@ -263,34 +350,65 @@
                             <thead class="table-light">
                                 <tr>
                                     <th style="width: 40px;" class="text-center">#</th>
-                                    <th>No. Faktur</th>
+                                    <th>No. Faktur & Rincian Barang</th>
                                     <th>Tanggal</th>
                                     <th class="text-center">Umur Piutang</th>
                                     <th class="text-end">Total Faktur</th>
-                                    <th class="text-end">Telah Dibayar</th>
                                     <th class="text-end">Sisa Piutang</th>
-                                    <th style="min-width: 220px;" class="text-end">Alokasi Bayar (Rp)</th>
+                                    <th class="text-center">Status & Sisa Akhir</th>
+                                    <th style="min-width: 245px;" class="text-end">Alokasi Bayar (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($allocations as $index => $alloc)
                                     @php
                                         $daysOverdue = (int) ($alloc['days_overdue'] ?? 0);
-                                        if ($daysOverdue > 60) {
+                                        if ($daysOverdue > 30) {
                                             $agingBadge = 'bg-danger text-white';
-                                            $agingLabel = $daysOverdue . ' hr (>60)';
-                                        } elseif ($daysOverdue > 30) {
+                                            $agingLabel = $daysOverdue . ' hr (>30)';
+                                        } elseif ($daysOverdue > 14) {
                                             $agingBadge = 'bg-warning-subtle text-warning-emphasis';
-                                            $agingLabel = $daysOverdue . ' hr (30+)';
+                                            $agingLabel = $daysOverdue . ' hr (>14)';
                                         } else {
                                             $agingBadge = 'bg-success-subtle text-success';
                                             $agingLabel = $daysOverdue . ' hr';
                                         }
+
+                                        $sisaAwal = (float) $alloc['sisa_piutang'];
+                                        $dialokasikan = (float) ($alloc['jumlah_dialokasikan'] ?? 0);
+                                        $sisaAkhir = max(0.00, round($sisaAwal - $dialokasikan, 2));
+                                        $isRowFull = $dialokasikan >= $sisaAwal && $sisaAwal > 0;
+                                        $isRowPartial = $dialokasikan > 0 && $dialokasikan < $sisaAwal;
                                     @endphp
-                                    <tr>
+                                    <tr class="{{ $isRowFull ? 'table-success bg-opacity-10' : ($isRowPartial ? 'table-warning bg-opacity-10' : '') }}">
                                         <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
                                         <td>
-                                            <span class="fw-bold font-monospace text-primary">{{ $alloc['no_penjualan'] }}</span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <a
+                                                    href="{{ route('penjualan.show', $alloc['penjualan_id']) }}"
+                                                    target="_blank"
+                                                    class="fw-bold font-monospace text-primary text-decoration-none"
+                                                    title="Buka detail faktur di tab baru"
+                                                >
+                                                    {{ $alloc['no_penjualan'] }}
+                                                    <i class="bi bi-box-arrow-up-right small ms-1" style="font-size: 0.7rem;"></i>
+                                                </a>
+                                                @if ((float) $alloc['total_dibayar'] > 0)
+                                                    <span class="badge bg-info-subtle text-info-emphasis border" style="font-size: 0.68rem;">
+                                                        Sudah terbayar Rp {{ number_format($alloc['total_dibayar'], 0, ',', '.') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            @if (!empty($alloc['items_summary']))
+                                                <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                                    <i class="bi bi-box-seam me-1"></i>{{ $alloc['items_summary'] }}
+                                                </small>
+                                            @endif
+                                            @if (!empty($alloc['info_proyek']))
+                                                <small class="text-secondary d-block" style="font-size: 0.73rem;">
+                                                    <i class="bi bi-geo-alt me-1"></i>{{ $alloc['info_proyek'] }}
+                                                </small>
+                                            @endif
                                         </td>
                                         <td>{{ $alloc['tanggal'] }}</td>
                                         <td class="text-center">
@@ -298,14 +416,28 @@
                                                 <i class="bi bi-clock me-1"></i>{{ $agingLabel }}
                                             </span>
                                         </td>
-                                        <td class="text-end">
-                                            Rp {{ number_format($alloc['total_akhir'], 2, ',', '.') }}
-                                        </td>
                                         <td class="text-end text-muted">
-                                            Rp {{ number_format($alloc['total_dibayar'], 2, ',', '.') }}
+                                            Rp {{ number_format($alloc['total_akhir'], 2, ',', '.') }}
                                         </td>
                                         <td class="text-end fw-bold text-danger">
                                             Rp {{ number_format($alloc['sisa_piutang'], 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($isRowFull)
+                                                <span class="badge bg-success text-white">
+                                                    <i class="bi bi-check-circle-fill me-1"></i>AKAN LUNAS
+                                                </span>
+                                                <small class="text-success d-block fw-semibold" style="font-size: 0.72rem;">Sisa Akhir: Rp 0</small>
+                                            @elseif ($isRowPartial)
+                                                <span class="badge bg-warning text-dark">
+                                                    <i class="bi bi-pie-chart-fill me-1"></i>Cicilan Sebagian
+                                                </span>
+                                                <small class="text-danger d-block fw-semibold" style="font-size: 0.72rem;">
+                                                    Sisa Akhir: Rp {{ number_format($sisaAkhir, 0, ',', '.') }}
+                                                </small>
+                                            @else
+                                                <span class="badge bg-light text-muted border">Belum Dialokasi</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="input-group input-group-sm">
@@ -321,11 +453,21 @@
                                                 <button
                                                     type="button"
                                                     wire:click="allocateMax({{ $index }})"
-                                                    class="btn btn-outline-primary btn-sm"
-                                                    title="Alokasikan maksimal"
+                                                    class="btn {{ $isRowFull ? 'btn-success' : 'btn-outline-primary' }} btn-sm"
+                                                    title="Lunasi penuh faktur ini"
                                                 >
                                                     Penuh
                                                 </button>
+                                                @if ($dialokasikan > 0)
+                                                    <button
+                                                        type="button"
+                                                        wire:click="clearAllocation({{ $index }})"
+                                                        class="btn btn-outline-secondary btn-sm"
+                                                        title="Kosongkan alokasi baris ini"
+                                                    >
+                                                        <i class="bi bi-x"></i>
+                                                    </button>
+                                                @endif
                                             </div>
                                             @error("allocations.{$index}.jumlah_dialokasikan")
                                                 <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -354,6 +496,16 @@
                                             <span class="badge bg-danger ms-1">Wajib Dialokasikan ke Faktur</span>
                                         @elseif ($this->sisaBelumDialokasikan > 0)
                                             <span class="badge bg-info text-dark ms-1">Kelebihan Bayar / Titipan</span>
+                                            @if ($this->totalDialokasikan > 0)
+                                                <button
+                                                    type="button"
+                                                    wire:click="syncJumlahBayarWithAllocations"
+                                                    class="btn btn-sm btn-outline-dark ms-2 py-0 px-2"
+                                                    style="font-size: 0.75rem;"
+                                                >
+                                                    Sesuaikan Jumlah Bayar = Rp {{ number_format($this->totalDialokasikan, 0, ',', '.') }}
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                     <td class="text-end fw-bold {{ $this->hasUnallocatedWithRemainingDebt ? 'text-danger' : ($this->sisaBelumDialokasikan > 0 ? 'text-info-emphasis' : 'text-muted') }} fs-6">

@@ -3,6 +3,7 @@
 namespace App\Domains\Purchasing\Actions;
 
 use App\Domains\Audit\Services\ActivityLogService;
+use App\Domains\Catalog\Services\PriceHistoryService;
 use App\Domains\Inventory\Enums\JenisMutasiStok;
 use App\Domains\Inventory\Services\StockService;
 use App\Domains\Purchasing\Enums\StatusPembelian;
@@ -16,8 +17,11 @@ class ReceivePembelianAction
 {
     public function __construct(
         protected StockService $stockService,
-        protected ActivityLogService $activityLog
-    ) {}
+        protected ActivityLogService $activityLog,
+        protected ?PriceHistoryService $priceHistory = null
+    ) {
+        $this->priceHistory ??= app(PriceHistoryService::class);
+    }
 
     /**
      * Mark an ordered purchase as received and increase warehouse stocks.
@@ -82,10 +86,27 @@ class ReceivePembelianAction
                 );
 
                 if ($updateMasterHargaBeli) {
+                    $oldHargaBeli = (float) $item->produk->harga_beli;
+                    $newHargaBeli = (float) $item->harga_beli_satuan;
+
                     $item->produk->update([
-                        'harga_beli' => $item->harga_beli_satuan,
+                        'harga_beli' => $newHargaBeli,
                         'updated_by' => $userId,
                     ]);
+
+                    $this->priceHistory?->recordSingleChange(
+                        produk: $item->produk,
+                        jenisHarga: 'harga_beli',
+                        hargaLama: $oldHargaBeli,
+                        hargaBaru: $newHargaBeli,
+                        sumber: 'pembelian',
+                        referensi: $pembelian->no_pembelian,
+                        referensiType: 'pembelian',
+                        referensiId: $pembelian->id,
+                        supplierId: $pembelian->supplier_id,
+                        keterangan: "Pembaruan HPP otomatis saat Terima Barang PO {$pembelian->no_pembelian} ({$pembelian->supplier?->nama_supplier})",
+                        userId: $userId
+                    );
                 }
             }
 

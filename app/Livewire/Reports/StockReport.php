@@ -30,6 +30,11 @@ class StockReport extends Component
 
     public bool $stok_rendah = false;
 
+    /**
+     * Filter pergerakan barang 30 hari: '' | 'dead_stock' | 'fast_moving' | 'habis'
+     */
+    public string $pergerakan = '';
+
     public int $perPage = 25;
 
     public function mount(): void
@@ -62,9 +67,14 @@ class StockReport extends Component
         $this->resetPage();
     }
 
+    public function updatingPergerakan(): void
+    {
+        $this->resetPage();
+    }
+
     public function resetFilter(): void
     {
-        $this->reset(['search', 'gudang_id', 'kategori_id', 'merek_id', 'stok_rendah']);
+        $this->reset(['search', 'gudang_id', 'kategori_id', 'merek_id', 'stok_rendah', 'pergerakan']);
         $this->resetPage();
     }
 
@@ -76,11 +86,18 @@ class StockReport extends Component
             'kategori_id' => $this->kategori_id,
             'merek_id' => $this->merek_id,
             'stok_rendah' => $this->stok_rendah,
+            'pergerakan' => $this->pergerakan,
         ];
 
+        $stocks = $service->getFilteredQuery($filters)->paginate($this->perPage);
+        $produkIds = $stocks->getCollection()->pluck('produk_id')->unique()->map(fn ($id) => (int) $id)->all();
+        $sales30DaysMap = $service->getSales30DaysMap($produkIds);
+
         return view('livewire.reports.stock-report', [
-            'stocks' => $service->getFilteredQuery($filters)->paginate($this->perPage),
+            'stocks' => $stocks,
             'summary' => $service->getSummary($filters),
+            'warehouseBreakdown' => $service->getWarehouseBreakdown(),
+            'sales30DaysMap' => $sales30DaysMap,
             'gudangList' => Gudang::orderBy('nama_gudang')->get(),
             'kategoriList' => Kategori::orderBy('nama_kategori')->get(),
             'rootKategoris' => Kategori::root()->with('children')->orderBy('nama_kategori')->get(),

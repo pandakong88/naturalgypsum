@@ -27,11 +27,11 @@ class CancelProduksiAction
                 ->lockForUpdate()
                 ->firstOrFail();
 
-            $record->load(['details.produk', 'gudang']);
+            $record->load(['details.produk', 'bahanMutations.produk', 'bahanMutations.gudang', 'gudang']);
             $now = Carbon::now();
 
             foreach ($record->details as $detail) {
-                // Reverse: Decrease destination warehouse stock
+                // Reverse: Decrease destination warehouse stock for finished goods
                 $this->stockService->decrease(
                     produk: $detail->produk,
                     gudang: $record->gudang,
@@ -43,6 +43,23 @@ class CancelProduksiAction
                     userId: $userId,
                     tanggal: $now
                 );
+            }
+
+            foreach ($record->bahanMutations as $matMutasi) {
+                if ($matMutasi->produk) {
+                    // Reverse: Restore consumed raw materials back to warehouse stock
+                    $this->stockService->increase(
+                        produk: $matMutasi->produk,
+                        gudang: $matMutasi->gudang ?? $record->gudang,
+                        qty: abs((float) $matMutasi->jumlah),
+                        jenis: JenisMutasiStok::PemakaianInternal,
+                        referensi: $record->no_produksi.' (Batal)',
+                        referensiType: 'produksi_bahan_batal',
+                        referensiId: $record->id,
+                        userId: $userId,
+                        tanggal: $now
+                    );
+                }
             }
 
             $record->update(['updated_by' => $userId]);

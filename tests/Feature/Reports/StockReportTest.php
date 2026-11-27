@@ -93,6 +93,21 @@ test('TEST 4 — Stock report sensitive price protection hides harga_beli and ni
         ->assertStatus(200)
         ->assertSee('Hollow 2x4')
         ->assertSee('Restricted')
-        ->assertDontSee('Harga Beli Terkini')
-        ->assertDontSee('Est. Nilai Stok');
+        ->assertDontSee('Harga Beli')
+        ->assertDontSee('Estimasi Nilai');
+});
+
+test('TEST 5 — Stock report filters dead-stock 30 days and shows warehouse breakdown', function () {
+    $this->actingAs($this->owner);
+
+    Livewire::test(StockReport::class)
+        ->assertStatus(200)
+        ->assertSee('Dead-Stock (30 Hari)')
+        ->assertSee('Gudang Barat')
+        ->assertSee('Gudang Timur')
+        ->set('pergerakan', 'dead_stock')
+        ->assertSee('Hollow 2x4')
+        ->assertSee('Hollow 4x4')
+        ->call('resetFilter')
+        ->assertSet('pergerakan', '');
 });

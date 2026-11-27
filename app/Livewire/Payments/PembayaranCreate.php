@@ -29,6 +29,8 @@ class PembayaranCreate extends Component
 
     public float|int|string|null $jumlah_bayar = null;
 
+    public bool $isJumlahBayarAutoSynced = false;
+
     public string $metode = 'tunai';
 
     public ?string $bank_tujuan = null;
@@ -46,7 +48,9 @@ class PembayaranCreate extends Component
      *     total_akhir: float,
      *     total_dibayar: float,
      *     sisa_piutang: float,
-     *     jumlah_dialokasikan: float|int|string
+     *     jumlah_dialokasikan: float|int|string,
+     *     items_summary?: string,
+     *     info_proyek?: string|null
      * }>
      */
     public array $allocations = [];
@@ -89,27 +93,40 @@ class PembayaranCreate extends Component
 
         $this->tanggal = Carbon::now()->toDateString();
 
-        if ($pelanggan_id) {
-            $this->selectPelanggan($pelanggan_id);
-        } elseif ($penjualan_id) {
-            $penjualan = Penjualan::find($penjualan_id);
+        $resolvedPelangganId = $pelanggan_id ?: ((int) request()->query('pelanggan_id', 0) ?: null);
+        $resolvedPenjualanId = $penjualan_id ?: ((int) request()->query('penjualan_id', 0) ?: null);
+
+        if ($resolvedPenjualanId) {
+            $penjualan = Penjualan::find($resolvedPenjualanId);
             if ($penjualan) {
                 $this->selectPelanggan($penjualan->pelanggan_id);
-                // Pre-fill payment amount with invoice balance if available
                 $this->jumlah_bayar = (float) $penjualan->sisa_piutang;
+                $this->isJumlahBayarAutoSynced = true;
                 foreach ($this->allocations as $index => $alloc) {
                     if ($alloc['penjualan_id'] === $penjualan->id) {
                         $this->allocations[$index]['jumlah_dialokasikan'] = (float) $penjualan->sisa_piutang;
                     }
                 }
+
+                return;
             }
         }
+
+        if ($resolvedPelangganId) {
+            $this->selectPelanggan($resolvedPelangganId);
+        }
+    }
+
+    public function updatedJumlahBayar(): void
+    {
+        $this->isJumlahBayarAutoSynced = false;
     }
 
     public function selectPelanggan(int $id): void
     {
         $this->pelanggan_id = $id;
         $this->pelangganSearchQuery = '';
+        $this->isJumlahBayarAutoSynced = false;
         $this->loadCustomerInvoices();
     }
 
@@ -118,10 +135,12 @@ class PembayaranCreate extends Component
         $this->pelanggan_id = null;
         $this->allocations = [];
         $this->pelangganSearchQuery = '';
+        $this->isJumlahBayarAutoSynced = false;
     }
 
     public function updatedPelangganId(): void
     {
+        $this->isJumlahBayarAutoSynced = false;
         $this->loadCustomerInvoices();
     }
 
@@ -133,7 +152,8 @@ class PembayaranCreate extends Component
             return;
         }
 
-        $invoices = Penjualan::where('pelanggan_id', $this->pelanggan_id)
+        $invoices = Penjualan::with(['details.produk'])
+            ->where('pelanggan_id', $this->pelanggan_id)
             ->whereNull('deleted_at')
             ->whereNull('dibatalkan_at')
             ->where('sisa_piutang', '>', 0)
@@ -144,6 +164,22 @@ class PembayaranCreate extends Component
         $now = Carbon::now();
         foreach ($invoices as $inv) {
             $daysOverdue = (int) Carbon::parse($inv->tanggal)->diffInDays($now);
+
+            $detailCount = $inv->details->count();
+            $itemNames = $inv->details->take(2)->map(function ($d) {
+                $nama = $d->produk?->nama ?? 'Produk';
+                $qty = (float) $d->jumlah;
+                $qtyFormatted = floor($qty) == $qty ? number_format($qty, 0, ',', '.') : number_format($qty, 2, ',', '.');
+
+                return "{$nama} ({$qtyFormatted})";
+            })->implode(', ');
+
+            if ($detailCount > 2) {
+                $itemNames .= ' +'.($detailCount - 2).' lainnya';
+            }
+
+            $itemsSummary = $detailCount > 0 ? "{$detailCount} item: {$itemNames}" : 'Tanpa rincian item';
+
             $this->allocations[] = [
                 'penjualan_id' => $inv->id,
                 'no_penjualan' => $inv->no_penjualan,
@@ -153,6 +189,8 @@ class PembayaranCreate extends Component
                 'total_dibayar' => (float) $inv->total_dibayar,
                 'sisa_piutang' => (float) $inv->sisa_piutang,
                 'jumlah_dialokasikan' => 0,
+                'items_summary' => $itemsSummary,
+                'info_proyek' => $inv->alamat_pengiriman ?: $inv->keterangan,
             ];
         }
     }
@@ -167,9 +205,11 @@ class PembayaranCreate extends Component
         $currentAllocatedThisRow = (float) ($this->allocations[$index]['jumlah_dialokasikan'] ?? 0);
         $totalBayar = (float) ($this->jumlah_bayar ?: 0);
 
-        // Smart behavior: If payment amount is empty/0, set full invoice and auto-fill payment amount
-        if ($totalBayar <= 0.00) {
+        // Smart behavior: If payment amount is empty/0 or was auto-synced by previous "Penuh" clicks,
+        // allocate full invoice balance and auto-sum payment amount across selected invoices.
+        if ($totalBayar <= 0.00 || $this->isJumlahBayarAutoSynced) {
             $this->allocations[$index]['jumlah_dialokasikan'] = $sisaPiutang;
+            $this->isJumlahBayarAutoSynced = true;
             $this->jumlah_bayar = $this->getTotalDialokasikanProperty();
 
             return;
@@ -181,6 +221,28 @@ class PembayaranCreate extends Component
         // Fill min of invoice balance and available payment capacity
         $fillAmount = min($sisaPiutang, $remainingPaymentCapacity);
         $this->allocations[$index]['jumlah_dialokasikan'] = round($fillAmount, 2);
+    }
+
+    public function clearAllocation(int $index): void
+    {
+        if (! isset($this->allocations[$index])) {
+            return;
+        }
+
+        $this->allocations[$index]['jumlah_dialokasikan'] = 0;
+
+        if ($this->isJumlahBayarAutoSynced) {
+            $this->jumlah_bayar = $this->getTotalDialokasikanProperty();
+        }
+    }
+
+    public function syncJumlahBayarWithAllocations(): void
+    {
+        $total = $this->getTotalDialokasikanProperty();
+        if ($total > 0) {
+            $this->jumlah_bayar = $total;
+            $this->isJumlahBayarAutoSynced = true;
+        }
     }
 
     /**
@@ -215,6 +277,7 @@ class PembayaranCreate extends Component
         }
 
         $this->jumlah_bayar = round($totalDebt, 2);
+        $this->isJumlahBayarAutoSynced = true;
     }
 
     /**
@@ -225,15 +288,18 @@ class PembayaranCreate extends Component
         foreach ($this->allocations as $index => $alloc) {
             $this->allocations[$index]['jumlah_dialokasikan'] = 0;
         }
+        $this->isJumlahBayarAutoSynced = false;
     }
 
-    public function __get($property): mixed
+    #[Computed]
+    public function totalPiutangPelanggan(): float
     {
-        if ($property === 'jumlah_bayar') {
-            return $this->jumlah_bayar = null;
+        $total = 0.00;
+        foreach ($this->allocations as $alloc) {
+            $total += (float) ($alloc['sisa_piutang'] ?? 0);
         }
 
-        return parent::__get($property);
+        return round($total, 2);
     }
 
     #[Computed]
@@ -258,11 +324,7 @@ class PembayaranCreate extends Component
     #[Computed]
     public function hasUnallocatedWithRemainingDebt(): bool
     {
-        $totalDebt = 0.00;
-        foreach ($this->allocations as $alloc) {
-            $totalDebt += (float) ($alloc['sisa_piutang'] ?? 0);
-        }
-
+        $totalDebt = $this->totalPiutangPelanggan();
         $remainingUnpaidDebt = max(0.00, round($totalDebt - $this->totalDialokasikan(), 2));
 
         return $this->sisaBelumDialokasikan() > 0.00 && $remainingUnpaidDebt > 0.00;
@@ -294,10 +356,7 @@ class PembayaranCreate extends Component
         }
 
         // Opsi 2 (Cerdas): Seluruh sisa pembayaran harus dialokasikan jika pelanggan masih memiliki faktur tertunggak
-        $totalDebt = 0.00;
-        foreach ($this->allocations as $alloc) {
-            $totalDebt += (float) ($alloc['sisa_piutang'] ?? 0);
-        }
+        $totalDebt = $this->totalPiutangPelanggan();
         $remainingUnpaidDebt = max(0.00, round($totalDebt - $totalDialokasikan, 2));
         $unallocatedPayment = $this->sisaBelumDialokasikan();
 
@@ -325,7 +384,7 @@ class PembayaranCreate extends Component
         }
 
         // Format catatan if bank transfer details exist
-        $fullCatatan = trim($this->catatan);
+        $fullCatatan = trim((string) $this->catatan);
         if ($this->metode === 'transfer') {
             $bankNotes = [];
             if (filled($this->bank_tujuan)) {
@@ -358,7 +417,6 @@ class PembayaranCreate extends Component
     {
         Gate::authorize('create', Pembayaran::class);
 
-        // Searchable customers
         $pelangganQuery = Pelanggan::query()->whereNull('deleted_at');
 
         if ($this->onlyWithDebt) {
@@ -377,6 +435,18 @@ class PembayaranCreate extends Component
                 ->get()
             : collect();
 
+        // Quick directory of customers with active debt when no customer is selected yet
+        $quickDebtCustomers = (! $this->pelanggan_id && ! filled($this->pelangganSearchQuery))
+            ? Pelanggan::query()
+                ->whereNull('deleted_at')
+                ->whereHas('penjualans', fn ($q) => $q->whereNull('deleted_at')->whereNull('dibatalkan_at')->where('sisa_piutang', '>', 0))
+                ->withSum(['penjualans as total_sisa_piutang' => fn ($q) => $q->whereNull('deleted_at')->whereNull('dibatalkan_at')], 'sisa_piutang')
+                ->withCount(['penjualans as total_faktur_piutang' => fn ($q) => $q->whereNull('deleted_at')->whereNull('dibatalkan_at')->where('sisa_piutang', '>', 0)])
+                ->orderByDesc('total_sisa_piutang')
+                ->limit(8)
+                ->get()
+            : collect();
+
         $selectedPelanggan = null;
         if ($this->pelanggan_id) {
             $selectedPelanggan = Pelanggan::whereNull('deleted_at')
@@ -387,6 +457,7 @@ class PembayaranCreate extends Component
 
         return view('livewire.payments.pembayaran-create', [
             'searchResults' => $searchResults,
+            'quickDebtCustomers' => $quickDebtCustomers,
             'selectedPelanggan' => $selectedPelanggan,
             'metodeOptions' => MetodePembayaran::cases(),
             'bankOptions' => ['BCA', 'Mandiri', 'BRI', 'BNI', 'BSI', 'CIMB Niaga', 'Lainnya'],

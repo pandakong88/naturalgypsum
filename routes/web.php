@@ -15,6 +15,7 @@ use App\Livewire\Catalog\MerekIndex;
 use App\Livewire\Catalog\PelangganIndex;
 use App\Livewire\Catalog\ProdukDetail;
 use App\Livewire\Catalog\ProdukIndex;
+use App\Livewire\Catalog\RiwayatHargaIndex;
 use App\Livewire\Catalog\SupplierIndex;
 use App\Livewire\Dashboard;
 use App\Livewire\Inventory\MutasiStokIndex;
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/produk', ProdukIndex::class)->name('produk.index');
         Route::get('/produk/{id}', ProdukDetail::class)->name('produk.show');
         Route::get('/produk/{id}/detail', ProdukDetail::class)->name('produk.detail');
+        Route::get('/riwayat-harga', RiwayatHargaIndex::class)->name('riwayat-harga.index');
         Route::get('/diskon', AturanDiskonIndex::class)->name('diskon.index');
     });
 
@@ -137,6 +139,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('piutang')->name('piutang.')->group(function () {
         Route::get('/', PiutangIndex::class)->name('index');
+        Route::get('/{pelanggan}/cetak-tagihan', [PembayaranPrintController::class, 'tagihanPelanggan'])->name('print.tagihan');
     });
 
     // Produksi (Phase 6)

@@ -3,6 +3,7 @@
 namespace App\Domains\Production\Models;
 
 use App\Domains\Catalog\Models\Gudang;
+use App\Domains\Inventory\Models\MutasiStok;
 use App\Models\User;
 use Database\Factories\ProduksiFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -62,11 +63,55 @@ class Produksi extends Model
     }
 
     /**
-     * Output line items.
+     * Output line items (Finished goods).
      */
     public function details(): HasMany
     {
         return $this->hasMany(DetailProduksi::class, 'produksi_id');
+    }
+
+    /**
+     * Raw materials consumed during this production batch (Pemakaian Internal).
+     */
+    public function bahanMutations(): HasMany
+    {
+        return $this->hasMany(MutasiStok::class, 'referensi_id')
+            ->where('referensi_type', 'produksi_bahan')
+            ->where('jumlah', '<', 0);
+    }
+
+    /**
+     * Calculate estimated HPP value of finished goods output.
+     */
+    public function getEstimasiNilaiOutputAttribute(): float
+    {
+        $details = $this->relationLoaded('details') ? $this->details : $this->details()->with('produk')->get();
+
+        $total = 0.0;
+        foreach ($details as $detail) {
+            $hpp = (float) ($detail->produk?->harga_beli ?: $detail->produk?->harga_jual ?: 0);
+            $total += ((float) $detail->jumlah) * $hpp;
+        }
+
+        return round($total, 2);
+    }
+
+    /**
+     * Calculate estimated cost of consumed raw materials.
+     */
+    public function getEstimasiBiayaBahanAttribute(): float
+    {
+        $mutations = $this->relationLoaded('bahanMutations')
+            ? $this->bahanMutations
+            : $this->bahanMutations()->with('produk')->get();
+
+        $total = 0.0;
+        foreach ($mutations as $mutasi) {
+            $hpp = (float) ($mutasi->produk?->harga_beli ?: 0);
+            $total += abs((float) $mutasi->jumlah) * $hpp;
+        }
+
+        return round($total, 2);
     }
 
     public function creator(): BelongsTo

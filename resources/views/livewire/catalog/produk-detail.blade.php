@@ -302,6 +302,149 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Riwayat Perubahan Harga Produk -->
+            <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+                <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <h5 class="card-title fw-bold mb-0 text-dark">
+                        <i class="bi bi-graph-up-arrow text-primary me-2"></i>Riwayat Perubahan Harga
+                    </h5>
+                    <a href="{{ route('master.riwayat-harga.index', ['search' => $produk->kode_katalog]) }}" class="btn btn-xs btn-outline-primary py-1 px-2" style="font-size: 0.75rem;">
+                        Lihat Semua Riwayat Harga <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <!-- Mobile Card List (< 768px) -->
+                    <div class="d-md-none">
+                        @forelse($riwayatHarga as $rh)
+                            @php
+                                $diff = (float) $rh->selisih_nominal;
+                                $isUp = $diff > 0;
+                                $pct = $rh->selisih_persen !== null ? (float) $rh->selisih_persen : null;
+                            @endphp
+                            <div class="p-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-center gap-2 mb-1.5">
+                                    <span class="badge {{ $rh->jenisHargaBadgeClass() }}">
+                                        {{ $rh->jenisHargaLabel() }}
+                                    </span>
+                                    <small class="text-muted" style="font-size: 0.72rem;">
+                                        {{ $rh->created_at?->format('d/m/Y H:i') }}
+                                    </small>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 my-1.5">
+                                    <div class="font-monospace small">
+                                        <span class="text-muted text-decoration-line-through">Rp {{ number_format((float) ($rh->harga_lama ?? 0), 0, ',', '.') }}</span>
+                                        <i class="bi bi-arrow-right mx-1 text-secondary"></i>
+                                        <strong class="text-dark fs-6">Rp {{ number_format((float) ($rh->harga_baru ?? 0), 0, ',', '.') }}</strong>
+                                    </div>
+                                    <span class="badge {{ $isUp ? 'bg-danger-subtle text-danger border border-danger-subtle' : 'bg-success-subtle text-success border border-success-subtle' }} font-monospace">
+                                        <i class="bi {{ $isUp ? 'bi-arrow-up-right' : 'bi-arrow-down-right' }} me-0.5"></i>
+                                        {{ $isUp ? '+' : '-' }}Rp {{ number_format(abs($diff), 0, ',', '.') }}
+                                        @if ($pct !== null)
+                                            ({{ $isUp ? '+' : '' }}{{ number_format($pct, 1, ',', '.') }}%)
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 text-muted mt-1" style="font-size: 0.72rem;">
+                                    <div>
+                                        <span class="badge {{ $rh->sumberBadgeClass() }}" style="font-size: 0.66rem;">{{ $rh->sumberLabel() }}</span>
+                                        @if ($rh->referensi_type === 'pembelian' && $rh->referensi_id)
+                                            <a href="{{ route('pembelian.show', $rh->referensi_id) }}" class="font-monospace text-primary text-decoration-none ms-1">{{ $rh->referensi }}</a>
+                                        @elseif ($rh->referensi)
+                                            <span class="font-monospace ms-1">{{ $rh->referensi }}</span>
+                                        @endif
+                                        @if ($rh->supplier)
+                                            <strong class="text-dark ms-1">&bull; {{ $rh->supplier->nama_supplier }}</strong>
+                                        @endif
+                                    </div>
+                                    <span><i class="bi bi-person me-0.5"></i>{{ $rh->user?->name ?? 'Sistem' }}</span>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-4 px-3 text-muted small">
+                                <i class="bi bi-tag d-block fs-3 mb-1 text-secondary"></i>
+                                Belum ada catatan perubahan harga untuk produk ini.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <!-- Desktop Table (>= 768px) -->
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table table-sm table-hover align-middle mb-0" style="font-size: 0.82rem;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3 text-nowrap">Tanggal</th>
+                                    <th class="text-nowrap">Jenis Harga</th>
+                                    <th class="text-end text-nowrap">Harga Lama</th>
+                                    <th class="text-end text-nowrap">Harga Baru</th>
+                                    <th class="text-end text-nowrap">Selisih (&Delta;)</th>
+                                    <th class="text-nowrap">Sumber / Referensi</th>
+                                    <th class="pe-3 text-nowrap">Petugas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($riwayatHarga as $rh)
+                                    @php
+                                        $diff = (float) $rh->selisih_nominal;
+                                        $isUp = $diff > 0;
+                                        $pct = $rh->selisih_persen !== null ? (float) $rh->selisih_persen : null;
+                                    @endphp
+                                    <tr>
+                                        <td class="ps-3 text-muted text-nowrap">
+                                            {{ $rh->created_at ? $rh->created_at->format('d/m/Y H:i') : '-' }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <span class="badge {{ $rh->jenisHargaBadgeClass() }}">
+                                                {{ $rh->jenisHargaLabel() }}
+                                            </span>
+                                        </td>
+                                        <td class="text-end font-monospace text-muted text-nowrap">
+                                            Rp {{ number_format((float) ($rh->harga_lama ?? 0), 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-end font-monospace fw-bold text-dark text-nowrap">
+                                            Rp {{ number_format((float) ($rh->harga_baru ?? 0), 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-end text-nowrap">
+                                            <span class="badge {{ $isUp ? 'bg-danger-subtle text-danger border border-danger-subtle' : 'bg-success-subtle text-success border border-success-subtle' }} font-monospace">
+                                                <i class="bi {{ $isUp ? 'bi-arrow-up-right' : 'bi-arrow-down-right' }} me-0.5"></i>
+                                                {{ $isUp ? '+' : '-' }}Rp {{ number_format(abs($diff), 0, ',', '.') }}
+                                                @if ($pct !== null)
+                                                    ({{ $isUp ? '+' : '' }}{{ number_format($pct, 1, ',', '.') }}%)
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {{ $rh->sumberBadgeClass() }} me-1">{{ $rh->sumberLabel() }}</span>
+                                            @if ($rh->referensi_type === 'pembelian' && $rh->referensi_id)
+                                                <a href="{{ route('pembelian.show', $rh->referensi_id) }}" class="font-monospace small text-primary text-decoration-none">
+                                                    {{ $rh->referensi }}
+                                                </a>
+                                            @elseif ($rh->referensi)
+                                                <span class="font-monospace small text-muted">{{ $rh->referensi }}</span>
+                                            @endif
+                                            @if ($rh->supplier)
+                                                <div class="small text-dark fw-semibold" style="font-size: 0.72rem;">
+                                                    {{ $rh->supplier->nama_supplier }}
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="pe-3 text-muted small text-nowrap">
+                                            {{ $rh->user?->name ?? 'Sistem' }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted">
+                                            <i class="bi bi-tag d-block fs-3 mb-1 text-secondary"></i>
+                                            Belum ada catatan perubahan harga untuk produk ini.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Pricing & Audit Trail Sidebar -->

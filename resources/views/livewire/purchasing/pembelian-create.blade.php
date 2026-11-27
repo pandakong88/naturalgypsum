@@ -915,7 +915,7 @@
                                                      @mouseleave="showPreview = false"
                                                      wire:click="openImageModal({{ $prod->id }})">
                                                 <div x-show="showPreview"
-                                                     class="position-absolute shadow-lg rounded-3 border bg-white p-1 text-center d-none d-md-block"
+                                                     class="position-absolute shadow-lg rounded-3 border bg-white p-1 text-center"
                                                      style="bottom: 100%; left: 0; z-index: 1085; min-width: 180px; max-width: 240px; pointer-events: none; margin-bottom: 6px;"
                                                      x-cloak>
                                                     <img src="{{ $prod->foto_url }}" alt="{{ $prod->nama }}" class="img-fluid rounded" style="max-height: 180px; object-fit: contain;">

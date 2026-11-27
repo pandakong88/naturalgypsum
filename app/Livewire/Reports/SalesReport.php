@@ -27,7 +27,7 @@ class SalesReport extends Component
 
     public string $status_pembayaran = '';
 
-    public string $period = 'this_month'; // today, last_7_days, this_month, last_month, custom
+    public string $period = 'this_month'; // all, today, last_7_days, this_month, last_month, custom
 
     public ?string $startDate = null;
 
@@ -91,8 +91,11 @@ class SalesReport extends Component
         return view('livewire.reports.sales-report', [
             'sales' => $service->getFilteredQuery($filters)->paginate($this->perPage),
             'summary' => $service->getSummary($filters),
+            'topProducts' => $service->getTopProducts($filters, 5),
+            'topCustomers' => $service->getTopCustomers($filters, 5),
             'pelangganList' => Pelanggan::orderBy('nama')->get(),
             'gudangList' => Gudang::orderBy('nama_gudang')->get(),
+            'canViewPurchasePrices' => auth()->user()->can('view_purchase_prices'),
         ]);
     }
 }

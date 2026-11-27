@@ -161,10 +161,12 @@
                 <span>Role & Hak Akses</span>
             </a>
         @endcan
-        <a href="#" class="nav-link disabled" title="Modul Riwayat Harga">
-            <i class="bi bi-clock-history"></i>
-            <span>Riwayat Harga</span>
-        </a>
+        @if(auth()->user()?->can('view_price_history') || auth()->user()?->can('view_products'))
+            <a href="{{ route('master.riwayat-harga.index') }}" class="nav-link {{ request()->routeIs('master.riwayat-harga.*') ? 'active' : '' }}" title="Modul Riwayat Harga">
+                <i class="bi bi-clock-history"></i>
+                <span>Riwayat Harga</span>
+            </a>
+        @endif
         @can('view_activity_logs')
             <a href="{{ route('admin.activity-logs.index') }}" class="nav-link {{ request()->routeIs('admin.activity-logs.*') ? 'active' : '' }}">
                 <i class="bi bi-journal-text"></i>

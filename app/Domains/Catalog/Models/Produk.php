@@ -126,6 +126,14 @@ class Produk extends Model
         return $this->hasMany(Stok::class, 'produk_id');
     }
 
+    /**
+     * Get price change history records for this product.
+     */
+    public function riwayatHarga(): HasMany
+    {
+        return $this->hasMany(RiwayatHargaProduk::class, 'produk_id');
+    }
+
     public function isRollProduct(): bool
     {
         $kemasan = strtolower(trim((string) $this->kemasan));

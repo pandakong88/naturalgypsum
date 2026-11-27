@@ -102,7 +102,27 @@ test('TEST 1 — Sales report shows total sales, paid, and receivables correctly
         ->assertSee('Rp 2.100.000') // Total Penjualan
         ->assertSee('Rp 700.000')   // Total Terbayar
         ->assertSee('Rp 1.400.000') // Total Sisa Piutang
+        ->assertSee('Rp 600.000')   // Estimasi Laba Kotor: 30 items * (70k - 50k) = 600k
+        ->assertSee('Top 5 Produk / Material Terlaris')
+        ->assertSee('Top 5 Pelanggan / Pemborong Terbaik')
         ->set('pelanggan_id', $this->pelangganA->id)
         ->assertSee($this->sale1->no_faktur)
         ->assertDontSee($this->sale2->no_faktur);
+});
+
+test('TEST 2 — Sales report hides gross profit from staff without view_purchase_prices and excludes cancelled sales', function () {
+    $staffPenjualan = User::factory()->create(['name' => 'Staff Sales']);
+    $staffPenjualan->assignRole('Staff Penjualan');
+
+    // Cancel sale2
+    $this->sale2->update(['dibatalkan_at' => now()]);
+
+    $this->actingAs($staffPenjualan);
+
+    Livewire::test(SalesReport::class)
+        ->assertStatus(200)
+        ->assertSee($this->sale1->no_penjualan)
+        ->assertDontSee($this->sale2->no_penjualan)
+        ->assertSee('Rp 700.000')
+        ->assertDontSee('Est. Laba Kotor');
 });

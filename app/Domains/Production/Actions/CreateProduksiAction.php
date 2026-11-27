@@ -22,13 +22,17 @@ class CreateProduksiAction
     ) {}
 
     /**
-     * Execute production record creation (Finished goods output only).
+     * Execute production record creation (Finished goods output + optional raw materials consumption).
      *
      * @param  array{
      *     gudang_id: int,
      *     tanggal: string|Carbon,
      *     catatan?: string|null,
      *     items: array<int, array{
+     *         produk_id: int,
+     *         jumlah: float|int|string
+     *     }>,
+     *     materials?: array<int, array{
      *         produk_id: int,
      *         jumlah: float|int|string
      *     }>,
@@ -53,7 +57,7 @@ class CreateProduksiAction
         $userId = $data['user_id'] ?? Auth::id();
         $catatan = isset($data['catatan']) ? trim($data['catatan']) : null;
 
-        // Process items & validate
+        // Process finished goods output items & validate
         $mergedQuantities = [];
         foreach ($rawItems as $item) {
             $produkId = (int) ($item['produk_id'] ?? 0);
@@ -86,12 +90,39 @@ class CreateProduksiAction
             ];
         }
 
+        // Process optional raw materials consumed (Pemakaian Internal)
+        $rawMaterials = $data['materials'] ?? [];
+        $mergedMaterials = [];
+        foreach ($rawMaterials as $mat) {
+            $matProdukId = (int) ($mat['produk_id'] ?? 0);
+            $matQty = (float) ($mat['jumlah'] ?? 0);
+
+            if ($matProdukId <= 0 || $matQty <= 0) {
+                continue;
+            }
+
+            if (! isset($mergedMaterials[$matProdukId])) {
+                $mergedMaterials[$matProdukId] = 0.0;
+            }
+            $mergedMaterials[$matProdukId] += $matQty;
+        }
+
+        $processedMaterials = [];
+        foreach ($mergedMaterials as $matProdukId => $totalMatQty) {
+            $matProduk = Produk::whereNull('deleted_at')->findOrFail($matProdukId);
+            $processedMaterials[] = [
+                'produk' => $matProduk,
+                'jumlah' => $totalMatQty,
+            ];
+        }
+
         return DB::transaction(function () use (
             $gudang,
             $userId,
             $tanggal,
             $catatan,
-            $processedItems
+            $processedItems,
+            $processedMaterials
         ) {
             $noProduksi = $this->documentNumberService->generate('PRD', (int) $tanggal->format('Y'));
 
@@ -112,7 +143,7 @@ class CreateProduksiAction
                     'jumlah' => $item['jumlah'],
                 ]);
 
-                // Increase warehouse stock for output
+                // Increase warehouse stock for finished goods output
                 $this->stockService->increase(
                     produk: $item['produk'],
                     gudang: $gudang,
@@ -126,7 +157,22 @@ class CreateProduksiAction
                 );
             }
 
-            return $produksi->load(['gudang', 'details.produk', 'user']);
+            foreach ($processedMaterials as $mat) {
+                // Decrease warehouse stock for consumed raw materials
+                $this->stockService->decrease(
+                    produk: $mat['produk'],
+                    gudang: $gudang,
+                    qty: $mat['jumlah'],
+                    jenis: JenisMutasiStok::PemakaianInternal,
+                    referensi: $produksi->no_produksi,
+                    referensiType: 'produksi_bahan',
+                    referensiId: $produksi->id,
+                    userId: $userId,
+                    tanggal: $tanggal
+                );
+            }
+
+            return $produksi->load(['gudang', 'details.produk', 'bahanMutations.produk', 'user']);
         });
     }
 }

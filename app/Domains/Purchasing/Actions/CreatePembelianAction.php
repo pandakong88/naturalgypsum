@@ -6,6 +6,7 @@ use App\Domains\Audit\Services\ActivityLogService;
 use App\Domains\Catalog\Models\Gudang;
 use App\Domains\Catalog\Models\Produk;
 use App\Domains\Catalog\Models\Supplier;
+use App\Domains\Catalog\Services\PriceHistoryService;
 use App\Domains\Inventory\Enums\JenisMutasiStok;
 use App\Domains\Inventory\Services\StockService;
 use App\Domains\Purchasing\Enums\StatusPembayaranPembelian;
@@ -24,8 +25,11 @@ class CreatePembelianAction
     public function __construct(
         protected StockService $stockService,
         protected DocumentNumberService $documentNumberService,
-        protected ActivityLogService $activityLog
-    ) {}
+        protected ActivityLogService $activityLog,
+        protected ?PriceHistoryService $priceHistory = null
+    ) {
+        $this->priceHistory ??= app(PriceHistoryService::class);
+    }
 
     /**
      * Execute purchase transaction creation with atomic stock updates.
@@ -236,10 +240,27 @@ class CreatePembelianAction
 
                     // Optionally update master purchase price on product catalog
                     if ($updateMasterHargaBeli) {
+                        $oldHargaBeli = (float) $item['produk']->harga_beli;
+                        $newHargaBeli = (float) $item['harga_beli_satuan'];
+
                         $item['produk']->update([
-                            'harga_beli' => $item['harga_beli_satuan'],
+                            'harga_beli' => $newHargaBeli,
                             'updated_by' => $userId,
                         ]);
+
+                        $this->priceHistory?->recordSingleChange(
+                            produk: $item['produk'],
+                            jenisHarga: 'harga_beli',
+                            hargaLama: $oldHargaBeli,
+                            hargaBaru: $newHargaBeli,
+                            sumber: 'pembelian',
+                            referensi: $pembelian->no_pembelian,
+                            referensiType: 'pembelian',
+                            referensiId: $pembelian->id,
+                            supplierId: $supplier->id,
+                            keterangan: "Pembaruan HPP otomatis dari Faktur Pembelian {$pembelian->no_pembelian} ({$supplier->nama_supplier})",
+                            userId: $userId
+                        );
                     }
                 }
             }

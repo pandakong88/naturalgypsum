@@ -41,7 +41,7 @@
                         </h6>
                         <span class="badge bg-primary-subtle text-primary border">Wajib diisi</span>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-md-4">
                         <div class="row g-3">
                             <div class="col-md-7">
                                 <label class="form-label fw-bold small text-dark">
@@ -136,20 +136,20 @@
 
                 <!-- Card 2: Rekening Bank Pembayaran Transfer -->
                 <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                    <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div>
                             <h6 class="card-title fw-bold mb-0 text-success">
                                 <i class="bi bi-credit-card-2-front me-2"></i>Rekening Bank Resmi Toko (Transfer)
                             </h6>
                             <small class="text-muted">Nomor rekening ini akan dicetak otomatis di Faktur & Struk Thermal saat pelanggan bayar transfer atau tempo.</small>
                         </div>
-                        <button type="button" wire:click="addRekening" class="btn btn-sm btn-outline-success">
+                        <button type="button" wire:click="addRekening" class="btn btn-sm btn-outline-success w-100 w-sm-auto">
                             <i class="bi bi-plus-circle me-1"></i>Tambah Bank
                         </button>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-2.5 p-md-4">
                         <div class="table-responsive">
-                            <table class="table table-bordered align-middle mb-0">
+                            <table class="table table-bordered align-middle mb-0 table-mobile-cards">
                                 <thead class="table-light">
                                     <tr>
                                         <th style="width: 140px;">Nama Bank</th>
@@ -161,7 +161,7 @@
                                 <tbody>
                                     @foreach ($rekening_bank as $idx => $rek)
                                         <tr wire:key="rekening-row-{{ $idx }}">
-                                            <td>
+                                            <td data-label="Nama Bank">
                                                 <input
                                                     type="text"
                                                     wire:model="rekening_bank.{{ $idx }}.nama_bank"
@@ -169,7 +169,7 @@
                                                     placeholder="BCA / MANDIRI"
                                                 >
                                             </td>
-                                            <td>
+                                            <td data-label="Nomor Rekening">
                                                 <input
                                                     type="text"
                                                     wire:model="rekening_bank.{{ $idx }}.nomor_rekening"
@@ -177,7 +177,7 @@
                                                     placeholder="123-456-7890"
                                                 >
                                             </td>
-                                            <td>
+                                            <td data-label="Atas Nama (A.N.)">
                                                 <input
                                                     type="text"
                                                     wire:model="rekening_bank.{{ $idx }}.atas_nama"
@@ -185,14 +185,15 @@
                                                     placeholder="Nama Pemilik Rekening"
                                                 >
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-end text-md-center">
                                                 <button
                                                     type="button"
                                                     wire:click="removeRekening({{ $idx }})"
-                                                    class="btn btn-sm btn-outline-danger py-0 px-2"
+                                                    class="btn btn-sm btn-outline-danger py-1 px-2 d-inline-flex align-items-center"
                                                     title="Hapus baris rekening"
                                                 >
                                                     <i class="bi bi-trash"></i>
+                                                    <span class="d-md-none ms-1 small">Hapus Rekening</span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -210,7 +211,7 @@
                             <i class="bi bi-receipt me-2"></i>Catatan Kaki Dokumen (Syarat & Ketentuan Faktur)
                         </h6>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-md-4">
                         <label class="form-label fw-bold small text-dark">
                             Teks Catatan Kaki / Ketentuan Toko
                         </label>

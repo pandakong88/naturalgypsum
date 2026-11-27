@@ -4,6 +4,7 @@ namespace App\Livewire\Reports;
 
 use App\Domains\Catalog\Models\Pelanggan;
 use App\Domains\Reports\Services\ReceivablesReportService;
+use App\Livewire\Receivables\PiutangIndex;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -21,6 +22,8 @@ class ReceivablesReport extends Component
     public string $search = '';
 
     public string $pelanggan_id = '';
+
+    public string $aging = ''; // '', 'lancar', 'jatuh_tempo', 'menunggak', 'macet', 'lewat_tempo'
 
     public string $period = 'all'; // all, today, last_7_days, this_month, last_month, custom
 
@@ -45,6 +48,11 @@ class ReceivablesReport extends Component
         $this->resetPage();
     }
 
+    public function updatingAging(): void
+    {
+        $this->resetPage();
+    }
+
     public function updatingPeriod(): void
     {
         if ($this->period !== 'custom') {
@@ -56,7 +64,7 @@ class ReceivablesReport extends Component
 
     public function resetFilter(): void
     {
-        $this->reset(['search', 'pelanggan_id', 'startDate', 'endDate']);
+        $this->reset(['search', 'pelanggan_id', 'aging', 'startDate', 'endDate']);
         $this->period = 'all';
         $this->resetPage();
     }
@@ -66,6 +74,7 @@ class ReceivablesReport extends Component
         $filters = [
             'search' => $this->search,
             'pelanggan_id' => $this->pelanggan_id,
+            'aging' => $this->aging,
             'period' => $this->period,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
@@ -76,6 +85,7 @@ class ReceivablesReport extends Component
             'summary' => $service->getSummary($filters),
             'topDebtors' => $service->getTopDebtors(5),
             'pelangganList' => Pelanggan::orderBy('nama')->get(),
+            'tempoStandarHari' => PiutangIndex::TEMPO_STANDAR_HARI,
         ]);
     }
 }

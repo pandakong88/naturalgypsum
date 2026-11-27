@@ -12,6 +12,7 @@ use App\Domains\Production\Actions\CancelProduksiAction;
 use App\Domains\Production\Actions\CreateProduksiAction;
 use App\Domains\Production\Models\Produksi;
 use App\Livewire\Production\ProduksiCreate;
+use App\Livewire\Production\ProduksiDetail;
 use App\Livewire\Production\ProduksiIndex;
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
@@ -155,4 +156,96 @@ test('TEST 6: Livewire ProduksiCreate with roll converter creates production rec
         'produk_id' => $this->produkHasilA->id,
         'jumlah' => 100.0, // 4 * 25
     ]);
+});
+
+test('TEST 7: production with optional raw materials deducts raw material stock (PemakaianInternal) and restores it upon cancellation', function () {
+    $bahanBaku = Produk::factory()->create([
+        'kategori_id' => $this->kategori->id,
+        'merek_id' => $this->merek->id,
+        'nama' => 'Tepung Casting Plaster 20kg',
+        'harga_beli' => 50000,
+    ]);
+
+    // Seed 20 zak of raw material in warehouse
+    app(StockService::class)->increase($bahanBaku, $this->gudang, 20, JenisMutasiStok::PembelianMasuk, 'INIT-BAHAN', userId: $this->owner->id);
+
+    $produksi = $this->createAction->execute([
+        'gudang_id' => $this->gudang->id,
+        'tanggal' => '2026-09-18',
+        'catatan' => 'Cetak ornamen dengan bahan baku',
+        'items' => [
+            ['produk_id' => $this->produkHasilA->id, 'jumlah' => 25],
+        ],
+        'materials' => [
+            ['produk_id' => $bahanBaku->id, 'jumlah' => 3],
+        ],
+        'user_id' => $this->owner->id,
+    ]);
+
+    expect((float) Stok::where('produk_id', $this->produkHasilA->id)->where('gudang_id', $this->gudang->id)->value('jumlah'))->toBe(25.0)
+        ->and((float) Stok::where('produk_id', $bahanBaku->id)->where('gudang_id', $this->gudang->id)->value('jumlah'))->toBe(17.0)
+        ->and($produksi->bahanMutations)->toHaveCount(1)
+        ->and((float) $produksi->estimasi_biaya_bahan)->toBe(150000.0);
+
+    // Cancel production -> finished goods back to 0, raw material restored back to 20
+    $this->cancelAction->execute($produksi, $this->owner->id);
+
+    expect((float) Stok::where('produk_id', $this->produkHasilA->id)->where('gudang_id', $this->gudang->id)->value('jumlah'))->toBe(0.0)
+        ->and((float) Stok::where('produk_id', $bahanBaku->id)->where('gudang_id', $this->gudang->id)->value('jumlah'))->toBe(20.0);
+});
+
+test('TEST 8: Livewire ProduksiCreate with shift, penanggung_jawab, quickAdd, and raw materials', function () {
+    $bahanBaku = Produk::factory()->create([
+        'kategori_id' => $this->kategori->id,
+        'merek_id' => $this->merek->id,
+        'nama' => 'Kompon Gypsum Bahan Cetak',
+        'harga_beli' => 60000,
+    ]);
+    app(StockService::class)->increase($bahanBaku, $this->gudang, 10, JenisMutasiStok::PembelianMasuk, 'INIT-KOMPON', userId: $this->owner->id);
+
+    $this->actingAs($this->staffProduksi);
+
+    Livewire::test(ProduksiCreate::class)
+        ->set('gudang_id', $this->gudang->id)
+        ->set('tanggal', '2026-09-19')
+        ->set('shift', 'Shift Pagi')
+        ->set('penanggung_jawab', 'Pak Budi')
+        ->set('catatan', 'Cetakan halus')
+        ->call('openCatalogModal', 'output')
+        ->assertSet('isCatalogModalOpen', true)
+        ->call('toggleCatalogProduct', $this->produkHasilA->id)
+        ->call('addSelectedCatalogProducts')
+        ->assertSet('isCatalogModalOpen', false)
+        ->set('items.0.jumlah', 30)
+        ->call('openCatalogModal', 'material')
+        ->call('toggleCatalogProduct', $bahanBaku->id)
+        ->call('addSelectedCatalogProducts')
+        ->set('materials.0.jumlah', 2)
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertRedirect();
+
+    $produksi = Produksi::latest('id')->first();
+    expect($produksi)->not->toBeNull()
+        ->and($produksi->catatan)->toContain('[Shift: Shift Pagi | Tim/Tukang: Pak Budi]')
+        ->and($produksi->catatan)->toContain('Cetakan halus')
+        ->and($produksi->bahanMutations)->toHaveCount(1);
+
+    // Verify ProduksiDetail and ProduksiIndex display
+    $this->actingAs($this->owner);
+
+    Livewire::test(ProduksiDetail::class, ['id' => $produksi->id])
+        ->assertSee($produksi->no_produksi)
+        ->assertSee('Ornamen PVC 60x60')
+        ->assertSee('Kompon Gypsum Bahan Cetak')
+        ->call('openCancelModal')
+        ->assertSet('isCancelModalOpen', true)
+        ->call('cancel')
+        ->assertRedirect(route('produksi.index'));
+
+    Livewire::test(ProduksiIndex::class)
+        ->assertSee('Belum ada catatan produksi yang ditemukan.')
+        ->set('statusFilter', 'dibatalkan')
+        ->assertSee($produksi->no_produksi)
+        ->assertSee('DIBATALKAN');
 });

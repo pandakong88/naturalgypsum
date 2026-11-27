@@ -7,14 +7,18 @@ use App\Domains\Catalog\Enums\SatuanProduk;
 use App\Domains\Catalog\Models\Kategori;
 use App\Domains\Catalog\Models\Merek;
 use App\Domains\Catalog\Models\Produk;
+use App\Domains\Catalog\Services\PriceHistoryService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class UpdateProdukAction
 {
     public function __construct(
-        protected ActivityLogService $activityLog
-    ) {}
+        protected ActivityLogService $activityLog,
+        protected ?PriceHistoryService $priceHistory = null
+    ) {
+        $this->priceHistory ??= app(PriceHistoryService::class);
+    }
 
     /**
      * Execute the action.
@@ -181,6 +185,18 @@ class UpdateProdukAction
         ]);
 
         $fresh = $produk->fresh();
+
+        $this->priceHistory?->recordProductPriceChanges(
+            produk: $fresh,
+            oldValues: $oldValues,
+            newValues: $fresh->only(PriceHistoryService::PRICE_FIELDS),
+            sumber: 'master_update',
+            referensi: 'Edit Manual Katalog',
+            referensiType: 'produk',
+            referensiId: $fresh->id,
+            keterangan: "Pembaruan harga dari Master Produk ({$fresh->kode_katalog})",
+            userId: Auth::id()
+        );
 
         $this->activityLog->log(
             action: 'update',

@@ -2,13 +2,48 @@
 
 namespace App\Http\Controllers\Payments;
 
+use App\Domains\Catalog\Models\Pelanggan;
 use App\Domains\Receivables\Models\Pembayaran;
+use App\Domains\Sales\Models\Penjualan;
 use App\Http\Controllers\Controller;
+use App\Livewire\Receivables\PiutangIndex;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 
 class PembayaranPrintController extends Controller
 {
+    /**
+     * Cetak Surat Tagihan / Rekapitulasi Piutang Pelanggan (Statement of Account A4).
+     */
+    public function tagihanPelanggan(Pelanggan $pelanggan): View
+    {
+        abort_if(! auth()->user()->can('view_receivables') && ! auth()->user()->can('view_payments'), 403);
+
+        $invoices = Penjualan::where('pelanggan_id', $pelanggan->id)
+            ->whereNull('deleted_at')
+            ->whereNull('dibatalkan_at')
+            ->where('sisa_piutang', '>', 0)
+            ->with([
+                'details.produk.merek',
+                'gudang',
+                'alokasiPembayarans' => fn ($q) => $q->whereHas('pembayaran', fn ($pq) => $pq->whereNull('deleted_at')),
+                'alokasiPembayarans.pembayaran',
+            ])
+            ->orderBy('tanggal')
+            ->orderBy('id')
+            ->get();
+
+        $totalTagihan = (float) $invoices->sum('sisa_piutang');
+
+        return view('print.tagihan-piutang', [
+            'pelanggan' => $pelanggan,
+            'invoices' => $invoices,
+            'totalTagihan' => $totalTagihan,
+            'tempoStandarHari' => PiutangIndex::TEMPO_STANDAR_HARI,
+            'terbilang' => self::terbilang($totalTagihan),
+        ]);
+    }
+
     /**
      * Cetak Kuitansi Pembayaran Piutang resmi (A4 / A5).
      */

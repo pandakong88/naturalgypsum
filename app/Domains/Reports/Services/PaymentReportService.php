@@ -2,6 +2,7 @@
 
 namespace App\Domains\Reports\Services;
 
+use App\Domains\Receivables\Models\AlokasiPembayaran;
 use App\Domains\Receivables\Models\Pembayaran;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -71,6 +72,7 @@ class PaymentReportService
             $search = trim($filters['search']);
             $query->where(function ($q) use ($search) {
                 $q->where('no_pembayaran', 'like', "%{$search}%")
+                    ->orWhere('catatan', 'like', "%{$search}%")
                     ->orWhereHas('pelanggan', fn ($pq) => $pq->where('nama', 'like', "%{$search}%"));
             });
         }
@@ -92,7 +94,7 @@ class PaymentReportService
     }
 
     /**
-     * Get summary aggregates for payment report.
+     * Get summary aggregates for payment report including invoice allocation vs deposit breakdown.
      *
      * @param  array<string, mixed>  $filters
      * @return array<string, mixed>
@@ -102,11 +104,15 @@ class PaymentReportService
         $query = $this->getFilteredQuery($filters);
 
         $totalPayments = (float) (clone $query)->sum('jumlah_bayar');
-        $totalTransactions = (clone $query)->count();
+        $totalTransactions = (int) (clone $query)->count();
 
         $totalTunai = (float) (clone $query)->where('metode', 'tunai')->sum('jumlah_bayar');
         $totalTransfer = (float) (clone $query)->where('metode', 'transfer')->sum('jumlah_bayar');
         $totalLainnya = (float) (clone $query)->whereNotIn('metode', ['tunai', 'transfer'])->sum('jumlah_bayar');
+
+        $pembayaranIdsQuery = (clone $query)->reorder()->select('pembayaran.id');
+        $totalAllocated = (float) AlokasiPembayaran::whereIn('pembayaran_id', $pembayaranIdsQuery)->sum('jumlah_dialokasikan');
+        $totalDeposit = max(0.0, round($totalPayments - $totalAllocated, 2));
 
         return [
             'total_pembayaran' => $totalPayments,
@@ -114,6 +120,8 @@ class PaymentReportService
             'total_tunai' => $totalTunai,
             'total_transfer' => $totalTransfer,
             'total_lainnya' => $totalLainnya,
+            'total_dialokasikan' => $totalAllocated,
+            'total_deposit' => $totalDeposit,
         ];
     }
 }

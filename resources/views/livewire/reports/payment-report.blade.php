@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-1">
@@ -9,9 +9,9 @@
                 </ol>
             </nav>
             <h1 class="h3 mb-0 text-gray-800 fw-bold">
-                <i class="bi bi-cash-stack text-success me-2"></i>Laporan Pembayaran
+                <i class="bi bi-cash-stack text-success me-2"></i>Laporan Penerimaan Pembayaran &amp; Alokasi Kas
             </h1>
-            <p class="text-muted small mb-0">Rekapitulasi penerimaan pembayaran kas/bank dan rincian metode pembayaran.</p>
+            <p class="text-muted small mb-0">Rekapitulasi arus kas masuk tunai/transfer, rincian faktur yang dilunasi, dan pemantauan dana titipan/deposit.</p>
         </div>
         <div class="d-flex gap-2">
             <button type="button" onclick="window.print()" class="btn btn-outline-secondary">
@@ -25,7 +25,7 @@
 
     <!-- Summary KPI Cards -->
     <div class="row g-3 mb-4">
-        <div class="col-md-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-success border-4 h-100">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase fw-semibold">Total Pembayaran Masuk</div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-primary border-4 h-100">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase fw-semibold">Total Tunai</div>
@@ -43,21 +43,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm border-start border-info border-4 h-100">
                 <div class="card-body">
                     <div class="text-muted small text-uppercase fw-semibold">Total Transfer Bank</div>
                     <div class="h4 fw-bold text-info mb-1">Rp {{ number_format($summary['total_transfer'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Metode Transfer Rekening</div>
+                    <div class="small text-muted">Lainnya: Rp {{ number_format($summary['total_lainnya'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm border-start border-secondary border-4 h-100">
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm border-start border-warning border-4 h-100">
                 <div class="card-body">
-                    <div class="text-muted small text-uppercase fw-semibold">Total Metode Lainnya</div>
-                    <div class="h4 fw-bold text-secondary mb-1">Rp {{ number_format($summary['total_lainnya'] ?? 0, 0, ',', '.') }}</div>
-                    <div class="small text-muted">Giro, Cek, dll</div>
+                    <div class="text-muted small text-uppercase fw-semibold">Alokasi Faktur vs Deposit</div>
+                    <div class="h4 fw-bold text-dark mb-1">Rp {{ number_format($summary['total_dialokasikan'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="small text-muted">Titipan/Deposit: <strong class="text-primary">Rp {{ number_format($summary['total_deposit'] ?? 0, 0, ',', '.') }}</strong></div>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     <label class="form-label small fw-semibold">Cari No Pembayaran / Pelanggan</label>
                     <div class="input-group input-group-sm">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nomor / nama...">
+                        <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Ketik nomor / nama / bank...">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -96,6 +96,7 @@
                 <div class="col-md-2">
                     <label class="form-label small fw-semibold">Periode Cepat</label>
                     <select wire:model.live="period" class="form-select form-select-sm">
+                        <option value="all">Semua Waktu</option>
                         <option value="today">Hari Ini</option>
                         <option value="last_7_days">7 Hari Terakhir</option>
                         <option value="this_month">Bulan Ini</option>
@@ -147,6 +148,7 @@
                         <th>No Pembayaran</th>
                         <th>Pelanggan</th>
                         <th>Metode</th>
+                        <th>Alokasi Faktur</th>
                         <th>Catatan</th>
                         <th class="text-end">Jumlah Bayar</th>
                         <th>Petugas</th>
@@ -158,7 +160,7 @@
                         <tr>
                             <td class="ps-3 text-muted">{{ $payments->firstItem() + $index }}</td>
                             <td>{{ \Carbon\Carbon::parse($row->tanggal)->format('d/m/Y') }}</td>
-                            <td class="fw-bold">{{ $row->no_pembayaran }}</td>
+                            <td class="fw-bold font-monospace">{{ $row->no_pembayaran }}</td>
                             <td>{{ $row->pelanggan->nama ?? '-' }}</td>
                             <td>
                                 @if($row->metode->value === 'tunai')
@@ -169,7 +171,20 @@
                                     <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">{{ ucfirst($row->metode->value) }}</span>
                                 @endif
                             </td>
-                            <td class="small text-muted">{{ $row->catatan ?? '-' }}</td>
+                            <td class="small">
+                                @if($row->alokasi->isNotEmpty())
+                                    <div class="d-flex flex-wrap gap-1">
+                                        @foreach($row->alokasi as $alok)
+                                            <span class="badge bg-light text-dark border font-monospace">
+                                                {{ $alok->penjualan->no_penjualan ?? 'Faktur' }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="badge bg-warning-subtle text-warning-emphasis border">Titipan / Deposit</span>
+                                @endif
+                            </td>
+                            <td class="small text-muted">{{ $row->catatan ?: '-' }}</td>
                             <td class="text-end fw-bold text-success">
                                 Rp {{ number_format($row->jumlah_bayar, 0, ',', '.') }}
                             </td>
@@ -182,7 +197,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-5 text-muted">
+                            <td colspan="10" class="text-center py-5 text-muted">
                                 <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                 Tidak ada data pembayaran yang sesuai dengan kriteria filter.
                             </td>

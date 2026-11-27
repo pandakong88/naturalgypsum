@@ -330,7 +330,21 @@ class ProdukCsvService
                         if ($existingProduct->trashed()) {
                             $existingProduct->restore();
                         }
+                        $oldPrices = $existingProduct->only(PriceHistoryService::PRICE_FIELDS);
                         $existingProduct->update($productPayload);
+
+                        app(PriceHistoryService::class)->recordProductPriceChanges(
+                            produk: $existingProduct,
+                            oldValues: $oldPrices,
+                            newValues: $existingProduct->only(PriceHistoryService::PRICE_FIELDS),
+                            sumber: 'import_excel',
+                            referensi: 'Import CSV',
+                            referensiType: 'produk',
+                            referensiId: $existingProduct->id,
+                            keterangan: 'Pembaruan harga massal via Import CSV',
+                            userId: $userId
+                        );
+
                         $updatedCount++;
                     } else {
                         $skippedCount++;

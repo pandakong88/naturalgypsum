@@ -1275,3 +1275,166 @@ test('TEST 53 — Guest or unauthorized user cannot access print kuitansi or the
     $this->get(route('pembayaran.print.thermal', $payment->id))
         ->assertForbidden();
 });
+
+test('TEST 54 — Livewire PiutangIndex 14-day aging buckets and filters work accurately', function () {
+    // Customer A: 5 days old (Lancar <= 14 days)
+    $saleLancar = createInvoiceHelper($this, $this->pelangganA, 5, 100000.00);
+    $saleLancar->update(['tanggal' => Carbon::today()->subDays(5)->toDateString()]);
+
+    // Customer B: 20 days old (Jatuh Tempo 15-30 days)
+    $saleJatuhTempo = createInvoiceHelper($this, $this->pelangganB, 8, 100000.00);
+    $saleJatuhTempo->update(['tanggal' => Carbon::today()->subDays(20)->toDateString()]);
+
+    $this->actingAs($this->owner);
+
+    Livewire::test(PiutangIndex::class)
+        ->assertSee('Standar Tempo: 14 Hari')
+        ->call('setAgingBucket', 'lancar')
+        ->assertSet('agingFilter', 'lancar')
+        ->assertSee('Toko Maju Bersama')
+        ->assertDontSee('CV Sumber Makmur')
+        ->call('setAgingBucket', 'jatuh_tempo')
+        ->assertSet('agingFilter', 'jatuh_tempo')
+        ->assertSee('CV Sumber Makmur')
+        ->assertDontSee('Toko Maju Bersama')
+        ->call('resetFilters')
+        ->assertSet('agingFilter', '')
+        ->assertSee('Toko Maju Bersama')
+        ->assertSee('CV Sumber Makmur');
+});
+
+test('TEST 55 — Livewire PiutangIndex modal expands project items and installment history', function () {
+    $sale = createInvoiceHelper($this, $this->pelangganA, 10, 70000.00);
+    $sale->update(['alamat_pengiriman' => 'Proyek Perumahan Prambanan Blok A2']);
+
+    $payment = $this->paymentAction->execute([
+        'pelanggan_id' => $this->pelangganA->id,
+        'tanggal' => '2026-09-18',
+        'jumlah_bayar' => 200000.00,
+        'metode' => MetodePembayaran::Transfer,
+        'user_id' => $this->owner->id,
+        'alokasi' => [
+            ['penjualan_id' => $sale->id, 'jumlah_dialokasikan' => 200000.00],
+        ],
+    ]);
+
+    $this->actingAs($this->owner);
+
+    Livewire::test(PiutangIndex::class)
+        ->call('showCustomerInvoices', $this->pelangganA->id)
+        ->assertSee($sale->no_penjualan)
+        ->assertSee('Proyek Perumahan Prambanan Blok A2')
+        ->call('toggleInvoiceDetail', $sale->id)
+        ->assertSee('Rincian Barang yang Diambil')
+        ->assertSee('Papan Gypsum 9mm')
+        ->assertSee('Riwayat Cicilan / Pembayaran Masuk')
+        ->assertSee($payment->no_pembayaran)
+        ->call('toggleAllInvoiceDetails')
+        ->assertSet('expandedInvoiceIds', []);
+});
+
+test('TEST 56 — Cetak Surat Tagihan Piutang (Statement of Account A4) renders with rebrand logo and bank accounts', function () {
+    $sale = createInvoiceHelper($this, $this->pelangganA, 10, 100000.00);
+    $sale->update(['alamat_pengiriman' => 'Proyek Ruko Piyungan']);
+
+    $this->actingAs($this->owner);
+
+    $response = $this->get(route('piutang.print.tagihan', $this->pelangganA->id));
+
+    $response->assertOk()
+        ->assertSee('REKAPITULASI TAGIHAN PIUTANG')
+        ->assertSee('STATEMENT OF ACCOUNT (SOA)')
+        ->assertSee('logo-natural-modern-kop.svg', false)
+        ->assertSee($this->pelangganA->nama)
+        ->assertSee($sale->no_penjualan)
+        ->assertSee('Papan Gypsum 9mm')
+        ->assertSee('Proyek Ruko Piyungan')
+        ->assertSee('Satu Juta Rupiah');
+});
+
+test('TEST 57 — Livewire PembayaranIndex KPI summary cards, date presets, source filter, cancelled status filter, and invoice search', function () {
+    $salePiutang = createInvoiceHelper($this, $this->pelangganA, 5, 100000.00); // 500,000
+    $saleKasir = createInvoiceHelper($this, $this->pelangganB, 2, 100000.00); // 200,000
+
+    $paymentPiutang = $this->paymentAction->execute([
+        'pelanggan_id' => $this->pelangganA->id,
+        'tanggal' => Carbon::today()->toDateString(),
+        'jumlah_bayar' => 300000.00,
+        'metode' => MetodePembayaran::Transfer,
+        'catatan' => '[Bank: BCA | Ref: TRF-001] Cicilan toko',
+        'user_id' => $this->owner->id,
+        'alokasi' => [
+            ['penjualan_id' => $salePiutang->id, 'jumlah_dialokasikan' => 300000.00],
+        ],
+    ]);
+
+    $paymentKasir = $this->paymentAction->execute([
+        'pelanggan_id' => $this->pelangganB->id,
+        'tanggal' => Carbon::today()->toDateString(),
+        'jumlah_bayar' => 200000.00,
+        'metode' => MetodePembayaran::Tunai,
+        'catatan' => 'Pembayaran kasir langsung untuk faktur '.$saleKasir->no_penjualan,
+        'user_id' => $this->owner->id,
+        'alokasi' => [
+            ['penjualan_id' => $saleKasir->id, 'jumlah_dialokasikan' => 200000.00],
+        ],
+    ]);
+
+    $this->actingAs($this->owner);
+
+    // Search by allocated invoice number and filter by source
+    Livewire::test(PembayaranIndex::class)
+        ->assertSee('Total Uang Masuk (Aktif)')
+        ->assertSee($salePiutang->no_penjualan)
+        ->assertSee($saleKasir->no_penjualan)
+        ->set('search', $salePiutang->no_penjualan)
+        ->assertSee($paymentPiutang->no_pembayaran)
+        ->assertDontSee($paymentKasir->no_pembayaran)
+        ->call('resetFilters')
+        ->set('sumberFilter', 'kasir')
+        ->assertSee($paymentKasir->no_pembayaran)
+        ->assertDontSee($paymentPiutang->no_pembayaran)
+        ->set('sumberFilter', 'piutang')
+        ->assertSee($paymentPiutang->no_pembayaran)
+        ->assertDontSee($paymentKasir->no_pembayaran)
+        ->call('setDatePreset', 'today')
+        ->assertSet('startDate', Carbon::today()->toDateString())
+        ->assertSet('endDate', Carbon::today()->toDateString());
+
+    // Cancel paymentKasir and verify statusFilter = dibatalkan shows it
+    $this->cancelAction->execute($paymentKasir, $this->owner->id);
+
+    Livewire::test(PembayaranIndex::class)
+        ->assertDontSee($paymentKasir->no_pembayaran)
+        ->set('statusFilter', 'dibatalkan')
+        ->assertSee($paymentKasir->no_pembayaran)
+        ->assertSee('DIBATALKAN');
+});
+
+test('TEST 58 — Livewire PembayaranCreate supports URL query string pelanggan_id and multi-invoice allocateMax auto-summing', function () {
+    $sale1 = createInvoiceHelper($this, $this->pelangganA, 5, 100000.00); // 500,000
+    $sale2 = createInvoiceHelper($this, $this->pelangganA, 3, 100000.00); // 300,000
+
+    $this->actingAs($this->owner);
+
+    // 1. Visiting via URL query string ?pelanggan_id= auto-selects customer and loads invoices
+    $this->get(route('pembayaran.create', ['pelanggan_id' => $this->pelangganA->id]))
+        ->assertOk()
+        ->assertSee('Toko Maju Bersama')
+        ->assertSee($sale1->no_penjualan)
+        ->assertSee($sale2->no_penjualan);
+
+    // 2. Clicking allocateMax ("Penuh") on multiple invoices sequentially auto-sums jumlah_bayar
+    $component = Livewire::test(PembayaranCreate::class)
+        ->assertSee('Pilih Cepat Pelanggan Berpiutang')
+        ->call('selectPelanggan', $this->pelangganA->id)
+        ->call('allocateMax', 0)
+        ->assertSet('allocations.0.jumlah_dialokasikan', 500000.00)
+        ->assertSet('jumlah_bayar', 500000.00)
+        ->call('allocateMax', 1)
+        ->assertSet('allocations.1.jumlah_dialokasikan', 300000.00)
+        ->assertSet('jumlah_bayar', 800000.00)
+        ->call('clearAllocation', 0)
+        ->assertSet('allocations.0.jumlah_dialokasikan', 0)
+        ->assertSet('jumlah_bayar', 300000.00);
+});

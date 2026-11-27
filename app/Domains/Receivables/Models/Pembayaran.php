@@ -87,7 +87,23 @@ class Pembayaran extends Model
      */
     public function getTotalDialokasikanAttribute(): float
     {
+        if (array_key_exists('alokasi_sum_jumlah_dialokasikan', $this->attributes)) {
+            return (float) ($this->attributes['alokasi_sum_jumlah_dialokasikan'] ?? 0);
+        }
+
+        if ($this->relationLoaded('alokasi')) {
+            return (float) $this->alokasi->sum('jumlah_dialokasikan');
+        }
+
         return (float) $this->alokasi()->sum('jumlah_dialokasikan');
+    }
+
+    /**
+     * Determine whether this payment was automatically created from direct POS checkout.
+     */
+    public function getIsKasirLangsungAttribute(): bool
+    {
+        return str_starts_with((string) $this->catatan, 'Pembayaran kasir langsung untuk faktur');
     }
 
     /**

@@ -5,10 +5,12 @@ namespace App\Livewire\Catalog;
 use App\Domains\Catalog\Enums\TipePelanggan;
 use App\Domains\Catalog\Models\Pelanggan;
 use App\Domains\Catalog\Models\Produk;
+use App\Domains\Catalog\Models\RiwayatHargaProduk;
 use App\Domains\Inventory\Models\MutasiStok;
 use App\Domains\Inventory\Models\Stok;
 use App\Domains\Sales\Services\DiscountCalculationService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -61,9 +63,19 @@ class ProdukDetail extends Component
         $dummyLangganan = new Pelanggan(['tipe' => TipePelanggan::Langganan]);
         $langgananDiscount = $discountService->calculate($this->produk, $dummyLangganan, 1);
 
+        $canViewPurchasePrices = Auth::user()?->can('view_purchase_prices') ?? false;
+        $riwayatHarga = RiwayatHargaProduk::with(['supplier', 'user'])
+            ->where('produk_id', $this->produk->id)
+            ->when(! $canViewPurchasePrices, fn ($q) => $q->where('jenis_harga', '!=', 'harga_beli'))
+            ->latest('created_at')
+            ->latest('id')
+            ->limit(15)
+            ->get();
+
         return view('livewire.catalog.produk-detail', [
             'stokGudangs' => $stokGudangs,
             'mutasiTerakhir' => $mutasiTerakhir,
+            'riwayatHarga' => $riwayatHarga,
             'pemborongDiscount' => $pemborongDiscount,
             'langgananDiscount' => $langgananDiscount,
         ]);

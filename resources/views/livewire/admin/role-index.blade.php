@@ -20,10 +20,40 @@
         </div>
     @endif
 
-    <div class="row g-4">
-        <!-- Left: Roles List -->
+    <div class="row g-3 g-lg-4">
+        <!-- Left: Roles List (Horizontal Swipe Bar on Mobile/Tablet, Vertical Card List on Desktop) -->
         <div class="col-lg-4">
-            <div class="card border-0 shadow-sm mb-4">
+            <!-- Mobile / Tablet Horizontal Role Selector (< 992px) -->
+            <div class="d-lg-none card border-0 shadow-sm mb-1">
+                <div class="card-body p-2.5">
+                    <div class="small fw-bold text-muted mb-2 px-1">
+                        <i class="bi bi-shield-lock me-1 text-primary"></i>Pilih Role Sistem:
+                    </div>
+                    <div class="d-flex align-items-center gap-2 nav-pills-scrollable flex-nowrap pb-1">
+                        @foreach($roles as $role)
+                            @php $isActiveRole = $selectedRole && $selectedRole->id === $role->id; @endphp
+                            <button
+                                type="button"
+                                wire:click="selectRole({{ $role->id }})"
+                                class="btn btn-sm rounded-3 py-2 px-3 text-start flex-shrink-0 {{ $isActiveRole ? 'btn-primary text-white shadow-sm' : 'btn-light border text-dark' }}"
+                            >
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fw-bold text-nowrap">{{ $role->name }}</span>
+                                    <span class="badge {{ $isActiveRole ? 'bg-white text-primary' : 'bg-primary-subtle text-primary' }} rounded-pill">
+                                        {{ $role->permissions->count() }} Izin
+                                    </span>
+                                </div>
+                                <div class="{{ $isActiveRole ? 'text-white-50' : 'text-muted' }}" style="font-size: 0.7rem;">
+                                    {{ $role->users->count() }} pengguna aktif
+                                </div>
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Vertical Role List (>= 992px) -->
+            <div class="card border-0 shadow-sm mb-4 d-none d-lg-block">
                 <div class="card-header bg-white py-3 border-0">
                     <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-shield-lock me-1 text-primary"></i> Daftar Role Sistem</h6>
                 </div>
@@ -64,7 +94,7 @@
                             Total: {{ $selectedRole->permissions->count() }} Permission Aktif
                         </span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-3 p-md-4 pt-2">
                         @php
                             $rolePermissionNames = $selectedRole->permissions->pluck('name')->toArray();
                             $canManage = auth()->user()->can('manage_roles');
